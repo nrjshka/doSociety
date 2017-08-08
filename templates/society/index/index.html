@@ -10,44 +10,8 @@
     <link rel="stylesheet" href="{% static 'css/styles.min.css' %}">
   </head>
   <body class="body">
-    <div class="site">
-      <header class="header container-flued">
-        <div class="header__logo"><a href="#"><img src="{% static 'img/logo/logo.png' %}"></a></div>
-        <form class="formSearch" action="" method="get">
-          <input class="formSearch__input" name="s" placeholder="Поиск..." type="search" required="">
-          <button class="formSearch__button" type="submit"><img src="{% static 'img/search/search.png' %} "></button>
-        </form>
-      </header>
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-1 col-md-1 hidden-sm col-xs-1"></div>
-          <div class="col-lg-5 col-md-5 col-sm-6 col-xs-10 contentIndex">
-            <div class="contentIndex__tit_font-size_24px">doSociesy для мобильных устройств</div>
-            <div class="contentIndex__tit_font-size_18px">Установите официальное мобильное приложение doSociesy и Вы сможете найти близких по духу друзей, куда бы Вас не забросила жизнь.</div><img class="contentIndex__imgSmart" src="{% static 'img/index/smart.png' %} ">
-          </div>
-          <div class="hidden-lg hidden-md hidden-sm col-xs-1"></div>
-          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-            <form class="formLogin center-block" method="post" action="index.html">
-              <div>
-                <input class="formLogin__input" type="text" name="login" value="" placeholder="Телефон или Email">
-              </div>
-              <div> 
-                <input class="formLogin__input" type="password" name="password" value="" placeholder="Пароль">
-              </div>
-              <label class="formLogin__label">
-                <input type="checkbox" name="remember_me">Запомнить меня
-              </label>
-              <div>
-                <input class="formLogin__submit" type="submit" name="commit" value="Войти"><a href="#">Забыли пароль?</a>
-              </div>
-              <div class="formLogin__socia"><a href="#" onclick="javascript: openid_vk()" title="Войти, используя ВКонтакте"><span class="fa fa-vk"></span><span class="formLogin__socialLink">Зарегистрироваться через ВКонтакте</span></a></div>
-            </form>
-          </div>
-        </div>
-      </div>
-      <footer class="footer">
-        <div class="footer__logo container-flued"><img src="{% static 'img/logo/logo_blue.png' %}"><span>&#169 2017</span></div>
-      </footer>
+    <div class="site" id="site">
+      {% csrf_token %}
     </div>
     <script src="{% static 'js/vendor.min.js' %}"></script>
     <script src="{% static 'js/scripts.min.js' %}"></script>

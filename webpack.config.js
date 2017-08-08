@@ -1,5 +1,5 @@
-const path = require('path');
-require('webpack');
+var path = require('path');
+var webpack = require('webpack');
 
 
 module.exports = {
@@ -15,29 +15,11 @@ module.exports = {
        ]
    },
    module: {
-       rules: [
-           {
-               test: /\.jsx?$/,
-               use: [
-                  'babel-loader'
-               ],
-               include: [
-                   path.resolve(__dirname, "web_client")
-               ],
-               query: {
-                   plugins: ['transform-runtime'],
-                   presets: ['es2015', 'stage-0', 'react']
-               }
-           },
-           {
-               test: /\.s[a|c]ss$/,
-               use: [
-                'style-loader',
-                'css-loader',
-                'sass-loader'
-               ]
-           }
-       ]
+    loaders: [{
+      test: /\.js$/,
+      loaders: ['babel-loader'],
+      query: { presets:['react'] }
+  	}]
    },
    sassLoader: {
        includePaths: [
