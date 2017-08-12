@@ -1,7 +1,43 @@
 import React, { Component } from 'react'
-
+import { push } from 'react-router-redux'
 
 class IndexBody extends Component{
+	sendForm(){
+	    //проверяем форму и получаем токен, либо ошибку
+	    var login = document.getElementsByName('login')[0].value;
+	    var password = document.getElementsByName('password')[0].value;
+	    
+	    //debug mod = TRUE
+	    //console.log('Login - ' + login + '\nPassword - ' + password);
+
+	    //отправляем запрос к api вместе с логином и паролем
+		fetch('/api/token-auth/', {
+			method: 'POST',
+			headers : {
+    			'Content-Type': 'application/json',
+    			'Accept': 'application/json',
+			},
+			body: JSON.stringify({
+				username: login,
+				password: password,
+			})
+		}).then(function(response){
+			//получили ответ
+			if (response['ok'] == true){
+				//добавляем token в локальное хранилище
+				localStorage.setItem('token', response['token']);
+				//редиректим на страницу пользователя
+				document.location.href='/mypage';
+
+			}else {
+				//если неправильный логин или пароль
+			}
+		})
+		.catch(function(error){
+			//отлавливаем ошибки, для debug
+		})
+	}
+
 	render(){
 		return(
 	      <div className="container">
@@ -24,9 +60,9 @@ class IndexBody extends Component{
 	                <input type="checkbox" name="remember_me" />Запомнить меня
 	              </label>
 	              <div>
-	                <input className="formLogin__submit" type="submit" name="commit" value="Войти" /><a href="#">Забыли пароль?</a>
+	                <input className="formLogin__submit" type="button" name="commit" value="Войти" onClick={this.sendForm} /><a href="#">Забыли пароль?</a>
 	              </div>
-	              <div className="formLogin__socia"><a href="#" onclick="javascript: openid_vk()" title="Войти, используя ВКонтакте"><span className="fa fa-vk"></span><span className="formLogin__socialLink">Зарегистрироваться через ВКонтакте</span></a></div>
+	              <div className="formLogin__socia"><a href="#" title="Войти, используя ВКонтакте"><span className="fa fa-vk"></span><span className="formLogin__socialLink">Зарегистрироваться через ВКонтакте</span></a></div>
 	            </form>
 	          </div>
 	        </div>
