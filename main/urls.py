@@ -19,5 +19,7 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', include('society.urls')),
+    #временно отключил api
+    #url(r'^api/', include('api.urls')),
+    url(r'^', include('society.urls')),
 ]

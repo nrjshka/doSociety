@@ -38,7 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'society',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'api',
 ]
+
 
 #отключил csrf, т.к. не нашел решения включения их в jsx-код, если найдете решение - действуйте.
 MIDDLEWARE_CLASSES = [
@@ -49,6 +53,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
 ]
 
 ROOT_URLCONF = 'main.urls'
@@ -120,3 +125,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+
+#Переопределение базовой модели пользователя
+AUTH_USER_MODEL = 'society.User'

@@ -26,7 +26,7 @@ class IndexBody extends Component{
 	              <div>
 	                <input className="formLogin__submit" type="submit" name="commit" value="Войти" /><a href="#">Забыли пароль?</a>
 	              </div>
-	              <div className="formLogin__socia"><a href="#" onclick="javascript: openid_vk()" title="Войти, используя ВКонтакте"><span class="fa fa-vk"></span><span className="formLogin__socialLink">Зарегистрироваться через ВКонтакте</span></a></div>
+	              <div className="formLogin__socia"><a href="#" onclick="javascript: openid_vk()" title="Войти, используя ВКонтакте"><span className="fa fa-vk"></span><span className="formLogin__socialLink">Зарегистрироваться через ВКонтакте</span></a></div>
 	            </form>
 	          </div>
 	        </div>
