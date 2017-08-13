@@ -5,6 +5,7 @@ import { IndexRoute, BrowserRouter} from 'react-router-dom'
 
 import Index from '../Index/'
 import NotFound from '../404'
+import UserPage from '../UserPage'
 
 class App extends Component {
 
@@ -13,6 +14,7 @@ class App extends Component {
 			<BrowserRouter>
 		    	<Switch>
 				    <Route exact path="/" component={Index} />
+				    <Route exact path="/id*" component={UserPage} />
 				    <Route exact path="*" component={NotFound} />
 				</Switch>
 		    </BrowserRouter>

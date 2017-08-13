@@ -21,13 +21,14 @@ class IndexBody extends Component{
 				username: login,
 				password: password,
 			})
-		}).then(function(response){
+		})
+		.then(function(response){
 			//получили ответ
 			if (response['ok'] == true){
 				//добавляем token в локальное хранилище
 				localStorage.setItem('token', response['token']);
-				//редиректим на страницу пользователя
-				document.location.href='/mypage';
+				//редиректим на страницу пользователя, временно сделал без определения
+				document.location.href='/id1';
 
 			}else {
 				//если неправильный логин или пароль
