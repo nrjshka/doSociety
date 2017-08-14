@@ -8,4 +8,3 @@ class UserSerializer(serializers.ModelSerializer):
 			'username',
 			'password',
 		]
-

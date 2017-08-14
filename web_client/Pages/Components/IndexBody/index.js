@@ -9,7 +9,7 @@ class IndexBody extends Component{
 	    
 	    //debug mod = TRUE
 	    //console.log('Login - ' + login + '\nPassword - ' + password);
-
+	    
 	    //отправляем запрос к api вместе с логином и паролем
 		fetch('/api/token-auth/', {
 			method: 'POST',
@@ -20,22 +20,35 @@ class IndexBody extends Component{
 			body: JSON.stringify({
 				username: login,
 				password: password,
-			})
+			}
+			)
 		})
 		.then(function(response){
+			return response.json();
+		})
+		.then(function(data){
 			//получили ответ
-			if (response['ok'] == true){
-				//добавляем token в локальное хранилище
-				localStorage.setItem('token', response['token']);
-				//редиректим на страницу пользователя, временно сделал без определения
-				document.location.href='/id1';
-
-			}else {
-				//если неправильный логин или пароль
-			}
+			//добавляем token в локальное хранилище
+			localStorage.setItem('token', data['token']);
+			//редиректим на страницу пользователя, временно сделал без определения
+			console.log('JWT ' + localStorage.getItem('token'));
+			fetch('/api/getid/', {
+				method: 'GET',
+				headers : {
+		    		'Authorization' : 'JWT ' + localStorage.getItem('token'),
+				},
+			})
+			.then(function(response){
+				return response.json();
+			})
+			.then(function(data){
+				console.log('Graz');
+				document.location.href = '/id' + data['id'];
+			});
 		})
 		.catch(function(error){
 			//отлавливаем ошибки, для debug
+			//если неправильный логин или пароль
 		})
 	}
 
