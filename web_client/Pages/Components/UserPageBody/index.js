@@ -14,6 +14,9 @@ class UserPageBody extends Component{
 	}
 
 	componentWillMount(){
+		//первоначальная версия для вывода даты
+		var months = ['янваврь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'];
+
 		fetch('/api/getuserinfo/',{
 			method: 'POST',
 			headers : {
@@ -26,13 +29,23 @@ class UserPageBody extends Component{
 			}
 			)
 		})
-		.then((request) => {;return request.json()})
+		.then((request) => {return request.json()})
 		.then((data) => {
+			
+			//определяем месяц
+			var month = Number(data['birthDate'].substr(5,2)) -1;
+			//определяем день
+			var day = data['birthDate'].substr(8);
+			//определяем год
+			var year = data['birthDate'].substr(0,4);
+			//выводим дату
+			var date = day + ' ' + months[month] + ' ' + year;
+
 			//заполняем данные 
 			this.setState({
 				name : data['name'],
 				surname : data['surname'],
-				birthDate : data['birthDate'],
+				birthDate : date,
 				hometown : data['hometown'],
 				user_foto : data['user_foto'],
 				workplace : data['workplace'],

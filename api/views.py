@@ -11,7 +11,7 @@ from rest_framework.permissions import IsAuthenticated
 class UserViewSet(viewsets.ModelViewSet):
 	queryset = User.objects.all()
 	serializer_class = UserSerializer
-<<<<<<< HEAD
+
 	permission_classes = ()
 
 class GetId(APIView):
@@ -41,5 +41,3 @@ class GetUserInfo(APIView):
 		except User.DoesNotExist:
 			#если не нашли человека, то отправляем ошибку
 			return HttpResponseBadRequest()	
-=======
->>>>>>> 4f52a63551fe08cf2517f2e75821abdc80d0eb63

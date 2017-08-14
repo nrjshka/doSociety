@@ -15,11 +15,7 @@ s = User.objects.create('nrjshka@gmail.com', '231fdgh623','Maxim', 'Korolev', da
 
 class UserManager(BaseUserManager):
 
-<<<<<<< HEAD
 	def create_user(self, username , password = None, name = None, surname = None, birthDate = None, hometown = None, user_foto = None, workplace = None):
-=======
-	def create_user(self, username , password = None, name = None, surname = None, birthDate = None, hometown = None, user_img = None):
->>>>>>> 4f52a63551fe08cf2517f2e75821abdc80d0eb63
 
 		user = self.model(
 			username = username,
@@ -27,12 +23,8 @@ class UserManager(BaseUserManager):
 			surname = surname,
 			birthDate = birthDate,
 			hometown = hometown,
-<<<<<<< HEAD
 			user_foto = user_foto,
 			workplace = workplace,
-=======
-			user_img = user_img,
->>>>>>> 4f52a63551fe08cf2517f2e75821abdc80d0eb63
 		)
 
 		user.set_password(password)
@@ -41,24 +33,15 @@ class UserManager(BaseUserManager):
         
 		return user
 
-<<<<<<< HEAD
 	def create_superuser(self, username , password , name, surname, birthDate, hometown, user_foto, workplace):
-=======
-	def create_superuser(self, username , password , name, surname, birthDate, hometown, user_img):
->>>>>>> 4f52a63551fe08cf2517f2e75821abdc80d0eb63
-
 		user = self.model(
 			username = username,
 			name = name,
 			surname = surname,
 			birthDate = birthDate,
 			hometown = hometown,
-<<<<<<< HEAD
 			user_foto = user_foto,
 			workplace = workplace,
-=======
-			user_img = user_img,
->>>>>>> 4f52a63551fe08cf2517f2e75821abdc80d0eb63
 		)
 
 		user.set_password(password)
@@ -77,20 +60,16 @@ class User(AbstractBaseUser):
 	name = models.CharField(max_length = 100)
 	#фамилия
 	surname = models.CharField(max_length = 100)
-<<<<<<< HEAD
 	birthDate = models.DateField(auto_now = False)
 	hometown = models.CharField(max_length = 100)
 	workplace = models.CharField(max_length = 100)
+	#аватар пользователя 
 	user_foto = models.CharField(max_length = 150)
-=======
 	#дата рождения
-	birthDate = models.DateField(auto_now = True)
+	birthDate = models.DateField(auto_now = False)
 	#город юзера
 	hometown = models.CharField(max_length = 100)
-	#аватар пользователя 
-	user_img = models.CharField(max_length = 100)
 	#активироване ли акаунт(в будущем сделать с подтверждением на почту)
->>>>>>> 4f52a63551fe08cf2517f2e75821abdc80d0eb63
 	is_active = models.BooleanField(default=True)
 	#это админ?
 	is_admin = models.BooleanField(default=False)
@@ -98,11 +77,8 @@ class User(AbstractBaseUser):
 	objects = UserManager()
 
 	USERNAME_FIELD = 'username'
-<<<<<<< HEAD
-	REQUIRED_FIELDS = ['name', 'surname', 'hometown', 'birthDate', 'user_foto', 'workplace']
-=======
-	REQUIRED_FIELDS = ['name', 'surname', 'hometown', 'birthDate', 'is_admin', 'is_active']
->>>>>>> 4f52a63551fe08cf2517f2e75821abdc80d0eb63
+
+	REQUIRED_FIELDS = ['name', 'surname', 'hometown', 'birthDate', 'user_foto', 'workplace',]
 
 	def get_full_name(self):
 		return '{} {}'.format(self.name, self.surname)
