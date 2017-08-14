@@ -26305,7 +26305,6 @@ class IndexBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 			}).then(function (response) {
 				return response.json();
 			}).then(function (data) {
-				console.log('Graz');
 				document.location.href = '/id' + data['id'];
 			});
 		}).catch(function (error) {
@@ -26779,110 +26778,136 @@ class NotFoundBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
 
 class UserPageBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
+	constructor(props) {
+		super(props);
+		this.state = {
+			name: '',
+			surname: '',
+			birthDate: '',
+			hometown: '',
+			user_foto: '',
+			workplace: ''
+		};
+	}
+
+	componentWillMount() {
+		fetch('/api/getuserinfo/', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Accept': 'application/json'
+			},
+			body: JSON.stringify({
+				//отправляем id-пользователя
+				id: window.location.pathname.substr(3)
+			})
+		}).then(request => {
+			;return request.json();
+		}).then(data => {
+			//заполняем данные 
+			this.setState({
+				name: data['name'],
+				surname: data['surname'],
+				birthDate: data['birthDate'],
+				hometown: data['hometown'],
+				user_foto: data['user_foto'],
+				workplace: data['workplace']
+			});
+		});
+	}
 
 	render() {
+
 		return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-			"div",
+			'div',
 			null,
 			__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-				"div",
-				{ className: "col-lg-8 col-md-8 col-sm-9 col-xs-12 content" },
+				'div',
+				{ className: 'col-lg-8 col-md-8 col-sm-9 col-xs-12 content' },
 				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-					"div",
-					{ className: "contentProfile" },
+					'div',
+					{ className: 'contentProfile' },
 					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-						"div",
-						{ className: "row" },
+						'div',
+						{ className: 'row' },
 						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-							"div",
-							{ className: "col-lg-4 col-md-4 col-sm-4 col-xs-12" },
+							'div',
+							{ className: 'col-lg-4 col-md-4 col-sm-4 col-xs-12' },
 							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-								"div",
-								{ className: "contentProfile__avatarCover" },
+								'div',
+								{ className: 'contentProfile__avatarCover' },
 								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-									"div",
-									{ className: "contentProfile__avatar" },
-									__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("img", { src: "static/img/avatar/avatar.JPG" }),
+									'div',
+									{ className: 'contentProfile__avatar' },
+									__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { src: this.state.user_foto }),
 									__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-										"div",
-										{ className: "contentProfile__newFoto" },
-										"\u2191 \u041E\u0431\u043D\u043E\u0432\u0438\u0442\u044C \u0444\u043E\u0442\u043E"
+										'div',
+										{ className: 'contentProfile__newFoto' },
+										'\u2191 \u041E\u0431\u043D\u043E\u0432\u0438\u0442\u044C \u0444\u043E\u0442\u043E'
 									)
 								),
 								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-									"div",
-									{ className: "contentProfile__newFotoHide" },
-									"&times"
+									'div',
+									{ className: 'contentProfile__newFotoHide' },
+									'\xD7'
 								)
 							),
 							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-								"div",
-								{ className: "contentProfile__status" },
-								"Online"
+								'div',
+								{ className: 'contentProfile__status' },
+								'Online'
 							)
 						),
 						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-							"div",
-							{ className: "col-lg-8 col-md-8 col-sm-8 col-xs-12" },
+							'div',
+							{ className: 'col-lg-8 col-md-8 col-sm-8 col-xs-12' },
 							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-								"div",
-								{ className: "contentProfile__name" },
-								"\u0424\u0440\u043E\u0441\u044F \u0411\u0443\u0440\u043B\u0430\u043A\u043E\u0432\u0430"
+								'div',
+								{ className: 'contentProfile__name' },
+								this.state.name,
+								' ',
+								this.state.surname
 							),
 							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-								"div",
-								{ className: "row contentProfile__info" },
+								'div',
+								{ className: 'row contentProfile__info' },
 								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-									"div",
-									{ className: "col-lg-3 col-md-3 col-sm-3 col-xs-4 contentProfile__parameter" },
-									"\u0414\u0435\u043D\u044C \u0440\u043E\u0436\u0434\u0435\u043D\u0438\u044F:"
+									'div',
+									{ className: 'col-lg-3 col-md-3 col-sm-3 col-xs-4 contentProfile__parameter' },
+									'\u0414\u0435\u043D\u044C \u0440\u043E\u0436\u0434\u0435\u043D\u0438\u044F:'
 								),
 								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-									"div",
-									{ className: "col-lg-9 col-md-9 col-sm-9 col-xs-8 contentProfile__value" },
-									"25 \u0438\u044E\u043B\u044F 1995\u0433."
+									'div',
+									{ className: 'col-lg-9 col-md-9 col-sm-9 col-xs-8 contentProfile__value' },
+									this.state.birthDate
 								)
 							),
 							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-								"div",
-								{ className: "row contentProfile__info" },
+								'div',
+								{ className: 'row contentProfile__info' },
 								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-									"div",
-									{ className: "col-lg-3 col-md-3 col-sm-3 col-xs-4 contentProfile__parameter" },
-									"\u0413\u043E\u0440\u043E\u0434:"
+									'div',
+									{ className: 'col-lg-3 col-md-3 col-sm-3 col-xs-4 contentProfile__parameter' },
+									'\u0413\u043E\u0440\u043E\u0434:'
 								),
 								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-									"div",
-									{ className: "col-lg-9 col-md-9 col-sm-9 col-xs-8 contentProfile__value" },
-									"\u042F\u0440\u043E\u0441\u043B\u0430\u0432\u043B\u044C"
+									'div',
+									{ className: 'col-lg-9 col-md-9 col-sm-9 col-xs-8 contentProfile__value' },
+									this.state.hometown
 								)
 							),
 							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-								"div",
-								{ className: "row contentProfile__info" },
+								'div',
+								{ className: 'row contentProfile__info' },
 								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-									"div",
-									{ className: "col-lg-3 col-md-3 col-sm-3 col-xs-4 contentProfile__parameter" },
-									"\u041E\u0431\u0440\u0430\u0437\u043E\u0432\u0430\u043D\u0438\u0435:"
+									'div',
+									{ className: 'col-lg-3 col-md-3 col-sm-3 col-xs-4 contentProfile__parameter' },
+									'\u041C\u0435\u0441\u0442\u043E \u0440\u0430\u0431\u043E\u0442\u044B: '
 								),
 								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-									"div",
-									{ className: "col-lg-9 col-md-9 col-sm-9 col-xs-8 contentProfile__value" },
-									"\u042F\u0413\u041F\u0423 \u0438\u043C.\u0423\u0448\u0438\u043D\u0441\u043A\u043E\u0433\u043E`17"
-								)
-							),
-							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-								"div",
-								{ className: "row contentProfile__info" },
-								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-									"div",
-									{ className: "col-lg-3 col-md-3 col-sm-3 col-xs-4 contentProfile__parameter" },
-									"\u041C\u0435\u0441\u0442\u043E \u0440\u0430\u0431\u043E\u0442\u044B:"
-								),
-								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-									"div",
-									{ className: "col-lg-9 col-md-9 col-sm-9 col-xs-8 contentProfile__value" },
-									"\u0413\u0440\u0443\u043F\u043F\u0430 \u043A\u043E\u043C\u043F\u0430\u043D\u0438\u0439 \"\u041C\u0435\u0442\u0440\u043E\" | \u041D\u0435\u0434\u0432\u0438\u0436\u0438\u043C\u043E\u0441\u0442\u044C \u042F\u0440\u043E\u0441\u043B\u0430\u0432\u043B\u044F"
+									'div',
+									{ className: 'col-lg-9 col-md-9 col-sm-9 col-xs-8 contentProfile__value' },
+									this.state.workplace
 								)
 							)
 						)
@@ -26890,9 +26915,9 @@ class UserPageBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 				)
 			),
 			__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-				"div",
-				{ className: "col-lg-2 col-md-2 hidden-sm hidden-xs hidden-smNo" },
-				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("aside", { className: "sidebar" })
+				'div',
+				{ className: 'col-lg-2 col-md-2 hidden-sm hidden-xs hidden-smNo' },
+				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('aside', { className: 'sidebar' })
 			)
 		);
 	}

@@ -42,7 +42,6 @@ class IndexBody extends Component{
 				return response.json();
 			})
 			.then(function(data){
-				console.log('Graz');
 				document.location.href = '/id' + data['id'];
 			});
 		})

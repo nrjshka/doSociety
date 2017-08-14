@@ -12,7 +12,7 @@ s = User.objects.create('nrjshka@gmail.com', '231fdgh623','Maxim', 'Korolev', da
 '''
 class UserManager(BaseUserManager):
 
-	def create_user(self, username , password = None, name = None, surname = None, birthDate = None, hometown = None):
+	def create_user(self, username , password = None, name = None, surname = None, birthDate = None, hometown = None, user_foto = None, workplace = None):
 
 		user = self.model(
 			username = username,
@@ -20,6 +20,8 @@ class UserManager(BaseUserManager):
 			surname = surname,
 			birthDate = birthDate,
 			hometown = hometown,
+			user_foto = user_foto,
+			workplace = workplace,
 		)
 
 		user.set_password(password)
@@ -28,7 +30,7 @@ class UserManager(BaseUserManager):
         
 		return user
 
-	def create_superuser(self, username , password , name, surname, birthDate, hometown):
+	def create_superuser(self, username , password , name, surname, birthDate, hometown, user_foto, workplace):
 
 		user = self.model(
 			username = username,
@@ -36,6 +38,8 @@ class UserManager(BaseUserManager):
 			surname = surname,
 			birthDate = birthDate,
 			hometown = hometown,
+			user_foto = user_foto,
+			workplace = workplace,
 		)
 
 		user.set_password(password)
@@ -52,15 +56,17 @@ class User(AbstractBaseUser):
 	password = models.CharField(max_length = 100)
 	name = models.CharField(max_length = 100)
 	surname = models.CharField(max_length = 100)
-	birthDate = models.DateField(auto_now = True)
+	birthDate = models.DateField(auto_now = False)
 	hometown = models.CharField(max_length = 100)
+	workplace = models.CharField(max_length = 100)
+	user_foto = models.CharField(max_length = 150)
 	is_active = models.BooleanField(default=True)
 	is_admin = models.BooleanField(default=False)
 
 	objects = UserManager()
 
 	USERNAME_FIELD = 'username'
-	REQUIRED_FIELDS = ['name', 'surname', 'hometown', 'birthDate']
+	REQUIRED_FIELDS = ['name', 'surname', 'hometown', 'birthDate', 'user_foto', 'workplace']
 
 	def get_full_name(self):
 		return '{} {}'.format(self.name, self.surname)

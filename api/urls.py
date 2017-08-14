@@ -15,4 +15,5 @@ urlpatterns += [
 	url(r'^token-refresh/', refresh_jwt_token),
 	url(r'^token-verify/', verify_jwt_token),
 	url(r'^getid/', GetId.as_view()),
+	url(r'^getuserinfo', GetUserInfo.as_view()),
 ]
