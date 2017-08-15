@@ -8,7 +8,9 @@ class NotFound extends Component {
 	render(){
 		return( 
 			<div id="index">
-				<Header logo="static/img/logo/logo.png" search="static/img/search/search.png"/>
+				//кнопка навигации
+      			<div className="buttonNavigator">&raquo</div>
+				<Header logo="static/img/logo/logo.png" search="static/img/search/search.png" />
 				<NotFoundBody />
 			</div>
 		);

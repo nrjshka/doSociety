@@ -26209,6 +26209,12 @@ class NotFound extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 		return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 			'div',
 			{ id: 'index' },
+			'//\u043A\u043D\u043E\u043F\u043A\u0430 \u043D\u0430\u0432\u0438\u0433\u0430\u0446\u0438\u0438',
+			__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+				'div',
+				{ className: 'buttonNavigator' },
+				'&raquo'
+			),
 			__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__Components_Header___["a" /* default */], { logo: 'static/img/logo/logo.png', search: 'static/img/search/search.png' }),
 			__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Components_NotFoundBody___["a" /* default */], null)
 		);
@@ -26811,11 +26817,14 @@ class UserPageBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 			//определяем месяц
 			var month = Number(data['birthDate'].substr(5, 2)) - 1;
 			//определяем день
-			var day = data['birthDate'].substr(8);
+			var day = Number(data['birthDate'].substr(8));
 			//определяем год
-			var year = data['birthDate'].substr(0, 4);
+			var year = Number(data['birthDate'].substr(0, 4));
 			//выводим дату
 			var date = day + ' ' + months[month] + ' ' + year;
+
+			//Меняю заголовок на имя пользователя
+			document.title = data['name'] + ' ' + data['surname'];
 
 			//заполняем данные 
 			this.setState({
@@ -26986,6 +26995,11 @@ class UserPage extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 		return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 			'div',
 			{ id: 'index' },
+			__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+				'div',
+				{ className: 'buttonNavigator' },
+				'\xBB'
+			),
 			__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__Components_Header___["a" /* default */], { logo: 'static/img/logo/logo.png', search: 'static/img/search/search.png' }),
 			__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 				'div',

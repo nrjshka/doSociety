@@ -35,11 +35,14 @@ class UserPageBody extends Component{
 			//определяем месяц
 			var month = Number(data['birthDate'].substr(5,2)) -1;
 			//определяем день
-			var day = data['birthDate'].substr(8);
+			var day = Number(data['birthDate'].substr(8));
 			//определяем год
-			var year = data['birthDate'].substr(0,4);
+			var year = Number(data['birthDate'].substr(0,4));
 			//выводим дату
 			var date = day + ' ' + months[month] + ' ' + year;
+
+			//Меняю заголовок на имя пользователя
+			document.title = data['name'] + ' ' + data['surname'];
 
 			//заполняем данные 
 			this.setState({

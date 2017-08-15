@@ -8,6 +8,7 @@ class UserPage extends Component{
 	render(){
 		return(
 			<div id="index">
+				<div className="buttonNavigator">&raquo;</div>
 				<Header logo="static/img/logo/logo.png" search="static/img/search/search.png"/>	
 				<div className="container">
 				    <div className="row">
