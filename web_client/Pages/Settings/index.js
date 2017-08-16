@@ -9,7 +9,7 @@ class Settings extends Component{
 	componentWillMount(){
 		if  (localStorage.getItem('token') == undefined) {
 			//если человек не залогинен, то отправляем его на страницу регистрации или входа
-			this.context.router.history.push('');
+			document.location.href = '' ;
 		}
 		document.title = 'Настройки';
 	}

@@ -26330,7 +26330,7 @@ class IndexBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 				//добавляем token в локальное хранилище
 				localStorage.setItem('token', data['token']);
 				//редиректим на страницу пользователя, временно сделал без определения
-				console.log('JWT ' + localStorage.getItem('token'));
+				//console.log('JWT ' + localStorage.getItem('token'));
 				fetch('/api/getid/', {
 					method: 'GET',
 					headers: {
@@ -26339,7 +26339,7 @@ class IndexBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 				}).then(function (response) {
 					return response.json();
 				}).then(function (data) {
-					this.context.router.history.push('/id' + data['id']);
+					document.location.href = '/id' + data['id'];
 				});
 			}
 		}).catch(function (error) {
@@ -27604,7 +27604,7 @@ class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 	componentWillMount() {
 		if (localStorage.getItem('token') == undefined) {
 			//если человек не залогинен, то отправляем его на страницу регистрации или входа
-			this.context.router.history.push('');
+			document.location.href = '';
 		}
 		document.title = 'Настройки';
 	}

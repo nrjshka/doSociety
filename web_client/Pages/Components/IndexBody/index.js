@@ -33,7 +33,7 @@ class IndexBody extends Component{
 				//добавляем token в локальное хранилище
 				localStorage.setItem('token', data['token']);
 				//редиректим на страницу пользователя, временно сделал без определения
-				console.log('JWT ' + localStorage.getItem('token'));
+				//console.log('JWT ' + localStorage.getItem('token'));
 				fetch('/api/getid/', {
 					method: 'GET',
 					headers : {
@@ -44,7 +44,7 @@ class IndexBody extends Component{
 					return response.json();
 				})
 				.then(function(data){
-					this.context.router.history.push('/id' + data['id']);
+					document.location.href = '/id' + data['id'];
 				});
 			}
 		})
