@@ -26339,7 +26339,7 @@ class IndexBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 				}).then(function (response) {
 					return response.json();
 				}).then(function (data) {
-					document.location.href = '/id' + data['id'];
+					this.context.router.history.push('/id' + data['id']);
 				});
 			}
 		}).catch(function (error) {
@@ -26459,6 +26459,7 @@ class LogginedMenu extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
       //debug-mod = TRUE
       //console.log(data['id']);
+
       this.setState({ profile_url: '/id' + data['id'] });
     });
   }
@@ -27603,7 +27604,7 @@ class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 	componentWillMount() {
 		if (localStorage.getItem('token') == undefined) {
 			//если человек не залогинен, то отправляем его на страницу регистрации или входа
-			document.location.href = '';
+			this.context.router.history.push('');
 		}
 		document.title = 'Настройки';
 	}

@@ -44,7 +44,7 @@ class IndexBody extends Component{
 					return response.json();
 				})
 				.then(function(data){
-					document.location.href = '/id' + data['id'];
+					this.context.router.history.push('/id' + data['id']);
 				});
 			}
 		})
