@@ -28,22 +28,25 @@ class IndexBody extends Component{
 		})
 		.then(function(data){
 			//получили ответ
-			//добавляем token в локальное хранилище
-			localStorage.setItem('token', data['token']);
-			//редиректим на страницу пользователя, временно сделал без определения
-			console.log('JWT ' + localStorage.getItem('token'));
-			fetch('/api/getid/', {
-				method: 'GET',
-				headers : {
-		    		'Authorization' : 'JWT ' + localStorage.getItem('token'),
-				},
-			})
-			.then(function(response){
-				return response.json();
-			})
-			.then(function(data){
-				document.location.href = '/id' + data['id'];
-			});
+			//если получили токен, а не ошибку
+			if (data['token']){
+				//добавляем token в локальное хранилище
+				localStorage.setItem('token', data['token']);
+				//редиректим на страницу пользователя, временно сделал без определения
+				console.log('JWT ' + localStorage.getItem('token'));
+				fetch('/api/getid/', {
+					method: 'GET',
+					headers : {
+			    		'Authorization' : 'JWT ' + localStorage.getItem('token'),
+					},
+				})
+				.then(function(response){
+					return response.json();
+				})
+				.then(function(data){
+					document.location.href = '/id' + data['id'];
+				});
+			}
 		})
 		.catch(function(error){
 			//отлавливаем ошибки, для debug
