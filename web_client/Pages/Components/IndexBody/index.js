@@ -47,11 +47,15 @@ class IndexBody extends Component{
 					document.location.href = '/id' + data['id'];
 				});
 			}
+			else {
+				//тогда выводим сообщение об ошибке
+				document.getElementsByClassName('formLogin__error')[0].style.display = 'inherit';
+			}
 		})
 		.catch(function(error){
 			//отлавливаем ошибки, для debug
 			//если неправильный логин или пароль
-		})
+		});
 	}
 
 	render(){
@@ -75,6 +79,7 @@ class IndexBody extends Component{
 	              <label className="formLogin__label">
 	                <input type="checkbox" name="remember_me" />Запомнить меня
 	              </label>
+              	  <div className="formLogin__error">Вы ввели неверный логи или пароль. Пожалуйста, проверьте правильность написания и повторите попытку.</div>
 	              <div>
 	                <input className="formLogin__submit" type="button" name="commit" value="Войти" onClick={this.sendForm} /><a href="#">Забыли пароль?</a>
 	              </div>

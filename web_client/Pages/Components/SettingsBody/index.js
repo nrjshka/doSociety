@@ -3,12 +3,19 @@ import React, { Component } from 'react'
 
 
 class Settings extends Component{
+  exit(){
+      //выход из аккаунта
+      localStorage.removeItem('token');
+
+      document.location.href = '';
+  }
+
 	render(){
 		return(
 		<div>
 		  <div className="col-lg-8 col-md-8 col-sm-9 col-xs-12 content">
             <div className="contentTuning">
-              <div className="contentTuning__exit"><a href="#">Выйти из аккаунта</a></div>
+              <div className="contentTuning__exit"><a href="#" onClick={this.exit} >Выйти из аккаунта</a></div>
               <div className="contentTuning__new"> 
                 <div className="contentTuning__infinity">&infin;</div>
               </div>
