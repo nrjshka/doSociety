@@ -26279,9 +26279,9 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 				__WEBPACK_IMPORTED_MODULE_1_react_router__["a" /* Switch */],
 				null,
 				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router__["b" /* Route */], { exact: true, path: '/', component: __WEBPACK_IMPORTED_MODULE_3__Index___["a" /* default */] }),
-				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router__["b" /* Route */], { exact: true, path: '/id*', component: __WEBPACK_IMPORTED_MODULE_5__UserPage__["a" /* default */] }),
-				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router__["b" /* Route */], { exact: true, path: '/settings', component: __WEBPACK_IMPORTED_MODULE_6__Settings___["a" /* default */] }),
-				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router__["b" /* Route */], { exact: true, path: '*', component: __WEBPACK_IMPORTED_MODULE_4__404__["a" /* default */] })
+				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router__["b" /* Route */], { path: '/id:id', component: __WEBPACK_IMPORTED_MODULE_5__UserPage__["a" /* default */] }),
+				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router__["b" /* Route */], { path: '/settings', component: __WEBPACK_IMPORTED_MODULE_6__Settings___["a" /* default */] }),
+				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router__["b" /* Route */], { path: '*', component: __WEBPACK_IMPORTED_MODULE_4__404__["a" /* default */] })
 			)
 		);
 	}
@@ -26823,7 +26823,7 @@ class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     //выход из аккаунта
     localStorage.removeItem('token');
 
-    document.location.href = '';
+    window.location.href = '/';
   }
 
   render() {
@@ -26839,6 +26839,7 @@ class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'div',
             { className: 'contentTuning__exit' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { src: 'static/img/tuning/exit.png' }),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'a',
               { href: '#', onClick: this.exit },
@@ -27311,10 +27312,106 @@ class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
           ),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'div',
+            { className: 'row' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'col-lg-3 col-md-3 col-sm-3 col-xs-12 contentTuning__parameter' },
+              '\u0410\u0434\u0440\u0435\u0441 \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u044B'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'col-lg-6 col-md-6 col-sm-6 col-xs-8 contentTuning____value' },
+              'dosociety.net/id123123'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'col-lg-3 col-md-3 col-sm-3 col-xs-4 contentTuning__change', id: 'changeURL' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'a',
+                { href: '#' },
+                '\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C'
+              )
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'col-lg-3 col-md-3 col-sm-3 col-xs-4 contentTuning__cancel', id: 'cancelURL' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'a',
+                { href: '#' },
+                '\u041E\u0442\u043C\u0435\u043D\u0430'
+              )
+            )
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'contentTuning__new' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'contentTuning__infinity', id: 'infinityURL' },
+              '\u221E'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'contentTuning__yes', id: 'yesURL' },
+              '\u0410\u0434\u0440\u0435\u0441 \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u044B \u0438\u0437\u043C\u0435\u043D\u0451\u043D'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'contentTuning__novel', id: 'novelURL' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' }),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: 'row' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'div',
+                  { className: 'col-lg-3 col-md-3 col-sm-4 col-xs-5 contentTuning__newParameter' },
+                  '\u041D\u043E\u0432\u044B\u0439 \u0430\u0434\u0440\u0435\u0441'
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'div',
+                  { className: 'col-lg-9 col-md-9 col-sm-8 col-xs-7' },
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'span',
+                    { className: 'contentTuning__URL' },
+                    'dosociety.net/'
+                  ),
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'contentTuning__input contentTuning__newParameter', placeholder: '\u041D\u043E\u043C\u0435\u0440 \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u044B' })
+                )
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' }),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: 'row' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'div',
+                  { className: 'col-lg-3 col-md-3 col-sm-4 col-xs-5' },
+                  ' '
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'div',
+                  { className: 'col-lg-9 col-md-9 col-sm-8 col-xs-7' },
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    { className: 'contentTuning__error', id: 'errorURL' },
+                    '\u0414\u0430\u043D\u043D\u044B\u0439 \u0430\u0434\u0440\u0435\u0441 \u043D\u0435 \u0434\u043E\u0441\u0442\u0443\u043F\u0435\u043D. \u041F\u043E\u0436\u0430\u043B\u0443\u0439\u0441\u0442\u0430, \u043F\u043E\u043F\u0440\u043E\u0431\u0443\u0439\u0442\u0435 \u0435\u0449\u0435 \u0440\u0430\u0437.'
+                  ),
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'button',
+                    { className: 'contentTuning__button contentTuning__newParameter', id: 'buttonNewURL' },
+                    '\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C \u0430\u0434\u0440\u0435\u0441'
+                  )
+                )
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' })
+            )
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
             { className: 'contentTuning__delete' },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'a',
               { href: '#' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { src: 'static/img/tuning/delete.png' }),
               '\u0423\u0434\u0430\u043B\u0438\u0442\u044C \u0430\u043A\u043A\u0430\u0443\u043D\u0442'
             )
           )
@@ -27410,12 +27507,16 @@ class UserPageBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 	constructor(props) {
 		super(props);
 		this.state = {
+			id: this.props.id,
 			name: '',
 			surname: '',
 			birthDate: '',
 			hometown: '',
 			user_foto: '',
 			workplace: ''
+
+			//debug-mod only
+			//console.log('ID', this.props.id);
 		};
 	}
 
@@ -27431,7 +27532,7 @@ class UserPageBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 			},
 			body: JSON.stringify({
 				//отправляем id-пользователя
-				id: window.location.pathname.substr(3)
+				id: this.state.id //window.location.pathname.substr(3)
 			})
 		}).then(request => {
 			return request.json();
@@ -27449,8 +27550,57 @@ class UserPageBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 			//Меняю заголовок на имя пользователя
 			document.title = data['name'] + ' ' + data['surname'];
 
-			//заполняем данные 
+			//заполняем данные
 			this.setState({
+				id: this.props.id,
+				name: data['name'],
+				surname: data['surname'],
+				birthDate: date,
+				hometown: data['hometown'],
+				user_foto: data['user_foto'],
+				workplace: data['workplace']
+			});
+		});
+	}
+
+	componentWillReceiveProps(props) {
+
+		//debug-mod only
+		//console.log('UserPageBody', 'reload №2');
+		//console.log('UserPageBody', props.id);
+
+		//первоначальная версия для вывода даты
+		var months = ['янваврь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'];
+
+		fetch('/api/getuserinfo/', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Accept': 'application/json'
+			},
+			body: JSON.stringify({
+				//отправляем id-пользователя
+				id: props.id //window.location.pathname.substr(3)
+			})
+		}).then(request => {
+			return request.json();
+		}).then(data => {
+
+			//определяем месяц
+			var month = Number(data['birthDate'].substr(5, 2)) - 1;
+			//определяем день
+			var day = Number(data['birthDate'].substr(8));
+			//определяем год
+			var year = Number(data['birthDate'].substr(0, 4));
+			//выводим дату
+			var date = day + ' ' + months[month] + ' ' + year;
+
+			//Меняю заголовок на имя пользователя
+			document.title = data['name'] + ' ' + data['surname'];
+
+			//заполняем данные
+			this.setState({
+				id: props.id,
 				name: data['name'],
 				surname: data['surname'],
 				birthDate: date,
@@ -27673,6 +27823,22 @@ class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
 
 class UserPage extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
+	constructor(props) {
+		super(props);
+
+		//debug-mod only
+		//console.log("ID", props.match.params.id);
+		this.state = {
+			id: props.match.params.id
+		};
+	}
+
+	componentWillReceiveProps(props) {
+		this.setState({ id: props.match.params.id });
+		//debug-mod only
+		//console.log('UserPage', props.match.params.id);
+	}
+
 	render() {
 		return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 			'div',
@@ -27690,7 +27856,7 @@ class UserPage extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 					'div',
 					{ className: 'row' },
 					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Components_Menu___["a" /* default */], null),
-					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Components_UserPageBody___["a" /* default */], null)
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Components_UserPageBody___["a" /* default */], { id: this.state.id })
 				)
 			)
 		);

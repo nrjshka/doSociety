@@ -11,13 +11,13 @@ import Settings from '../Settings/'
 class App extends Component {
 
 	render(){
-		return( 
+		return(
 			<BrowserRouter>
 		    	<Switch>
 				    <Route exact path="/" component={Index} />
-				    <Route exact path="/id*" component={UserPage} />
-				    <Route exact path="/settings" component={Settings} />
-				    <Route exact path="*" component={NotFound} />
+				    <Route path="/id:id" component={UserPage} />
+				    <Route path="/settings" component={Settings} />
+				    <Route path="*" component={NotFound} />
 				</Switch>
 		    </BrowserRouter>
 		);

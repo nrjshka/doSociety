@@ -7,7 +7,7 @@ class Settings extends Component{
       //выход из аккаунта
       localStorage.removeItem('token');
 
-      document.location.href = '';
+      window.location.href = '/';
   }
 
 	render(){
@@ -15,8 +15,8 @@ class Settings extends Component{
 		<div>
 		  <div className="col-lg-8 col-md-8 col-sm-9 col-xs-12 content">
             <div className="contentTuning">
-              <div className="contentTuning__exit"><a href="#" onClick={this.exit} >Выйти из аккаунта</a></div>
-              <div className="contentTuning__new"> 
+              <div className="contentTuning__exit"><img src="static/img/tuning/exit.png" /><a href="#" onClick={this.exit} >Выйти из аккаунта</a></div>
+              <div className="contentTuning__new">
                 <div className="contentTuning__infinity">&infin;</div>
               </div>
               <div className="row">
@@ -68,7 +68,7 @@ class Settings extends Component{
                 <div className="col-lg-3 col-md-3 col-sm-3 col-xs-6 contentTuning__change" id="changeEmail"><a href="#">Изменить</a></div>
                 <div className="col-lg-3 col-md-3 col-sm-3 col-xs-6 contentTuning__cancel" id="cancelEmail"><a href="#">Отмена</a></div>
               </div>
-              <div className="contentTuning__new"> 
+              <div className="contentTuning__new">
                 <div className="contentTuning__infinity" id="infinityEmail">&infin;</div>
                 <div className="contentTuning__yes" id="yesEmail">E-mail изменен</div>
                 <div className="contentTuning__novel" id="novelEmail">
@@ -118,7 +118,7 @@ class Settings extends Component{
                 <div className="col-lg-3 col-md-3 col-sm-3 col-xs-6 contentTuning__change" id="changePhone"><a href="#">Изменить</a></div>
                 <div className="col-lg-3 col-md-3 col-sm-3 col-xs-6 contentTuning__cancel" id="cancelPhone"><a href="#">Отмена</a></div>
               </div>
-              <div className="contentTuning__new"> 
+              <div className="contentTuning__new">
                 <div className="contentTuning__infinity" id="infinityPhone">&infin;</div>
                 <div className="contentTuning__yes" id="yesPhone">Телефон изменен</div>
                 <div className="contentTuning__novel" id="novelPhone">
@@ -162,7 +162,35 @@ class Settings extends Component{
                   <div className="contentTuning__delimiter"></div>
                 </div>
               </div>
-              <div className="contentTuning__delete"><a href="#">Удалить аккаунт</a></div>
+              <div className="row">
+                <div className="col-lg-3 col-md-3 col-sm-3 col-xs-12 contentTuning__parameter">Адрес страницы</div>
+                <div className="col-lg-6 col-md-6 col-sm-6 col-xs-8 contentTuning____value">dosociety.net/id123123</div>
+                <div className="col-lg-3 col-md-3 col-sm-3 col-xs-4 contentTuning__change" id="changeURL"><a href="#">Изменить</a></div>
+                <div className="col-lg-3 col-md-3 col-sm-3 col-xs-4 contentTuning__cancel" id="cancelURL"><a href="#">Отмена</a></div>
+              </div>
+              <div className="contentTuning__new">
+                <div className="contentTuning__infinity" id="infinityURL">&infin;</div>
+                <div className="contentTuning__yes" id="yesURL">Адрес страницы изменён</div>
+                <div className="contentTuning__novel" id="novelURL">
+                  <div className="contentTuning__delimiter"></div>
+                  <div className="row">
+                    <div className="col-lg-3 col-md-3 col-sm-4 col-xs-5 contentTuning__newParameter">Новый адрес</div>
+                    <div className="col-lg-9 col-md-9 col-sm-8 col-xs-7"><span className="contentTuning__URL">dosociety.net/</span>
+                      <input className="contentTuning__input contentTuning__newParameter" placeholder="Номер страницы" />
+                    </div>
+                  </div>
+                  <div className="contentTuning__delimiter"></div>
+                  <div className="row">
+                    <div className="col-lg-3 col-md-3 col-sm-4 col-xs-5"> </div>
+                    <div className="col-lg-9 col-md-9 col-sm-8 col-xs-7">
+                      <div className="contentTuning__error" id="errorURL">Данный адрес не доступен. Пожалуйста, попробуйте еще раз.</div>
+                      <button className="contentTuning__button contentTuning__newParameter" id="buttonNewURL">Изменить адрес</button>
+                    </div>
+                  </div>
+                  <div className="contentTuning__delimiter"></div>
+                </div>
+              </div>
+              <div className="contentTuning__delete"><a href="#"><img src="static/img/tuning/delete.png" />Удалить аккаунт</a></div>
             </div>
           </div>
 		</div>

@@ -4,6 +4,7 @@ class UserPageBody extends Component{
 	constructor(props){
 		super(props);
 		this.state = {
+			id: this.props.id,
 			name : '',
 			surname : '',
 			birthDate : '',
@@ -11,6 +12,9 @@ class UserPageBody extends Component{
 			user_foto : '',
 			workplace : '',
 		}
+
+		//debug-mod only
+		//console.log('ID', this.props.id);
 	}
 
 	componentWillMount(){
@@ -25,13 +29,13 @@ class UserPageBody extends Component{
 			},
 			body: JSON.stringify({
 				//отправляем id-пользователя
-				id: window.location.pathname.substr(3)
+				id:  this.state.id //window.location.pathname.substr(3)
 			}
 			)
 		})
 		.then((request) => {return request.json()})
 		.then((data) => {
-			
+
 			//определяем месяц
 			var month = Number(data['birthDate'].substr(5,2)) -1;
 			//определяем день
@@ -44,8 +48,58 @@ class UserPageBody extends Component{
 			//Меняю заголовок на имя пользователя
 			document.title = data['name'] + ' ' + data['surname'];
 
-			//заполняем данные 
+			//заполняем данные
 			this.setState({
+				id: this.props.id,
+				name : data['name'],
+				surname : data['surname'],
+				birthDate : date,
+				hometown : data['hometown'],
+				user_foto : data['user_foto'],
+				workplace : data['workplace'],
+			});
+		});
+	}
+
+	componentWillReceiveProps(props){
+
+		//debug-mod only
+		//console.log('UserPageBody', 'reload №2');
+		//console.log('UserPageBody', props.id);
+
+		//первоначальная версия для вывода даты
+		var months = ['янваврь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'];
+
+		fetch('/api/getuserinfo/',{
+			method: 'POST',
+			headers : {
+				'Content-Type': 'application/json',
+				'Accept': 'application/json',
+			},
+			body: JSON.stringify({
+				//отправляем id-пользователя
+				id:  props.id //window.location.pathname.substr(3)
+			}
+			)
+		})
+		.then((request) => {return request.json()})
+		.then((data) => {
+
+			//определяем месяц
+			var month = Number(data['birthDate'].substr(5,2)) -1;
+			//определяем день
+			var day = Number(data['birthDate'].substr(8));
+			//определяем год
+			var year = Number(data['birthDate'].substr(0,4));
+			//выводим дату
+			var date = day + ' ' + months[month] + ' ' + year;
+
+			//Меняю заголовок на имя пользователя
+			document.title = data['name'] + ' ' + data['surname'];
+
+			//заполняем данные
+			this.setState({
+				id: props.id,
 				name : data['name'],
 				surname : data['surname'],
 				birthDate : date,
@@ -57,7 +111,7 @@ class UserPageBody extends Component{
 	}
 
 	render(){
-		
+
 		return(
 			<div>
 	          <div className="col-lg-8 col-md-8 col-sm-9 col-xs-12 content">
