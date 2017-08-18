@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "description": "doSociety - социальная сеть предназначеная для поиска потенциально интересных собеседников",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+  },
   "author": "nrjshka",
   "license": "ISC",
   "devDependencies": {

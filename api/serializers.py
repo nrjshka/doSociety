@@ -2,6 +2,7 @@ from rest_framework import serializers
 from society.models import User
 
 class UserSerializer(serializers.ModelSerializer):
+	''' сериализует данные о пользователе '''
 	class Meta:
 		model = User
 		fields = [
@@ -10,6 +11,7 @@ class UserSerializer(serializers.ModelSerializer):
 		]
 
 class UserInfoSerializer(serializers.ModelSerializer):
+	''' сериализует данные для отображения личной страницы '''
 	class Meta:
 		model = User
 		fields = [
@@ -19,4 +21,12 @@ class UserInfoSerializer(serializers.ModelSerializer):
 			'hometown',
 			'user_foto',
 			'workplace',
+		]
+
+class UserSettingsSerializer(serializers.ModelSerializer):
+	''' сериализует данные для настроек '''
+	class Meta:
+		model = User
+		fields = [
+			'timeSetPassword'
 		]

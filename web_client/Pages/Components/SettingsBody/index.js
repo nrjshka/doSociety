@@ -3,12 +3,60 @@ import React, { Component } from 'react'
 
 
 class Settings extends Component{
-  exit(){
-      //выход из аккаунта
-      localStorage.removeItem('token');
+    constructor(props){
+        super(props);
 
-      window.location.href = '/';
-  }
+        this.state = {
+            'dateChangePassword': '0'
+        }
+    }
+
+    componentWillMount(){
+        //получаем список настроек
+        fetch('/api/getsettingsinfo/', {
+            method: 'GET',
+            headers : {
+                'Authorization' : 'JWT ' + localStorage.getItem('token'),
+            },
+        })
+        .then( (result) => {return result.json() })
+        .then( (data) => {
+            //only debug mod
+            //console.log('dateChangePassword', data['timeSetPassword']);
+
+            //определяем месяц
+            var month = Number(data['timeSetPassword'].substr(5,2));
+            //определяем день
+            var day = Number(data['timeSetPassword'].substr(8));
+            //определяем год
+            var year = Number(data['timeSetPassword'].substr(0,4));
+            //выводим дату
+            var date = day + '.' +month + '.' + year;
+
+            console.log('Date', date);
+            this.setState({'dateChangePassword': date});
+        });
+    }
+
+    passwordChange(){
+        console.log('passwordChange', 'password is chenging');
+        //тут идет анализ паролей
+
+        //получаем пароли
+        let oldPassword = document.getElementsByName('oldpassword')[0].value;
+        let fpassword = document.getElementsByName('fpassword')[0].value;
+        let spassword = document.getElementsByName('spassword')[0].value;
+
+        //debug-mod only
+        //console.log('Пароли', oldPassword + '\n' + fpassword + '\n' + spassword);
+    }
+
+    exit(){
+        //выход из аккаунта
+        localStorage.removeItem('token');
+
+        window.location.href = '/';
+    }
 
 	render(){
 		return(
@@ -21,7 +69,7 @@ class Settings extends Component{
               </div>
               <div className="row">
                 <div className="col-lg-3 col-md-3 col-sm-3 col-xs-12 contentTuning__parameter">Пароль</div>
-                <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6 contentTuning____value">Изменен 4 месяца назад</div>
+                <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6 contentTuning____value">Дата последнего изменения пароля {this.state.dateChangePassword}</div>
                 <div className="col-lg-3 col-md-3 col-sm-3 col-xs-6 contentTuning__change" id="changePassword"><a href="#">Изменить</a></div>
                 <div className="col-lg-3 col-md-3 col-sm-3 col-xs-6 contentTuning__cancel" id="cancelPassword"><a href="#">Отмена</a></div>
               </div>
@@ -33,21 +81,21 @@ class Settings extends Component{
                   <div className="row">
                     <div className="col-lg-3 col-md-3 col-sm-4 col-xs-5 contentTuning__newParameter">Старый пароль</div>
                     <div className="col-lg-9 col-md-9 col-sm-8 col-xs-7">
-                      <input className="contentTuning__input contentTuning__newParameter" type="password" name="password" value="" placeholder="Пароль" />
+                      <input className="contentTuning__input contentTuning__newParameter" type="password" name="oldpassword" placeholder="Пароль" />
                     </div>
                   </div>
                   <div className="contentTuning__delimiter"></div>
                   <div className="row">
                     <div className="col-lg-3 col-md-3 col-sm-4 col-xs-5 contentTuning__newParameter">Новый пароль</div>
                     <div className="col-lg-9 col-md-9 col-sm-8 col-xs-7">
-                      <input className="contentTuning__input contentTuning__newParameter" type="password" name="password" value="" placeholder="Пароль" />
+                      <input className="contentTuning__input contentTuning__newParameter" type="password" name="fpassword" placeholder="Пароль" />
                     </div>
                   </div>
                   <div className="contentTuning__delimiter"></div>
                   <div className="row">
                     <div className="col-lg-3 col-md-3 col-sm-4 col-xs-5 newParameter contentTuning__newParameter">Повторите пароль</div>
                     <div className="col-lg-9 col-md-9 col-sm-8 col-xs-7">
-                      <input className="contentTuning__input contentTuning__newParameter" type="password" name="password" value="" placeholder="Пароль" />
+                      <input className="contentTuning__input contentTuning__newParameter" type="password" name="spassword" placeholder="Пароль" />
                     </div>
                   </div>
                   <div className="contentTuning__delimiter"></div>
@@ -56,7 +104,7 @@ class Settings extends Component{
                     <div className="col-lg-9 col-md-9 col-sm-8 col-xs-7">
                       <div className="contentTuning__error" id="errorOldPassword">Не верно указан старый пароль</div>
                       <div className="contentTuning__error" id="errorNewPassword">Новые пароли не совпадают</div>
-                      <button className="contentTuning__button contentTuning__newParameter" id="buttonNewPassword">Изменить пароль</button>
+                      <button className="contentTuning__button contentTuning__newParameter" id="buttonNewPassword" onClick={this.passwordChange}>Изменить пароль</button>
                     </div>
                   </div>
                   <div className="contentTuning__delimiter"></div>

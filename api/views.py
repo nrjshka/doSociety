@@ -15,6 +15,7 @@ class UserViewSet(viewsets.ModelViewSet):
 	permission_classes = ()
 
 class GetId(APIView):
+	''' отправляет id пользователю в ответ на его токен в хедере и логин(переделать) '''
 	#класс доступа - Токен JWT
 	permission_classes = (IsAuthenticated,)
 
@@ -28,7 +29,7 @@ class GetId(APIView):
 		return HttpResponseBadRequest()
 
 class GetUserInfo(APIView):
-
+	''' отправляет личную информацию о пользователе в ответ на его id '''
 	permission_classes = ()
 	renderer_classes = {JSONRenderer, }
 
@@ -40,4 +41,13 @@ class GetUserInfo(APIView):
 			return Response(UserInfoSerializer(user).data)
 		except User.DoesNotExist:
 			#если не нашли человека, то отправляем ошибку
-			return HttpResponseBadRequest()	
+			return HttpResponseBadRequest()
+
+class GetUserSettings(APIView):
+	''' отправляет настройки пользователю в ответ на его токен '''
+
+	permission_classes = (IsAuthenticated,)
+
+	def get(self, request, format = None):
+		#мы должны отправить ему список настроек
+		return Response(UserSettingsSerializer(User.objects.get(username = request.user.username)).data)

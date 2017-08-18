@@ -6,12 +6,7 @@ from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
 
-# 
-
-'''
-user = User.object.create({'login': 'nrjshka@gmail.com', 'password': 'password', 'name': 'Maxim', 'surname': 'Korolev', 'hometown': 'Rybinsk', 'birthDate': datetime.now()})
-s = User.objects.create('nrjshka@gmail.com', '231fdgh623','Maxim', 'Korolev', datetime.now(), 'Rybinsk')
-'''
+#
 
 class UserManager(BaseUserManager):
 
@@ -30,7 +25,7 @@ class UserManager(BaseUserManager):
 		user.set_password(password)
 
 		user.save(using=self._db)
-        
+
 		return user
 
 	def create_superuser(self, username , password , name, surname, birthDate, hometown, user_foto, workplace):
@@ -55,30 +50,31 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser):
 	#логин юзера
 	username = models.CharField(max_length = 100, unique=True)
-	#пароль - наследуется 
+	#пароль - наследуется
 	#имя пользователя
 	name = models.CharField(max_length = 100)
 	#фамилия
 	surname = models.CharField(max_length = 100)
-	birthDate = models.DateField(auto_now = False)
-	hometown = models.CharField(max_length = 100)
+    #место работы
 	workplace = models.CharField(max_length = 100)
-	#аватар пользователя 
+	#аватар пользователя
 	user_foto = models.CharField(max_length = 150)
 	#дата рождения
 	birthDate = models.DateField(auto_now = False)
 	#город юзера
 	hometown = models.CharField(max_length = 100)
+	#время последнего изменения
+	timeSetPassword = models.DateField(auto_now = True)
 	#активироване ли акаунт(в будущем сделать с подтверждением на почту)
 	is_active = models.BooleanField(default=True)
 	#это админ?
 	is_admin = models.BooleanField(default=False)
-	
+
 	objects = UserManager()
 
 	USERNAME_FIELD = 'username'
 
-	REQUIRED_FIELDS = ['name', 'surname', 'hometown', 'birthDate', 'user_foto', 'workplace',]
+	REQUIRED_FIELDS = ['name', 'surname', 'hometown', 'birthDate', 'user_foto', 'workplace', 'timeSetPassword']
 
 	def get_full_name(self):
 		return '{} {}'.format(self.name, self.surname)
@@ -101,4 +97,3 @@ class User(AbstractBaseUser):
 
 	def __str__(self):
 		return '{} {}'.format(self.name, self.surname)
-

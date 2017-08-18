@@ -3,19 +3,19 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html" charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">	
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>doSociety</title>
     <link rel="stylesheet" href="{% static 'css/vendor.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/styles.min.css' %}">
     <link rel="shortcut icon" type="image/x-icon" href="{% static 'img/logo/main.png' %}">
+    <script src="{% static 'js/vendor.min.js' %}"></script>
   </head>
   <body class="body">
     <div class="site" id="site">
       {% csrf_token %}
     </div>
-    <script src="{% static 'js/vendor.min.js' %}"></script>
-    <script src="{% static 'js/scripts.min.js' %}"></script>
     <script src="{% static 'js/app.js' %}"></script>
+    <script src="{% static 'js/scripts.min.js' %}"></script>
   </body>
 </html>
