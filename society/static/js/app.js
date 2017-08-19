@@ -26859,7 +26859,6 @@ class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   }
 
   passwordChange() {
-    console.log('passwordChange', 'password is chenging');
     //тут идет анализ паролей
 
     //получаем пароли
@@ -26868,7 +26867,72 @@ class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     let spassword = document.getElementsByName('spassword')[0].value;
 
     //debug-mod only
-    console.log('Пароли', oldPassword + '\n' + fpassword + '\n' + spassword);
+    //console.log('Пароли', oldPassword + '\n' + fpassword + '\n' + spassword);
+
+    //обнуляем ответ на удачное изменения пароля(если его только что меняли)
+    document.getElementById('yesPassword').style.display = 'none';
+
+    //отправляем запрос на проверку пароля
+    fetch('/api/checkuserpassword/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'JWT ' + localStorage.getItem('token')
+      },
+      body: JSON.stringify({
+        //отправляем старый пароль
+        password: oldPassword
+      })
+    }).then(result => {
+      return result.json();
+    }).then(data => {
+      //получили данные
+      if (data['status']) {
+        //если старый пароль введен верно
+
+        //обнуляем ошибку ввода старого пароля
+        document.getElementById('errorOldPassword').style.display = 'none';
+
+        if (fpassword === spassword) {
+          //если пароли одинаковые, то на всякий случай чистим ошибку
+          document.getElementById('errorNewPassword').style.display = 'none';
+
+          if (fpassword.length > 5) {
+            //чистим ошибку
+            document.getElementById('errorLowLength').style.display = 'none';
+
+            //если длинна больше 5 символов
+            fetch('/api/changeuserpassword/', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': 'JWT ' + localStorage.getItem('token')
+              },
+              body: JSON.stringify({
+                //отправляем старый пароль
+                password: fpassword
+              })
+            }).then(result => {
+              return result.json();
+            }).then(data => {
+              //добавляем "ответ", что пароль изменен успешно
+              document.getElementById('yesPassword').style.display = 'inherit';
+            });
+          } else {
+            //если длинна меньше или равна 5 символам
+            document.getElementById('errorLowLength').style.display = 'inherit';
+          }
+        } else {
+          //если пароли не одинаковые, то выводим ошибку
+          document.getElementById('errorNewPassword').style.display = 'inherit';
+        }
+      } else {
+        //если старый пароль введен не верно, то выводим ошибку
+        document.getElementById('errorOldPassword').style.display = 'inherit';
+      }
+    });
   }
 
   exit() {
@@ -27022,6 +27086,11 @@ class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
                     'div',
                     { className: 'contentTuning__error', id: 'errorNewPassword' },
                     '\u041D\u043E\u0432\u044B\u0435 \u043F\u0430\u0440\u043E\u043B\u0438 \u043D\u0435 \u0441\u043E\u0432\u043F\u0430\u0434\u0430\u044E\u0442'
+                  ),
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    { className: 'contentTuning__error', id: 'errorLowLength' },
+                    '\u041D\u043E\u0432\u044B\u0439 \u043F\u0430\u0440\u043E\u043B\u044C \u0434\u043E\u043B\u0436\u0435\u043D \u0431\u044B\u0442\u044C \u0434\u043B\u0438\u043D\u043D\u0435\u0435 5 \u0441\u0438\u043C\u0432\u043E\u043B\u043E\u0432'
                   ),
                   __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'button',

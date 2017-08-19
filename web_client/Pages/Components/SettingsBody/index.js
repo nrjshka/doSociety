@@ -39,7 +39,6 @@ class Settings extends Component{
     }
 
     passwordChange(){
-        console.log('passwordChange', 'password is chenging');
         //тут идет анализ паролей
 
         //получаем пароли
@@ -49,6 +48,74 @@ class Settings extends Component{
 
         //debug-mod only
         //console.log('Пароли', oldPassword + '\n' + fpassword + '\n' + spassword);
+
+        //обнуляем ответ на удачное изменения пароля(если его только что меняли)
+        document.getElementById('yesPassword').style.display = 'none';
+
+        //отправляем запрос на проверку пароля
+        fetch('/api/checkuserpassword/', {
+            method: 'POST',
+            headers : {
+				'Content-Type': 'application/json',
+				'Accept': 'application/json',
+                'Authorization' : 'JWT ' + localStorage.getItem('token'),
+            },
+            body:JSON.stringify({
+				//отправляем старый пароль
+				password: oldPassword,
+			}
+			)
+        })
+        .then( (result) => { return result.json()})
+        .then( (data) => {
+            //получили данные
+            if (data['status']){
+                //если старый пароль введен верно
+
+                //обнуляем ошибку ввода старого пароля
+                document.getElementById('errorOldPassword').style.display = 'none';
+
+                if (fpassword === spassword){
+                    //если пароли одинаковые, то на всякий случай чистим ошибку
+                    document.getElementById('errorNewPassword').style.display = 'none';
+
+                    if (fpassword.length > 5){
+                        //чистим ошибку
+                        document.getElementById('errorLowLength').style.display = 'none';
+
+                        //если длинна больше 5 символов
+                        fetch('/api/changeuserpassword/', {
+                            method: 'POST',
+                            headers : {
+                				'Content-Type': 'application/json',
+                				'Accept': 'application/json',
+                                'Authorization' : 'JWT ' + localStorage.getItem('token'),
+                            },
+                            body:JSON.stringify({
+                				//отправляем старый пароль
+                				password: fpassword,
+                			}
+                			)
+                        })
+                        .then( (result) => {return result.json()})
+                        .then( (data) => {
+                            //добавляем "ответ", что пароль изменен успешно
+                            document.getElementById('yesPassword').style.display = 'inherit';
+                        });
+                    }else {
+                        //если длинна меньше или равна 5 символам
+                        document.getElementById('errorLowLength').style.display = 'inherit';
+                    }
+                }else{
+                    //если пароли не одинаковые, то выводим ошибку
+                    document.getElementById('errorNewPassword').style.display = 'inherit';
+                }
+            }
+            else {
+                //если старый пароль введен не верно, то выводим ошибку
+                document.getElementById('errorOldPassword').style.display = 'inherit';
+            }
+        });
     }
 
     exit(){
@@ -104,6 +171,7 @@ class Settings extends Component{
                     <div className="col-lg-9 col-md-9 col-sm-8 col-xs-7">
                       <div className="contentTuning__error" id="errorOldPassword">Не верно указан старый пароль</div>
                       <div className="contentTuning__error" id="errorNewPassword">Новые пароли не совпадают</div>
+                      <div className="contentTuning__error" id="errorLowLength">Новый пароль должен быть длиннее 5 символов</div>
                       <button className="contentTuning__button contentTuning__newParameter" id="buttonNewPassword" onClick={this.passwordChange}>Изменить пароль</button>
                     </div>
                   </div>
