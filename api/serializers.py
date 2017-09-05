@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 from rest_framework import serializers
 from society.models import User
 
@@ -28,5 +30,6 @@ class UserSettingsSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = User
 		fields = [
-			'timeSetPassword'
+			'timeSetPassword',
+			'username',
 		]

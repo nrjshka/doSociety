@@ -76,9 +76,6 @@ class IndexBody extends Component{
 	              <div> 
 	                <input className="formLogin__input" type="password" name="password" placeholder="Пароль" />
 	              </div>
-	              <label className="formLogin__label">
-	                <input type="checkbox" name="remember_me" />Запомнить меня
-	              </label>
               	  <div className="formLogin__error">Вы ввели неверный логи или пароль. Пожалуйста, проверьте правильность написания и повторите попытку.</div>
 	              <div>
 	                <input className="formLogin__submit" type="button" name="commit" value="Войти" onClick={this.sendForm} /><a href="#">Забыли пароль?</a>

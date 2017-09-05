@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 from rest_framework import viewsets
 from rest_framework.renderers import JSONRenderer
 from django.http import HttpResponseBadRequest

@@ -7,7 +7,8 @@ class Settings extends Component{
         super(props);
 
         this.state = {
-            'dateChangePassword': '0'
+            'dateChangePassword': '',
+            'login': ''
         }
     }
 
@@ -33,8 +34,14 @@ class Settings extends Component{
             //выводим дату
             var date = day + '.' +month + '.' + year;
 
-            console.log('Date', date);
-            this.setState({'dateChangePassword': date});
+            //only debug mod = true
+            //console.log('Дата', date);
+            //console.log('Данные', data);
+            
+            this.setState({
+              'dateChangePassword': date,
+              'login': data['username']
+            });
         });
     }
 
@@ -179,20 +186,20 @@ class Settings extends Component{
                 </div>
               </div>
               <div className="row">
-                <div className="col-lg-3 col-md-3 col-sm-3 col-xs-12 contentTuning__parameter">Электронная почта</div>
-                <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6 contentTuning____value">mail@gmail.com</div>
+                <div className="col-lg-3 col-md-3 col-sm-3 col-xs-12 contentTuning__parameter">Логин</div>
+                <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6 contentTuning____value">{this.state.login}</div>
                 <div className="col-lg-3 col-md-3 col-sm-3 col-xs-6 contentTuning__change" id="changeEmail"><a href="#">Изменить</a></div>
                 <div className="col-lg-3 col-md-3 col-sm-3 col-xs-6 contentTuning__cancel" id="cancelEmail"><a href="#">Отмена</a></div>
               </div>
               <div className="contentTuning__new">
                 <div className="contentTuning__infinity" id="infinityEmail">&infin;</div>
-                <div className="contentTuning__yes" id="yesEmail">E-mail изменен</div>
+                <div className="contentTuning__yes" id="yesEmail">Логин изменен</div>
                 <div className="contentTuning__novel" id="novelEmail">
                   <div className="contentTuning__delimiter"></div>
                   <div className="row">
-                    <div className="col-lg-3 col-md-3 col-sm-4 col-xs-5 contentTuning__newParameter">Новый e-mail</div>
+                    <div className="col-lg-3 col-md-3 col-sm-4 col-xs-5 contentTuning__newParameter">Новый логин</div>
                     <div className="col-lg-9 col-md-9 col-sm-8 col-xs-7">
-                      <input className="contentTuning__input contentTuning__newParameter" placeholder="Email" />
+                      <input className="contentTuning__input contentTuning__newParameter" placeholder="Логин" />
                     </div>
                   </div>
                   <div className="contentTuning__delimiter"></div>
@@ -200,7 +207,7 @@ class Settings extends Component{
                     <div className="col-lg-3 col-md-3 col-sm-4 col-xs-5"> </div>
                     <div className="col-lg-9 col-md-9 col-sm-8 col-xs-7">
                       <div className="contentTuning__error" id="errorEmail">Не удалось отправить код подтверждения на указанный адрес</div>
-                      <button className="contentTuning__button contentTuning__newParameter" id="buttonNewEmail">Изменить e-mail</button>
+                      <button className="contentTuning__button contentTuning__newParameter" id="buttonNewEmail">Изменить логин</button>
                     </div>
                   </div>
                   <div className="contentTuning__delimiter"></div>
@@ -223,56 +230,6 @@ class Settings extends Component{
                     <div className="col-lg-9 col-md-9 col-sm-8 col-xs-7">
                       <div className="contentTuning__error" id="errorEmailCode">Не верный код подтверждения, попробуйте еще раз</div>
                       <button className="contentTuning__button contentTuning__newParameter" id="buttonNewEmail">Подтвердить</button>
-                    </div>
-                  </div>
-                  <div className="contentTuning__delimiter"></div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-lg-3 col-md-3 col-sm-3 col-xs-12 contentTuning__parameter">Телефон</div>
-                <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6 contentTuning____value">+7(926)000-00-00</div>
-                <div className="col-lg-3 col-md-3 col-sm-3 col-xs-6 contentTuning__change" id="changePhone"><a href="#">Изменить</a></div>
-                <div className="col-lg-3 col-md-3 col-sm-3 col-xs-6 contentTuning__cancel" id="cancelPhone"><a href="#">Отмена</a></div>
-              </div>
-              <div className="contentTuning__new">
-                <div className="contentTuning__infinity" id="infinityPhone">&infin;</div>
-                <div className="contentTuning__yes" id="yesPhone">Телефон изменен</div>
-                <div className="contentTuning__novel" id="novelPhone">
-                  <div className="contentTuning__delimiter"></div>
-                  <div className="row">
-                    <div className="col-lg-3 col-md-3 col-sm-4 col-xs-5 contentTuning__newParameter">Новый телефон</div>
-                    <div className="col-lg-9 col-md-9 col-sm-8 col-xs-7">
-                      <input className="contentTuning__input contentTuning__newParameter" placeholder="Телефон" />
-                    </div>
-                  </div>
-                  <div className="contentTuning__delimiter"></div>
-                  <div className="row">
-                    <div className="col-lg-3 col-md-3 col-sm-4 col-xs-5"> </div>
-                    <div className="col-lg-9 col-md-9 col-sm-8 col-xs-7">
-                      <div className="contentTuning__error" id="errorPhone">Не удалось отправить код подтверждения на указанный номер</div>
-                      <button className="contentTuning__button contentTuning__newParameter" id="buttonNewPhone">Изменить телефон</button>
-                    </div>
-                  </div>
-                  <div className="contentTuning__delimiter"></div>
-                </div>
-                <div className="contentTuning__novel" id="novelPhoneCode">
-                  <div className="contentTuning__delimiter"></div>
-                  <div className="contentTuning__novelReport">Вам отправлено СМС с кодом подтверждения. Пожалуйста, введите код</div>
-                  <div className="contentTuning__delimiter"></div>
-                  <div className="contentTuning__novelReport">Отправить повторно через <span id="timerPhone">59</span><span>с.</span><span className="contentTuning__novelReportRepeat" id="repeatPhone"><a href="#">Отправить</a></span></div>
-                  <div className="contentTuning__delimiter"></div>
-                  <div className="row">
-                    <div className="col-lg-3 col-md-3 col-sm-4 col-xs-5 contentTuning__newParameter">Код подтверждения</div>
-                    <div className="col-lg-9 col-md-9 col-sm-8 col-xs-7">
-                      <input className="contentTuning__input contentTuning__newParameter" placeholder="Код" />
-                    </div>
-                  </div>
-                  <div className="contentTuning__delimiter"></div>
-                  <div className="row">
-                    <div className="col-lg-3 col-md-3 col-sm-4 col-xs-5"> </div>
-                    <div className="col-lg-9 col-md-9 col-sm-8 col-xs-7">
-                      <div className="contentTuning__error" id="errorPhoneCode">Не верный код подтверждения, попробуйте еще раз</div>
-                      <button className="contentTuning__button contentTuning__newParameter" id="buttonNewPhone">Подтвердить</button>
                     </div>
                   </div>
                   <div className="contentTuning__delimiter"></div>

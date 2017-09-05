@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 231);
+/******/ 	return __webpack_require__(__webpack_require__.s = 243);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -11440,8 +11440,8 @@ module.exports = getIteratorFn;
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Menu_LogginedMenu___ = __webpack_require__(235);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Menu_UnlogginedMenu___ = __webpack_require__(236);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Menu_LogginedMenu___ = __webpack_require__(234);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Menu_UnlogginedMenu___ = __webpack_require__(235);
 
 
 
@@ -11476,7 +11476,7 @@ module.exports = __webpack_require__(138);
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__App__ = __webpack_require__(233);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__App__ = __webpack_require__(232);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__App__["a"]; });
 
 
@@ -26202,31 +26202,10 @@ exports.default = valueEqual;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(100);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__pages__ = __webpack_require__(101);
-
-
-
-
-
-//Тут будет код для проекта
-
-
-__WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__pages__["a" /* App */], null), document.getElementById('site'));
-
-/***/ }),
-/* 232 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Components_Header___ = __webpack_require__(38);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Components_NotFoundBody___ = __webpack_require__(237);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Components_NotFoundBody___ = __webpack_require__(236);
 
 
 
@@ -26247,7 +26226,7 @@ class NotFound extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (NotFound);
 
 /***/ }),
-/* 233 */
+/* 232 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -26255,10 +26234,10 @@ class NotFound extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_router_dom__ = __webpack_require__(58);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Index___ = __webpack_require__(241);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__404__ = __webpack_require__(232);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__UserPage__ = __webpack_require__(243);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Settings___ = __webpack_require__(242);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Index___ = __webpack_require__(240);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__404__ = __webpack_require__(231);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__UserPage__ = __webpack_require__(242);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Settings___ = __webpack_require__(241);
 
 
 
@@ -26294,7 +26273,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (App);
 
 /***/ }),
-/* 234 */
+/* 233 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -26396,12 +26375,6 @@ class IndexBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'formLogin__input', type: 'password', name: 'password', placeholder: '\u041F\u0430\u0440\u043E\u043B\u044C' })
 						),
 						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-							'label',
-							{ className: 'formLogin__label' },
-							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'checkbox', name: 'remember_me' }),
-							'\u0417\u0430\u043F\u043E\u043C\u043D\u0438\u0442\u044C \u043C\u0435\u043D\u044F'
-						),
-						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 							'div',
 							{ className: 'formLogin__error' },
 							'\u0412\u044B \u0432\u0432\u0435\u043B\u0438 \u043D\u0435\u0432\u0435\u0440\u043D\u044B\u0439 \u043B\u043E\u0433\u0438 \u0438\u043B\u0438 \u043F\u0430\u0440\u043E\u043B\u044C. \u041F\u043E\u0436\u0430\u043B\u0443\u0439\u0441\u0442\u0430, \u043F\u0440\u043E\u0432\u0435\u0440\u044C\u0442\u0435 \u043F\u0440\u0430\u0432\u0438\u043B\u044C\u043D\u043E\u0441\u0442\u044C \u043D\u0430\u043F\u0438\u0441\u0430\u043D\u0438\u044F \u0438 \u043F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u0435 \u043F\u043E\u043F\u044B\u0442\u043A\u0443.'
@@ -26440,7 +26413,7 @@ class IndexBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (IndexBody);
 
 /***/ }),
-/* 235 */
+/* 234 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -26589,7 +26562,7 @@ class LogginedMenu extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (LogginedMenu);
 
 /***/ }),
-/* 236 */
+/* 235 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -26699,7 +26672,7 @@ class UnlogginedMenu extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (UnlogginedMenu);
 
 /***/ }),
-/* 237 */
+/* 236 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -26814,7 +26787,7 @@ class NotFoundBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (NotFoundBody);
 
 /***/ }),
-/* 238 */
+/* 237 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -26827,7 +26800,8 @@ class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     super(props);
 
     this.state = {
-      'dateChangePassword': '0'
+      'dateChangePassword': '',
+      'login': ''
     };
   }
 
@@ -26853,8 +26827,14 @@ class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       //выводим дату
       var date = day + '.' + month + '.' + year;
 
-      console.log('Date', date);
-      this.setState({ 'dateChangePassword': date });
+      //only debug mod = true
+      //console.log('Дата', date);
+      //console.log('Данные', data);
+
+      this.setState({
+        'dateChangePassword': date,
+        'login': data['username']
+      });
     });
   }
 
@@ -27108,12 +27088,12 @@ class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'div',
               { className: 'col-lg-3 col-md-3 col-sm-3 col-xs-12 contentTuning__parameter' },
-              '\u042D\u043B\u0435\u043A\u0442\u0440\u043E\u043D\u043D\u0430\u044F \u043F\u043E\u0447\u0442\u0430'
+              '\u041B\u043E\u0433\u0438\u043D'
             ),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'div',
               { className: 'col-lg-6 col-md-6 col-sm-6 col-xs-6 contentTuning____value' },
-              'mail@gmail.com'
+              this.state.login
             ),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'div',
@@ -27145,7 +27125,7 @@ class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'div',
               { className: 'contentTuning__yes', id: 'yesEmail' },
-              'E-mail \u0438\u0437\u043C\u0435\u043D\u0435\u043D'
+              '\u041B\u043E\u0433\u0438\u043D \u0438\u0437\u043C\u0435\u043D\u0435\u043D'
             ),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'div',
@@ -27157,12 +27137,12 @@ class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                   'div',
                   { className: 'col-lg-3 col-md-3 col-sm-4 col-xs-5 contentTuning__newParameter' },
-                  '\u041D\u043E\u0432\u044B\u0439 e-mail'
+                  '\u041D\u043E\u0432\u044B\u0439 \u043B\u043E\u0433\u0438\u043D'
                 ),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                   'div',
                   { className: 'col-lg-9 col-md-9 col-sm-8 col-xs-7' },
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'contentTuning__input contentTuning__newParameter', placeholder: 'Email' })
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'contentTuning__input contentTuning__newParameter', placeholder: '\u041B\u043E\u0433\u0438\u043D' })
                 )
               ),
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' }),
@@ -27185,7 +27165,7 @@ class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
                   __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'button',
                     { className: 'contentTuning__button contentTuning__newParameter', id: 'buttonNewEmail' },
-                    '\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C e-mail'
+                    '\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C \u043B\u043E\u0433\u0438\u043D'
                   )
                 )
               ),
@@ -27260,171 +27240,6 @@ class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
                   __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'button',
                     { className: 'contentTuning__button contentTuning__newParameter', id: 'buttonNewEmail' },
-                    '\u041F\u043E\u0434\u0442\u0432\u0435\u0440\u0434\u0438\u0442\u044C'
-                  )
-                )
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' })
-            )
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            { className: 'row' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'col-lg-3 col-md-3 col-sm-3 col-xs-12 contentTuning__parameter' },
-              '\u0422\u0435\u043B\u0435\u0444\u043E\u043D'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'col-lg-6 col-md-6 col-sm-6 col-xs-6 contentTuning____value' },
-              '+7(926)000-00-00'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'col-lg-3 col-md-3 col-sm-3 col-xs-6 contentTuning__change', id: 'changePhone' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'a',
-                { href: '#' },
-                '\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C'
-              )
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'col-lg-3 col-md-3 col-sm-3 col-xs-6 contentTuning__cancel', id: 'cancelPhone' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'a',
-                { href: '#' },
-                '\u041E\u0442\u043C\u0435\u043D\u0430'
-              )
-            )
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            { className: 'contentTuning__new' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'contentTuning__infinity', id: 'infinityPhone' },
-              '\u221E'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'contentTuning__yes', id: 'yesPhone' },
-              '\u0422\u0435\u043B\u0435\u0444\u043E\u043D \u0438\u0437\u043C\u0435\u043D\u0435\u043D'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'contentTuning__novel', id: 'novelPhone' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' }),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'div',
-                { className: 'row' },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'div',
-                  { className: 'col-lg-3 col-md-3 col-sm-4 col-xs-5 contentTuning__newParameter' },
-                  '\u041D\u043E\u0432\u044B\u0439 \u0442\u0435\u043B\u0435\u0444\u043E\u043D'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'div',
-                  { className: 'col-lg-9 col-md-9 col-sm-8 col-xs-7' },
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'contentTuning__input contentTuning__newParameter', placeholder: '\u0422\u0435\u043B\u0435\u0444\u043E\u043D' })
-                )
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' }),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'div',
-                { className: 'row' },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'div',
-                  { className: 'col-lg-3 col-md-3 col-sm-4 col-xs-5' },
-                  ' '
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'div',
-                  { className: 'col-lg-9 col-md-9 col-sm-8 col-xs-7' },
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'div',
-                    { className: 'contentTuning__error', id: 'errorPhone' },
-                    '\u041D\u0435 \u0443\u0434\u0430\u043B\u043E\u0441\u044C \u043E\u0442\u043F\u0440\u0430\u0432\u0438\u0442\u044C \u043A\u043E\u0434 \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043D\u0438\u044F \u043D\u0430 \u0443\u043A\u0430\u0437\u0430\u043D\u043D\u044B\u0439 \u043D\u043E\u043C\u0435\u0440'
-                  ),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'button',
-                    { className: 'contentTuning__button contentTuning__newParameter', id: 'buttonNewPhone' },
-                    '\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C \u0442\u0435\u043B\u0435\u0444\u043E\u043D'
-                  )
-                )
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' })
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'contentTuning__novel', id: 'novelPhoneCode' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' }),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'div',
-                { className: 'contentTuning__novelReport' },
-                '\u0412\u0430\u043C \u043E\u0442\u043F\u0440\u0430\u0432\u043B\u0435\u043D\u043E \u0421\u041C\u0421 \u0441 \u043A\u043E\u0434\u043E\u043C \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043D\u0438\u044F. \u041F\u043E\u0436\u0430\u043B\u0443\u0439\u0441\u0442\u0430, \u0432\u0432\u0435\u0434\u0438\u0442\u0435 \u043A\u043E\u0434'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' }),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'div',
-                { className: 'contentTuning__novelReport' },
-                '\u041E\u0442\u043F\u0440\u0430\u0432\u0438\u0442\u044C \u043F\u043E\u0432\u0442\u043E\u0440\u043D\u043E \u0447\u0435\u0440\u0435\u0437 ',
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'span',
-                  { id: 'timerPhone' },
-                  '59'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'span',
-                  null,
-                  '\u0441.'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'span',
-                  { className: 'contentTuning__novelReportRepeat', id: 'repeatPhone' },
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'a',
-                    { href: '#' },
-                    '\u041E\u0442\u043F\u0440\u0430\u0432\u0438\u0442\u044C'
-                  )
-                )
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' }),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'div',
-                { className: 'row' },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'div',
-                  { className: 'col-lg-3 col-md-3 col-sm-4 col-xs-5 contentTuning__newParameter' },
-                  '\u041A\u043E\u0434 \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043D\u0438\u044F'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'div',
-                  { className: 'col-lg-9 col-md-9 col-sm-8 col-xs-7' },
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'contentTuning__input contentTuning__newParameter', placeholder: '\u041A\u043E\u0434' })
-                )
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' }),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'div',
-                { className: 'row' },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'div',
-                  { className: 'col-lg-3 col-md-3 col-sm-4 col-xs-5' },
-                  ' '
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'div',
-                  { className: 'col-lg-9 col-md-9 col-sm-8 col-xs-7' },
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'div',
-                    { className: 'contentTuning__error', id: 'errorPhoneCode' },
-                    '\u041D\u0435 \u0432\u0435\u0440\u043D\u044B\u0439 \u043A\u043E\u0434 \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043D\u0438\u044F, \u043F\u043E\u043F\u0440\u043E\u0431\u0443\u0439\u0442\u0435 \u0435\u0449\u0435 \u0440\u0430\u0437'
-                  ),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'button',
-                    { className: 'contentTuning__button contentTuning__newParameter', id: 'buttonNewPhone' },
                     '\u041F\u043E\u0434\u0442\u0432\u0435\u0440\u0434\u0438\u0442\u044C'
                   )
                 )
@@ -27546,7 +27361,7 @@ class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (Settings);
 
 /***/ }),
-/* 239 */
+/* 238 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -27617,7 +27432,7 @@ class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (Settings);
 
 /***/ }),
-/* 240 */
+/* 239 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -27843,14 +27658,14 @@ class UserPageBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (UserPageBody);
 
 /***/ }),
-/* 241 */
+/* 240 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Components_Header___ = __webpack_require__(38);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Components_IndexBody___ = __webpack_require__(234);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Components_IndexBody___ = __webpack_require__(233);
 
 
 
@@ -27870,7 +27685,7 @@ class Index extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (Index);
 
 /***/ }),
-/* 242 */
+/* 241 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -27878,8 +27693,8 @@ class Index extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Components_Header___ = __webpack_require__(38);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Components_Menu___ = __webpack_require__(99);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Components_SettingsBody___ = __webpack_require__(238);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Components_SettingsMenu___ = __webpack_require__(239);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Components_SettingsBody___ = __webpack_require__(237);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Components_SettingsMenu___ = __webpack_require__(238);
 
 
 
@@ -27929,7 +27744,7 @@ class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (Settings);
 
 /***/ }),
-/* 243 */
+/* 242 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -27937,7 +27752,7 @@ class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Components_Header___ = __webpack_require__(38);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Components_Menu___ = __webpack_require__(99);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Components_UserPageBody___ = __webpack_require__(240);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Components_UserPageBody___ = __webpack_require__(239);
 
 
 
@@ -27986,6 +27801,27 @@ class UserPage extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 }
 
 /* harmony default export */ __webpack_exports__["a"] = (UserPage);
+
+/***/ }),
+/* 243 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(100);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Pages__ = __webpack_require__(101);
+
+
+
+
+
+//Тут будет код для проекта
+
+
+__WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Pages__["a" /* App */], null), document.getElementById('site'));
 
 /***/ })
 /******/ ]);
