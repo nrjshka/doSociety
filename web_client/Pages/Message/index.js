@@ -6,6 +6,14 @@ import MessageMenu from '../Components/MessageMenu/'
 import Menu from '../Components/Menu'
 
 class Message extends Component{
+    constructor(props){
+        super(props);
+        //если не залогинен, то редирект на 404
+        if  (localStorage.getItem('token') == undefined){
+            document.location.href = '404';
+        }
+    }
+    
 	render(){
 		return(
 			<div id="index">

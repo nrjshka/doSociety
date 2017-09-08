@@ -5,7 +5,7 @@ class UnlogginedMenu extends Component{
       //проверяем форму и получаем токен, либо ошибку
       var login = document.getElementsByName('login')[0].value;
       var password = document.getElementsByName('password')[0].value;
-      
+
       //debug mod = TRUE
       //console.log('Login - ' + login + '\nPassword - ' + password);
 
@@ -47,12 +47,9 @@ class UnlogginedMenu extends Component{
                 <div>
                   <input className="formLogin__input" type="text" name="login" placeholder="Телефон или Email" />
                 </div>
-                <div> 
+                <div>
                   <input className="formLogin__input" type="password" name="password" placeholder="Пароль" />
                 </div>
-                <label className="formLogin__label">
-                  <input type="checkbox" name="remember_me" />Запомнить меня
-                </label>
                 <div>
                   <input className="formLogin__submit" name="commit" type="button" onClick={this.sendForm} value="Войти" />
                 </div>

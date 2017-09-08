@@ -26632,12 +26632,6 @@ class UnlogginedMenu extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'formLogin__input', type: 'password', name: 'password', placeholder: '\u041F\u0430\u0440\u043E\u043B\u044C' })
             ),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'label',
-              { className: 'formLogin__label' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'checkbox', name: 'remember_me' }),
-              '\u0417\u0430\u043F\u043E\u043C\u043D\u0438\u0442\u044C \u043C\u0435\u043D\u044F'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'div',
               null,
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'formLogin__submit', name: 'commit', type: 'button', onClick: this.sendForm, value: '\u0412\u043E\u0439\u0442\u0438' })
@@ -28075,30 +28069,38 @@ class Index extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
 
 class Message extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
-  render() {
-    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      'div',
-      { id: 'index' },
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        { className: 'buttonNavigator' },
-        '\xBB'
-      ),
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        { className: 'buttonSidebar' },
-        '\xAB'
-      ),
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__Components_Header___["a" /* default */], { logo: 'static/img/logo/logo.png', search: 'static/img/search/search.png' }),
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        { className: 'container' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__Components_Menu__["a" /* default */], null),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Components_MessageBody___["a" /* default */], null),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Components_MessageMenu___["a" /* default */], null)
-      )
-    );
-  }
+    constructor(props) {
+        super(props);
+        //если не залогинен, то редирект на 404
+        if (localStorage.getItem('token') == undefined) {
+            document.location.href = '404';
+        }
+    }
+
+    render() {
+        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { id: 'index' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: 'buttonNavigator' },
+                '\xBB'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: 'buttonSidebar' },
+                '\xAB'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__Components_Header___["a" /* default */], { logo: 'static/img/logo/logo.png', search: 'static/img/search/search.png' }),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: 'container' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__Components_Menu__["a" /* default */], null),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Components_MessageBody___["a" /* default */], null),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Components_MessageMenu___["a" /* default */], null)
+            )
+        );
+    }
 }
 
 /* harmony default export */ __webpack_exports__["a"] = (Message);
