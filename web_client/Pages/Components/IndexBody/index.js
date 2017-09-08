@@ -6,10 +6,10 @@ class IndexBody extends Component{
 	    //проверяем форму и получаем токен, либо ошибку
 	    var login = document.getElementsByName('login')[0].value;
 	    var password = document.getElementsByName('password')[0].value;
-	    
+
 	    //debug mod = TRUE
 	    //console.log('Login - ' + login + '\nPassword - ' + password);
-	    
+
 	    //отправляем запрос к api вместе с логином и паролем
 		fetch('/api/token-auth/', {
 			method: 'POST',
@@ -73,7 +73,7 @@ class IndexBody extends Component{
 	              <div>
 	                <input className="formLogin__input" type="text" name="login" placeholder="Телефон или Email" />
 	              </div>
-	              <div> 
+	              <div>
 	                <input className="formLogin__input" type="password" name="password" placeholder="Пароль" />
 	              </div>
               	  <div className="formLogin__error">Вы ввели неверный логи или пароль. Пожалуйста, проверьте правильность написания и повторите попытку.</div>

@@ -4,8 +4,9 @@
   "description": "doSociety - социальная сеть предназначеная для поиска потенциально интересных собеседников",
   "main": "index.js",
   "scripts": {
-     "build": "node node_modules/webpack/bin/webpack.js"
-  },
+     "build": "node node_modules/webpack/bin/webpack.js",
+     "lbuild": "nodejs node_modules/webpack/bin/webpack.js"
+},
   "author": "nrjshka",
   "license": "ISC",
   "devDependencies": {

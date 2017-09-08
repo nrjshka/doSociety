@@ -6,7 +6,7 @@ class Settings extends Component{
 	render(){
 		return(
   		<div>
-  	   <div className="col-lg-2 col-md-2 hidden-sm hidden-xs hidden-smNo">
+  	   	<div className="col-lg-2 col-md-2 hidden-sm hidden-xs hidden-smNo">
             <aside className="sidebar">
               <nav className="sidebar__register">
                 <ul>
