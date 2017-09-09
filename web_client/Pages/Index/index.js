@@ -4,6 +4,13 @@ import Header from '../Components/Header/'
 import IndexBody from '../Components/IndexBody/'
 
 class Index extends Component{
+	constructor(props){
+		if (localStorage.getItem('token') != null){
+			document.location.href = '/settings';
+		}
+		super(props);
+	}
+
 	render(){
 		return(
 			<div id="index">

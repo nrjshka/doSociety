@@ -6,12 +6,12 @@ import SettingsBody from '../Components/SettingsBody/'
 import SettingsMenu from '../Components/SettingsMenu/'
 
 class Settings extends Component{
-	componentWillMount(){
-		if  (localStorage.getItem('token') == undefined) {
-			//если человек не залогинен, то отправляем его на страницу регистрации или входа
-			document.location.href = '' ;
+	constructor(props){
+		if (localStorage.getItem('token') == null){
+			document.location.href = "/";
 		}
 		document.title = 'Настройки';
+		super(props);
 	}
 
 	render(){

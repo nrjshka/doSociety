@@ -26481,8 +26481,8 @@ class LogginedMenu extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
             null,
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { src: 'static/img/nav/2_nav.png' }),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'a',
-              { href: '#' },
+              __WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
+              { to: 'msg' },
               '\u041B\u0438\u0447\u043D\u044B\u0435 \u0441\u043E\u043E\u0431\u0449\u0435\u043D\u0438\u044F'
             )
           )
@@ -28038,6 +28038,13 @@ class UserPageBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
 
 class Index extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
+	constructor(props) {
+		if (localStorage.getItem('token') != null) {
+			document.location.href = '/settings';
+		}
+		super(props);
+	}
+
 	render() {
 		return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 			'div',
@@ -28072,9 +28079,10 @@ class Message extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     constructor(props) {
         super(props);
         //если не залогинен, то редирект на 404
-        if (localStorage.getItem('token') == undefined) {
-            document.location.href = '404';
+        if (localStorage.getItem('token') == null) {
+            document.location.href = '/404';
         }
+        document.title = "Сообщения";
     }
 
     render() {
@@ -28124,12 +28132,12 @@ class Message extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
 
 class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
-	componentWillMount() {
-		if (localStorage.getItem('token') == undefined) {
-			//если человек не залогинен, то отправляем его на страницу регистрации или входа
-			document.location.href = '';
+	constructor(props) {
+		if (localStorage.getItem('token') == null) {
+			document.location.href = "/";
 		}
 		document.title = 'Настройки';
+		super(props);
 	}
 
 	render() {

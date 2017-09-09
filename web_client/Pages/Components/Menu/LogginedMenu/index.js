@@ -21,10 +21,10 @@ class LogginedMenu extends Component{
     })
     .then((data) => {
         //назначаем url профилю
-        
+
         //debug-mod = TRUE
         //console.log(data['id']);
-        
+
         this.setState({profile_url: '/id' + data['id']});
     });
   }
@@ -37,7 +37,7 @@ class LogginedMenu extends Component{
               <li><img src="static/img/nav/1_nav.png" /><Link to={this.state.profile_url} >Профиль</Link></li>
             </ul>
             <ul>
-              <li><img src="static/img/nav/2_nav.png" /><a href="#">Личные сообщения</a></li>
+              <li><img src="static/img/nav/2_nav.png" /><Link to="msg">Личные сообщения</Link></li>
             </ul>
             <ul>
               <li><img src="static/img/nav/3_nav.png" /><a href="#">Конференция</a></li>

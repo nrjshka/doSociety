@@ -9,11 +9,12 @@ class Message extends Component{
     constructor(props){
         super(props);
         //если не залогинен, то редирект на 404
-        if  (localStorage.getItem('token') == undefined){
-            document.location.href = '404';
+        if  (localStorage.getItem('token') == null){
+            document.location.href = '/404';
         }
+        document.title = "Сообщения";
     }
-    
+
 	render(){
 		return(
 			<div id="index">
