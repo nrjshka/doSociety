@@ -60,10 +60,10 @@ REST_FRAMEWORK = {
 }
 
 JWT_AUTH = {
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=900),
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days = 360),
     'JWT_ALLOW_REFRESH': True,
     #3 месяца действия токена
-    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=90),
+    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days = 360),
 }
 
 #отключил csrf, т.к. не нашел решения включения их в jsx-код, если найдете решение - действуйте.

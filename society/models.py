@@ -20,6 +20,7 @@ class UserManager(BaseUserManager):
 			hometown = hometown,
 			user_foto = user_foto,
 			workplace = workplace,
+            urlid = "",
 		)
 
 		user.set_password(password)
@@ -63,6 +64,8 @@ class User(AbstractBaseUser):
 	birthDate = models.DateField(auto_now = False)
 	#город юзера
 	hometown = models.CharField(max_length = 100)
+    #поля использующееся заместо id, если = "" - то используется id[номер]
+	urlid = models.CharField(max_length = 100, default = "")
 	#время последнего изменения
 	timeSetPassword = models.DateField(auto_now = True)
 	#активироване ли акаунт(в будущем сделать с подтверждением на почту)

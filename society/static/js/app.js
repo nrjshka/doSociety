@@ -27167,7 +27167,8 @@ class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
     this.state = {
       'dateChangePassword': '',
-      'login': ''
+      'login': '',
+      'urlid': ''
     };
   }
 
@@ -27197,9 +27198,16 @@ class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       //console.log('Дата', date);
       //console.log('Данные', data);
 
+      var urlid = "id" + data['id'];
+      if (data['urlid'] != "") urlid = data['urlid'];
+
+      //only debug mod = true
+      //console.log('Urlid', urlid);
+
       this.setState({
         'dateChangePassword': date,
-        'login': data['username']
+        'login': data['username'],
+        'urlid': urlid
       });
     });
   }
@@ -27286,6 +27294,32 @@ class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     localStorage.removeItem('token');
 
     window.location.href = '/';
+  }
+
+  changeUrl() {
+    //document.getElementsByName('newUrlInput')[0].value
+
+    var newUrl = document.getElementsByName('newUrlInput')[0].value;
+
+    //api для изменения url
+    fetch('/api/changeuserurl/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'JWT ' + localStorage.getItem('token')
+      },
+      body: JSON.stringify({
+        //отправляем новый url
+        newUrl: newUrl
+      })
+    }).then(result => {
+      return result.json();
+    }).then(data => {
+      if (data['status']) {
+        //все прошло отлично
+      }
+    });
   }
 
   render() {
@@ -27624,7 +27658,8 @@ class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'div',
               { className: 'col-lg-6 col-md-6 col-sm-6 col-xs-8 contentTuning____value' },
-              'dosociety.net/id123123'
+              'dosociety.net/',
+              this.state.urlid
             ),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'div',
@@ -27678,7 +27713,7 @@ class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
                     { className: 'contentTuning__URL' },
                     'dosociety.net/'
                   ),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'contentTuning__input contentTuning__newParameter', placeholder: '\u041D\u043E\u043C\u0435\u0440 \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u044B' })
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'contentTuning__input contentTuning__newParameter', name: 'newUrlInput', placeholder: '\u041D\u043E\u043C\u0435\u0440 \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u044B' })
                 )
               ),
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' }),
@@ -27700,7 +27735,7 @@ class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
                   ),
                   __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'button',
-                    { className: 'contentTuning__button contentTuning__newParameter', id: 'buttonNewURL' },
+                    { className: 'contentTuning__button contentTuning__newParameter', id: 'buttonNewURL', onClick: this.changeUrl },
                     '\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C \u0430\u0434\u0440\u0435\u0441'
                   )
                 )
@@ -28247,6 +28282,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
+console.log('Token ', localStorage.getItem('token'));
 //Подгрузка модулей
 
 __WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Pages__["a" /* App */], null), document.getElementById('site'));

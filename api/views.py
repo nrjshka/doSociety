@@ -24,10 +24,14 @@ class GetId(APIView):
 
 	''' отправляет id пользователя по логину '''
 	def get(self, request, format = None):
-		if User.objects.get(username = request.user.username):
+		print('loggined')
+		#определяем пользователя
+		userName = request.user.username
+		if User.objects.get(username = userName):
 			#отправляем id пользователя
-			id = str(User.objects.get(username = request.user.username).id)
-			return Response({'id': id})
+			id = str(User.objects.get(username = userName).id)
+			urlid = str(User.objects.get(username = userName).urlid)
+			return Response({'id': id, 'urlid': urlid})
 		#если "плохой" запрос, то отправляем ошибку
 		return HttpResponseBadRequest()
 
@@ -97,4 +101,29 @@ class ChangeUserPassword(APIView):
 			return Response({'status': True})
 		else:
 			#если не было получено пароля
+			return HttpResponseBadRequest()
+
+class ChangeUserUrl(APIView):
+	''' меняет url или говорит, что url занят'''
+
+	permission_classes = (IsAuthenticated, )
+	renderer_classes = {JSONRenderer, }
+
+	def post(self, request, format = None):
+		if request.data['newUrl']:
+			#получаем данные из newUrl и ищем занят ли url или нет
+			try:
+				user = User.objects.get(urlid = request.data['newUrl'])
+			except User.DoesNotExist:
+				user = 0
+			#если не нашли никого с желаемым url или это наш старый адрес
+			if not(user) or User.objects.get(username = request.user.username).urlid == request.data['newUrl']:
+				#получаем нашего пользователя
+				user = User.objects.get(username = request.user.username)
+				user.urlid = request.data['newUrl']
+				user.save()
+				return Response({'status': True})
+			return Response({'status': False})
+		else:
+			#пробрасываем ошибку в обратном случае
 			return HttpResponseBadRequest()

@@ -22,4 +22,5 @@ urlpatterns += [
 	url(r'^getsettingsinfo/', GetUserSettings.as_view()),
 	url(r'^checkuserpassword/', CheckUserPassword.as_view()),
 	url(r'^changeuserpassword/', ChangeUserPassword.as_view()),
+	url(r'^changeuserurl/', ChangeUserUrl.as_view()),
 ]

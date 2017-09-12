@@ -8,7 +8,8 @@ class Settings extends Component{
 
         this.state = {
             'dateChangePassword': '',
-            'login': ''
+            'login': '',
+            'urlid': '',
         }
     }
 
@@ -37,10 +38,18 @@ class Settings extends Component{
             //only debug mod = true
             //console.log('Дата', date);
             //console.log('Данные', data);
-            
+
+            var urlid = "id" + data['id'];
+            if (data['urlid'] != "")
+                urlid = data['urlid'];
+
+            //only debug mod = true
+            //console.log('Urlid', urlid);
+
             this.setState({
               'dateChangePassword': date,
-              'login': data['username']
+              'login': data['username'],
+              'urlid': urlid
             });
         });
     }
@@ -130,6 +139,33 @@ class Settings extends Component{
         localStorage.removeItem('token');
 
         window.location.href = '/';
+    }
+
+
+    changeUrl(){
+        //document.getElementsByName('newUrlInput')[0].value
+
+        var newUrl = document.getElementsByName('newUrlInput')[0].value;
+
+        //api для изменения url
+        fetch('/api/changeuserurl/', {
+            method: 'POST',
+            headers : {
+				'Content-Type': 'application/json',
+				'Accept': 'application/json',
+                'Authorization' : 'JWT ' + localStorage.getItem('token'),
+            },
+            body:JSON.stringify({
+				//отправляем новый url
+				newUrl: newUrl,
+			})
+        })
+        .then( (result) => { return result.json()})
+        .then( (data) => {
+            if (data['status']){
+                //все прошло отлично
+            }
+        });
     }
 
 	render(){
@@ -237,7 +273,7 @@ class Settings extends Component{
               </div>
               <div className="row">
                 <div className="col-lg-3 col-md-3 col-sm-3 col-xs-12 contentTuning__parameter">Адрес страницы</div>
-                <div className="col-lg-6 col-md-6 col-sm-6 col-xs-8 contentTuning____value">dosociety.net/id123123</div>
+                <div className="col-lg-6 col-md-6 col-sm-6 col-xs-8 contentTuning____value">dosociety.net/{this.state.urlid}</div>
                 <div className="col-lg-3 col-md-3 col-sm-3 col-xs-4 contentTuning__change" id="changeURL"><a href="#">Изменить</a></div>
                 <div className="col-lg-3 col-md-3 col-sm-3 col-xs-4 contentTuning__cancel" id="cancelURL"><a href="#">Отмена</a></div>
               </div>
@@ -249,7 +285,7 @@ class Settings extends Component{
                   <div className="row">
                     <div className="col-lg-3 col-md-3 col-sm-4 col-xs-5 contentTuning__newParameter">Новый адрес</div>
                     <div className="col-lg-9 col-md-9 col-sm-8 col-xs-7"><span className="contentTuning__URL">dosociety.net/</span>
-                      <input className="contentTuning__input contentTuning__newParameter" placeholder="Номер страницы" />
+                      <input className="contentTuning__input contentTuning__newParameter" name="newUrlInput" placeholder="Номер страницы" />
                     </div>
                   </div>
                   <div className="contentTuning__delimiter"></div>
@@ -257,7 +293,7 @@ class Settings extends Component{
                     <div className="col-lg-3 col-md-3 col-sm-4 col-xs-5"> </div>
                     <div className="col-lg-9 col-md-9 col-sm-8 col-xs-7">
                       <div className="contentTuning__error" id="errorURL">Данный адрес не доступен. Пожалуйста, попробуйте еще раз.</div>
-                      <button className="contentTuning__button contentTuning__newParameter" id="buttonNewURL">Изменить адрес</button>
+                      <button className="contentTuning__button contentTuning__newParameter" id="buttonNewURL" onClick={this.changeUrl}>Изменить адрес</button>
                     </div>
                   </div>
                   <div className="contentTuning__delimiter"></div>

@@ -32,4 +32,6 @@ class UserSettingsSerializer(serializers.ModelSerializer):
 		fields = [
 			'timeSetPassword',
 			'username',
+			'urlid',
+			'id',
 		]
