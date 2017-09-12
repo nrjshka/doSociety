@@ -15,6 +15,9 @@ class Settings extends Component{
                 <ul>
                   <li><a href="#">Биография</a></li>
                 </ul>
+				<ul>
+                  <li><a href="#">Родственники</a></li>
+                </ul>
                 <ul>
                   <li><a href="#">Мировоззрение</a></li>
                 </ul>

@@ -24,7 +24,6 @@ class GetId(APIView):
 
 	''' отправляет id пользователя по логину '''
 	def get(self, request, format = None):
-		print('loggined')
 		#определяем пользователя
 		userName = request.user.username
 		if User.objects.get(username = userName):
@@ -96,6 +95,7 @@ class ChangeUserPassword(APIView):
 			user.set_password(request.data['password'])
 			#сохраняем изменения
 			user.save()
+			user.timeSetPassword = date.today()
 			#нужно еще поменять дату последнего изменения пароля
 			#отправляем "удачный ответ"
 			return Response({'status': True})
