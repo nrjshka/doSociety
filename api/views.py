@@ -115,7 +115,7 @@ class ChangeUserUrl(APIView):
 			try:
 				user = User.objects.get(urlid = request.data['newUrl'])
 			except User.DoesNotExist:
-				user = 0
+				user = None
 			#если не нашли никого с желаемым url или это наш старый адрес
 			if not(user) or User.objects.get(username = request.user.username).urlid == request.data['newUrl']:
 				#получаем нашего пользователя
@@ -124,6 +124,23 @@ class ChangeUserUrl(APIView):
 				user.save()
 				return Response({'status': True})
 			return Response({'status': False})
+		else:
+			#пробрасываем ошибку в обратном случае
+			return HttpResponseBadRequest()
+
+class ChangeUserLogin(APIView):
+	''' меняет login на присланный '''
+
+	permission_classes = (IsAuthenticated, )
+	renderer_classes = {JSONRenderer, }
+
+	def post(self, request, format = None):
+		if request.data['newLogin']:
+			#получаем пользователя
+			user = User.objects.get(username = request.user.username)
+			user.username = request.data['newLogin']
+			user.save()
+			return Response({'status': True})
 		else:
 			#пробрасываем ошибку в обратном случае
 			return HttpResponseBadRequest()

@@ -26337,6 +26337,18 @@ class IndexBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 		});
 	}
 
+	loginClick(event) {
+		if (event.keyCode == 13) {
+			document.getElementsByName('password')[0].focus();
+		}
+	}
+
+	passwordClick(event) {
+		if (event.keyCode == 13) {
+			document.getElementsByName('commit')[0].click();
+		}
+	}
+
 	render() {
 		return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 			'div',
@@ -26370,12 +26382,12 @@ class IndexBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 							'div',
 							null,
-							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'formLogin__input', type: 'text', name: 'login', placeholder: '\u0422\u0435\u043B\u0435\u0444\u043E\u043D \u0438\u043B\u0438 Email' })
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'formLogin__input', type: 'text', name: 'login', onKeyDown: this.loginClick, placeholder: '\u0422\u0435\u043B\u0435\u0444\u043E\u043D \u0438\u043B\u0438 Email' })
 						),
 						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 							'div',
 							null,
-							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'formLogin__input', type: 'password', name: 'password', placeholder: '\u041F\u0430\u0440\u043E\u043B\u044C' })
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'formLogin__input', type: 'password', name: 'password', onKeyDown: this.passwordClick, placeholder: '\u041F\u0430\u0440\u043E\u043B\u044C' })
 						),
 						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 							'div',
@@ -26574,96 +26586,123 @@ class LogginedMenu extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
 
 class UnlogginedMenu extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
-  sendForm() {
-    //проверяем форму и получаем токен, либо ошибку
-    var login = document.getElementsByName('login')[0].value;
-    var password = document.getElementsByName('password')[0].value;
+	sendForm() {
+		//проверяем форму и получаем токен, либо ошибку
+		var login = document.getElementsByName('login')[0].value;
+		var password = document.getElementsByName('password')[0].value;
 
-    //debug mod = TRUE
-    //console.log('Login - ' + login + '\nPassword - ' + password);
+		//debug mod = TRUE
+		//console.log('Login - ' + login + '\nPassword - ' + password);
 
-    //отправляем запрос к api вместе с логином и паролем
-    fetch('/api/token-auth/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({
-        username: login,
-        password: password
-      })
-    }).then(function (response) {
-      //получили ответ
-      if (response['ok'] == true) {
-        //добавляем token в локальное хранилище
-        localStorage.setItem('token', response['token']);
-        //переоткрыть страницу
-        document.location.href = window.location.pathname;
-      } else {
-        //если неправильный логин или пароль
-      }
-    }).catch(function (error) {
-      //отлавливаем ошибки, для debug
-    });
-  }
+		//отправляем запрос к api вместе с логином и паролем
+		fetch('/api/token-auth/', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Accept': 'application/json'
+			},
+			body: JSON.stringify({
+				username: login,
+				password: password
+			})
+		}).then(function (response) {
+			return response.json();
+		}).then(function (data) {
+			//получили ответ
+			//если получили токен, а не ошибку
+			if (data['token']) {
+				//добавляем token в локальное хранилище
+				localStorage.setItem('token', data['token']);
+				//редиректим на страницу пользователя, временно сделал без определения
+				//console.log('JWT ' + localStorage.getItem('token'));
+				fetch('/api/getid/', {
+					method: 'GET',
+					headers: {
+						'Authorization': 'JWT ' + localStorage.getItem('token')
+					}
+				}).then(function (response) {
+					return response.json();
+				}).then(function (data) {
+					document.location.href = '/id' + data['id'];
+				});
+			} else {
+				//тогда выводим сообщение об ошибке
+				document.getElementsByClassName('formLogin__error')[0].style.display = 'inherit';
+			}
+		}).catch(function (error) {
+			//отлавливаем ошибки, для debug
+			//если неправильный логин или пароль
+		});
+	}
 
-  render() {
-    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      'div',
-      null,
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        { className: 'col-lg-2 col-md-2 col-sm-3 hidden-xs hidden-xsNo' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'div',
-          { className: 'navigator' },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'form',
-            { className: 'formLogin__top_0', method: 'post' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              null,
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'formLogin__input', type: 'text', name: 'login', placeholder: '\u0422\u0435\u043B\u0435\u0444\u043E\u043D \u0438\u043B\u0438 Email' })
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              null,
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'formLogin__input', type: 'password', name: 'password', placeholder: '\u041F\u0430\u0440\u043E\u043B\u044C' })
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              null,
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'formLogin__submit', name: 'commit', type: 'button', onClick: this.sendForm, value: '\u0412\u043E\u0439\u0442\u0438' })
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              null,
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'a',
-                { href: '#' },
-                '\u0417\u0430\u0431\u044B\u043B\u0438 \u043F\u0430\u0440\u043E\u043B\u044C?'
-              )
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'formLogin__socia' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'a',
-                { href: '#', title: '\u0412\u043E\u0439\u0442\u0438, \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u0443\u044F \u0412\u041A\u043E\u043D\u0442\u0430\u043A\u0442\u0435' },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { className: 'fa fa-vk' }),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'span',
-                  { className: 'formLogin__socialLink' },
-                  '\u0417\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043E\u0432\u0430\u0442\u044C\u0441\u044F \u0447\u0435\u0440\u0435\u0437 \u0412\u041A\u043E\u043D\u0442\u0430\u043A\u0442\u0435'
-                )
-              )
-            )
-          )
-        )
-      )
-    );
-  }
+	loginClick(event) {
+		if (event.keyCode == 13) {
+			document.getElementsByName('password')[0].focus();
+		}
+	}
+
+	passwordClick(event) {
+		if (event.keyCode == 13) {
+			document.getElementsByName('commit')[0].click();
+		}
+	}
+
+	render() {
+		return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+			'div',
+			null,
+			__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+				'div',
+				{ className: 'col-lg-2 col-md-2 col-sm-3 hidden-xs hidden-xsNo' },
+				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+					'div',
+					{ className: 'navigator' },
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+						'form',
+						{ className: 'formLogin__top_0', method: 'post' },
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							'div',
+							null,
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'formLogin__input', type: 'text', name: 'login', onKeyDown: this.loginClick, placeholder: '\u0422\u0435\u043B\u0435\u0444\u043E\u043D \u0438\u043B\u0438 Email' })
+						),
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							'div',
+							null,
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'formLogin__input', type: 'password', name: 'password', onKeyDown: this.passwordClick, placeholder: '\u041F\u0430\u0440\u043E\u043B\u044C' })
+						),
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							'div',
+							null,
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'formLogin__submit', name: 'commit', type: 'button', onClick: this.sendForm, value: '\u0412\u043E\u0439\u0442\u0438' })
+						),
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							'div',
+							null,
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+								'a',
+								{ href: '#' },
+								'\u0417\u0430\u0431\u044B\u043B\u0438 \u043F\u0430\u0440\u043E\u043B\u044C?'
+							)
+						),
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							'div',
+							{ className: 'formLogin__socia' },
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+								'a',
+								{ href: '#', title: '\u0412\u043E\u0439\u0442\u0438, \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u0443\u044F \u0412\u041A\u043E\u043D\u0442\u0430\u043A\u0442\u0435' },
+								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { className: 'fa fa-vk' }),
+								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+									'span',
+									{ className: 'formLogin__socialLink' },
+									'\u0417\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043E\u0432\u0430\u0442\u044C\u0441\u044F \u0447\u0435\u0440\u0435\u0437 \u0412\u041A\u043E\u043D\u0442\u0430\u043A\u0442\u0435'
+								)
+							)
+						)
+					)
+				)
+			)
+		);
+	}
 }
 
 /* harmony default export */ __webpack_exports__["a"] = (UnlogginedMenu);
@@ -27317,7 +27356,42 @@ class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       return result.json();
     }).then(data => {
       if (data['status']) {
+        //обнуляем ошибку
+        document.getElementById('errorURL').style.display = 'none';
         //все прошло отлично
+        document.getElementById('yesURL').style.display = 'inherit';
+      } else {
+        //обнуляем удачный ответ
+        document.getElementById('yesURL').style.display = 'none';
+        //если юрл кем-то занят
+        document.getElementById('errorURL').style.display = 'inherit';
+      }
+    });
+  }
+
+  setNewLogin() {
+    var newLogin = document.getElementsByName('newLoginInput')[0].value;
+
+    fetch('/api/changeuserlogin/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'JWT ' + localStorage.getItem('token')
+      },
+      body: JSON.stringify({
+        //отправляем новый логин
+        newLogin: newLogin
+      })
+    }).then(result => {
+      return result.json();
+    }).then(data => {
+      if (data['status']) {
+        //все прошло отлично, тогда сносим токен и отправляем на страницу входа
+        localStorage.removeItem('token');
+        window.location.href = '/';
+      } else {
+        document.getElementsByName('errorLogin')[0].value;
       }
     });
   }
@@ -27542,7 +27616,7 @@ class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                   'div',
                   { className: 'col-lg-9 col-md-9 col-sm-8 col-xs-7' },
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'contentTuning__input contentTuning__newParameter', placeholder: '\u041B\u043E\u0433\u0438\u043D' })
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'contentTuning__input contentTuning__newParameter', name: 'newLoginInput', placeholder: '\u041B\u043E\u0433\u0438\u043D' })
                 )
               ),
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' }),
@@ -27564,7 +27638,7 @@ class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
                   ),
                   __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'button',
-                    { className: 'contentTuning__button contentTuning__newParameter', id: 'buttonNewEmail' },
+                    { className: 'contentTuning__button contentTuning__newParameter', id: 'buttonNewEmail', onClick: this.setNewLogin },
                     '\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C \u043B\u043E\u0433\u0438\u043D'
                   )
                 )

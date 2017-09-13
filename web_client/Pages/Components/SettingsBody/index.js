@@ -163,7 +163,43 @@ class Settings extends Component{
         .then( (result) => { return result.json()})
         .then( (data) => {
             if (data['status']){
+                //обнуляем ошибку
+                document.getElementById('errorURL').style.display = 'none';
                 //все прошло отлично
+                document.getElementById('yesURL').style.display = 'inherit';
+
+            }else{
+                //обнуляем удачный ответ
+                document.getElementById('yesURL').style.display = 'none';
+                //если юрл кем-то занят
+                document.getElementById('errorURL').style.display = 'inherit';
+            }
+        });
+    }
+
+    setNewLogin(){
+        var newLogin = document.getElementsByName('newLoginInput')[0].value;
+
+        fetch('/api/changeuserlogin/', {
+            method: 'POST',
+            headers : {
+				'Content-Type': 'application/json',
+				'Accept': 'application/json',
+                'Authorization' : 'JWT ' + localStorage.getItem('token'),
+            },
+            body:JSON.stringify({
+				//отправляем новый логин
+				newLogin: newLogin,
+			})
+        })
+        .then( (result) => { return result.json()})
+        .then( (data) => {
+            if (data['status']){
+                //все прошло отлично, тогда сносим токен и отправляем на страницу входа
+                localStorage.removeItem('token');
+                window.location.href = '/'
+            }else{
+                document.getElementsByName('errorLogin')[0].value;
             }
         });
     }
@@ -235,7 +271,7 @@ class Settings extends Component{
                   <div className="row">
                     <div className="col-lg-3 col-md-3 col-sm-4 col-xs-5 contentTuning__newParameter">Новый логин</div>
                     <div className="col-lg-9 col-md-9 col-sm-8 col-xs-7">
-                      <input className="contentTuning__input contentTuning__newParameter" placeholder="Логин" />
+                      <input className="contentTuning__input contentTuning__newParameter" name="newLoginInput" placeholder="Логин" />
                     </div>
                   </div>
                   <div className="contentTuning__delimiter"></div>
@@ -243,7 +279,7 @@ class Settings extends Component{
                     <div className="col-lg-3 col-md-3 col-sm-4 col-xs-5"> </div>
                     <div className="col-lg-9 col-md-9 col-sm-8 col-xs-7">
                       <div className="contentTuning__error" id="errorEmail">Не удалось отправить код подтверждения на указанный адрес</div>
-                      <button className="contentTuning__button contentTuning__newParameter" id="buttonNewEmail">Изменить логин</button>
+                      <button className="contentTuning__button contentTuning__newParameter" id="buttonNewEmail" onClick={this.setNewLogin}>Изменить логин</button>
                     </div>
                   </div>
                   <div className="contentTuning__delimiter"></div>

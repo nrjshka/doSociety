@@ -58,6 +58,18 @@ class IndexBody extends Component{
 		});
 	}
 
+	loginClick(event){
+		if (event.keyCode == 13){
+			document.getElementsByName('password')[0].focus();
+		}
+	}
+
+	passwordClick(event){
+		if (event.keyCode == 13){
+			document.getElementsByName('commit')[0].click();
+		}
+	}
+
 	render(){
 		return(
 	      <div className="container">
@@ -71,10 +83,10 @@ class IndexBody extends Component{
 	          <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 	            <form className="formLogin center-block" method="post">
 	              <div>
-	                <input className="formLogin__input" type="text" name="login" placeholder="Телефон или Email" />
+	                <input className="formLogin__input" type="text" name="login" onKeyDown={this.loginClick} placeholder="Телефон или Email" />
 	              </div>
 	              <div>
-	                <input className="formLogin__input" type="password" name="password" placeholder="Пароль" />
+	                <input className="formLogin__input" type="password" name="password" onKeyDown={this.passwordClick} placeholder="Пароль" />
 	              </div>
               	  <div className="formLogin__error">Вы ввели неверный логи или пароль. Пожалуйста, проверьте правильность написания и повторите попытку.</div>
 	              <div>

@@ -67,7 +67,7 @@ class User(AbstractBaseUser):
     #поля использующееся заместо id, если = "" - то используется id[номер]
 	urlid = models.CharField(max_length = 100, default = "")
 	#время последнего изменения
-	timeSetPassword = models.DateField(auto_now = True)
+	timeSetPassword = models.DateField(auto_now = False)
 	#активироване ли акаунт(в будущем сделать с подтверждением на почту)
 	is_active = models.BooleanField(default=True)
 	#это админ?
