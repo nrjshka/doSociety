@@ -26254,20 +26254,16 @@ class NotFound extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 	render() {
 		return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-			'div',
+			__WEBPACK_IMPORTED_MODULE_2_react_router_dom__["a" /* BrowserRouter */],
 			null,
 			__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-				__WEBPACK_IMPORTED_MODULE_2_react_router_dom__["a" /* BrowserRouter */],
+				__WEBPACK_IMPORTED_MODULE_1_react_router__["a" /* Switch */],
 				null,
-				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-					__WEBPACK_IMPORTED_MODULE_1_react_router__["a" /* Switch */],
-					null,
-					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router__["b" /* Route */], { exact: true, path: '/', component: __WEBPACK_IMPORTED_MODULE_3__Index___["a" /* default */] }),
-					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router__["b" /* Route */], { path: '/id:id', component: __WEBPACK_IMPORTED_MODULE_5__UserPage__["a" /* default */] }),
-					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router__["b" /* Route */], { path: '/settings', component: __WEBPACK_IMPORTED_MODULE_6__Settings___["a" /* default */] }),
-					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router__["b" /* Route */], { path: '/msg', component: __WEBPACK_IMPORTED_MODULE_7__Message__["a" /* default */] }),
-					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router__["b" /* Route */], { path: '*', component: __WEBPACK_IMPORTED_MODULE_4__404__["a" /* default */] })
-				)
+				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router__["b" /* Route */], { exact: true, path: '/', component: __WEBPACK_IMPORTED_MODULE_3__Index___["a" /* default */] }),
+				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router__["b" /* Route */], { path: '/id:id', component: __WEBPACK_IMPORTED_MODULE_5__UserPage__["a" /* default */] }),
+				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router__["b" /* Route */], { path: '/settings', component: __WEBPACK_IMPORTED_MODULE_6__Settings___["a" /* default */] }),
+				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router__["b" /* Route */], { path: '/msg', component: __WEBPACK_IMPORTED_MODULE_7__Message__["a" /* default */] }),
+				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router__["b" /* Route */], { path: '*', component: __WEBPACK_IMPORTED_MODULE_4__404__["a" /* default */] })
 			)
 		);
 	}
@@ -28369,7 +28365,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-console.log('Token ', localStorage.getItem('token'));
+//console.log('Token ',localStorage.getItem('token'));
 //Подгрузка модулей
 
 __WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Pages__["a" /* App */], null), document.getElementById('site'));

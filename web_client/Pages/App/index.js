@@ -13,17 +13,15 @@ import Message from '../Message'
 class App extends Component {
 	render(){
 		return(
-			<div>
-				<BrowserRouter>
-			    	<Switch>
-					    <Route exact path="/" component={Index} />
-					    <Route path="/id:id" component={UserPage} />
-					    <Route path="/settings" component={Settings} />
-						<Route path="/msg" component={Message} />
-					    <Route path="*" component={NotFound} />
-					</Switch>
-			    </BrowserRouter>
-			</div>
+			<BrowserRouter>
+			    <Switch>
+					<Route exact path="/" component={Index} />
+					<Route path="/id:id" component={UserPage} />
+					<Route path="/settings" component={Settings} />
+				    <Route path="/msg" component={Message} />
+					<Route path="*" component={NotFound} />
+				</Switch>
+			</BrowserRouter>
 		);
 	}
 }
