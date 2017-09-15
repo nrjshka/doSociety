@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import {connect} from 'react-redux'
 
 class MessageBody extends Component{
 	render(){
@@ -41,5 +42,9 @@ class MessageBody extends Component{
 	}
 }
 
+function messageStore(state){
+	console.log(state);
+	return state;
+}
 
-export default MessageBody
+export default connect(messageStore)(MessageBody);
