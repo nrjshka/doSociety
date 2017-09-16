@@ -1,8 +1,17 @@
 import React, { Component } from 'react'
+import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
+import MessageHandler from '../MessageHandler'
 
 class MessageBody extends Component{
 	render(){
+    var messageData = this.props.message.msg_data;
+    var messageArray = [];
+
+    messageData.forEach( (element) => {
+      messageArray.push(<MessageHandler sender={element.sender} messages={element.messages} author={element.author} time={element.time}/>);
+    });
+
 		return(
             <div className="col-lg-8 col-md-8 col-sm-9 col-xs-12 content">
               <div className="contentDialog">
@@ -10,7 +19,7 @@ class MessageBody extends Component{
                   <div className="contentDialog__avatar"><a href="#"><img src="static/img/nav/1_nav.png" /></a>
                     <div className="avatarOnline"></div>
                   </div>
-                  <div className="contentDialog__name_padding-left_69"><a href="#">Федор Попов</a><span className="contentDialog__navIcon"><a href="#">&bull; &bull; &bull;</a></span></div>
+                  <div className="contentDialog__name_padding-left_69"><a href="#">Михаил Зобнинский</a><span className="contentDialog__navIcon"><a href="#">&bull; &bull; &bull;</a></span></div>
                   <div className="contentDialog__nav">
                     <ul>
                       <li><img src="static/img/dialog/dialog_1.png" /><a href="#">Показать вложения</a></li>
@@ -22,7 +31,7 @@ class MessageBody extends Component{
                 </div>
                 <div className="contentDialog__screenWrap">
                   <div className="contentDialog__screen">
-
+                    {messageArray}               
                   </div>
                 </div>
                 <div className="contentDialog__footer">
@@ -43,8 +52,11 @@ class MessageBody extends Component{
 }
 
 function messageStore(state){
-	console.log(state);
 	return state;
 }
 
-export default connect(messageStore)(MessageBody);
+function matchDispatchToProps(dispatch){
+	return bindActionCreators({select: '3'}, dispatch);
+}
+
+export default connect(messageStore, matchDispatchToProps)(MessageBody);

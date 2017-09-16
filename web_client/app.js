@@ -10,7 +10,6 @@ import Reducers from './Reducers'
 
 //Redux
 const store = createStore(Reducers);
-console.log(store);
 
 //Подгрузка модулей
 
