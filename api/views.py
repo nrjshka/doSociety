@@ -144,3 +144,28 @@ class ChangeUserLogin(APIView):
 		else:
 			#пробрасываем ошибку в обратном случае
 			return HttpResponseBadRequest()
+
+class GetMessageData(APIView):
+	''' получает стартовые данные сообщения в формате json для общения'''
+	
+	permission_classes = (IsAuthenticated, )
+	renderer_classes = {JSONRenderer, }
+	
+	def post(self, request, format = None):
+		if request.data['receiver_id']:
+			''' если все "ок", то мы должны
+				написать свой сериалайзер, 
+				который будет удобен для представления '''
+			output = []
+
+			
+			return Response({ 'msg_data': output })
+		else:
+			#пробрасываем ошибку в обратном случае
+			return HttpResponseBadRequest()
+
+
+
+
+
+
