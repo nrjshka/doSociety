@@ -37031,6 +37031,38 @@ class UnlogginedMenu extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
 
 class MessageBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      id: this.props.to,
+      name: '',
+      surname: ''
+    };
+  }
+
+  componentWillMount() {
+    fetch('/api/getuserinfo/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        id: this.props.to
+      })
+    }).then(result => {
+      return result.json();
+    }).then(data => {
+      this.setState({
+        id: this.props.to,
+        name: data['name'],
+        surname: data['surname'],
+        user_foto: data['user_foto']
+      });
+    });
+  }
+
   render() {
     var messageData = this.props.message.msg_data;
     var messageArray = [];
@@ -37054,7 +37086,7 @@ class MessageBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'a',
               { href: '#' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { src: 'static/img/nav/1_nav.png' })
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { src: this.state.user_foto })
             ),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'avatarOnline' })
           ),
@@ -37064,7 +37096,9 @@ class MessageBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'a',
               { href: '#' },
-              '\u041C\u0438\u0445\u0430\u0438\u043B \u0417\u043E\u0431\u043D\u0438\u043D\u0441\u043A\u0438\u0439'
+              this.state.name,
+              ' ',
+              this.state.surname
             ),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'span',
@@ -38620,6 +38654,12 @@ class Message extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
         document.title = "Сообщения";
     }
 
+    getReceiverId() {
+        var to = window.location.search;
+        if (to.substr(1, 2) == 'to') to = to.substr(4);
+        return to;
+    }
+
     render() {
         return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'div',
@@ -38639,7 +38679,7 @@ class Message extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
                 'div',
                 { className: 'container' },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__Components_Menu__["a" /* default */], null),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Components_MessageBody___["a" /* default */], null),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Components_MessageBody___["a" /* default */], { to: this.getReceiverId() }),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Components_MessageMenu___["a" /* default */], null)
             )
         );

@@ -14,6 +14,13 @@ class Message extends Component{
         }
         document.title = "Сообщения";
     }
+    
+    getReceiverId(){
+        var to = window.location.search;
+        if (to.substr(1,2) == 'to')
+            to = to.substr(4);
+        return to 
+    }
 
 	render(){
 		return(
@@ -23,7 +30,7 @@ class Message extends Component{
                 <Header logo="static/img/logo/logo.png" search="static/img/search/search.png"/>
                 <div className="container">
                     <Menu />
-                    <MessageBody />
+                    <MessageBody to={this.getReceiverId()}/>
                     <MessageMenu />
                 </div>
 			</div>

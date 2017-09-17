@@ -4,6 +4,39 @@ import {connect} from 'react-redux'
 import MessageHandler from '../MessageHandler'
 
 class MessageBody extends Component{
+  constructor(props){
+    super(props);
+
+    this.state = {
+      id: this.props.to,
+      name : '',
+      surname : '',
+    }
+  }
+
+  componentWillMount(){
+    fetch('/api/getuserinfo/',{
+      method: 'POST',
+      headers : {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+      },
+      body: JSON.stringify({
+          id:  this.props.to 
+        }
+      )
+    })
+    .then( (result) => {return result.json()})
+    .then( (data) => {
+      this.setState({
+        id: this.props.to,
+        name : data['name'],
+        surname : data['surname'],
+        user_foto : data['user_foto'],
+      });
+    })
+  }
+
 	render(){
     var messageData = this.props.message.msg_data;
     var messageArray = [];
@@ -16,10 +49,10 @@ class MessageBody extends Component{
             <div className="col-lg-8 col-md-8 col-sm-9 col-xs-12 content">
               <div className="contentDialog">
                 <div className="contentDialog__header">
-                  <div className="contentDialog__avatar"><a href="#"><img src="static/img/nav/1_nav.png" /></a>
+                  <div className="contentDialog__avatar"><a href="#"><img src={this.state.user_foto} /></a>
                     <div className="avatarOnline"></div>
                   </div>
-                  <div className="contentDialog__name_padding-left_69"><a href="#">Михаил Зобнинский</a><span className="contentDialog__navIcon"><a href="#">&bull; &bull; &bull;</a></span></div>
+                  <div className="contentDialog__name_padding-left_69"><a href="#">{this.state.name} {this.state.surname}</a><span className="contentDialog__navIcon"><a href="#">&bull; &bull; &bull;</a></span></div>
                   <div className="contentDialog__nav">
                     <ul>
                       <li><img src="static/img/dialog/dialog_1.png" /><a href="#">Показать вложения</a></li>
