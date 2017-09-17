@@ -8,6 +8,9 @@ import Index from '../Index/'
 import NotFound from '../404'
 import UserPage from '../UserPage'
 import Settings from '../Settings/'
+import Ideology from '../Ideology/'
+import Family from '../Family/'
+import Biography from '../Biography/'
 import Message from '../Message'
 
 class App extends Component {
@@ -18,6 +21,9 @@ class App extends Component {
 			    	<Switch>
 					    <Route exact path="/" component={Index} />
 					    <Route path="/id:id" component={UserPage} />
+						<Route path="/ilg" component={Ideology} />
+						<Route path="/fml" component={Family} />
+						<Route path="/bio" component={Biography} />
 					    <Route path="/settings" component={Settings} />
 						<Route path="/msg" component={Message} />
 					    <Route path="*" component={NotFound} />
