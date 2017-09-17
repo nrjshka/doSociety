@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 
 
-class Settings extends Component{
+class SettingsBody extends Component{
     constructor(props){
         super(props);
 
@@ -344,4 +344,4 @@ class Settings extends Component{
 }
 
 
-export default Settings
+export default SettingsBody
