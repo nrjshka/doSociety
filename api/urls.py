@@ -24,4 +24,5 @@ urlpatterns += [
 	url(r'^changeuserpassword', ChangeUserPassword.as_view()),
 	url(r'^changeuserurl', ChangeUserUrl.as_view()),
 	url(r'^changeuserlogin', ChangeUserLogin.as_view()),
+	url(r'^getmessagedata', GetMessageData.as_view()),
 ]

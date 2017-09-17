@@ -28,6 +28,8 @@ SECRET_KEY = '6811@_=k38v(8gr2kt_7s&mgr*b_n9(+1^_ry6bjejk5@-#iob'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+DATE_INPUT_FORMATS = ('%d-%m-%Y')
+
 ALLOWED_HOSTS = ["*"]
 
 

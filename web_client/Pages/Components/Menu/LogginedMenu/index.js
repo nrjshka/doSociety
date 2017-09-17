@@ -37,7 +37,7 @@ class LogginedMenu extends Component{
               <li><img src="static/img/nav/1_nav.png" /><Link to={this.state.profile_url} >Профиль</Link></li>
             </ul>
             <ul>
-              <li><img src="static/img/nav/2_nav.png" /><Link to="msg">Личные сообщения</Link></li>
+              <li><img src="static/img/nav/2_nav.png" /><Link to="msg?to=2">Личные сообщения</Link></li>
             </ul>
             <ul>
               <li><img src="static/img/nav/3_nav.png" /><a href="#">Конференция</a></li>

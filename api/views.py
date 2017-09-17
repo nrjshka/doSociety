@@ -10,6 +10,7 @@ from rest_framework.response import Response
 from rest_framework import authentication, permissions
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.hashers import check_password
+from message.models import Message
 
 class UserViewSet(viewsets.ModelViewSet):
 	queryset = User.objects.all()
@@ -148,17 +149,72 @@ class ChangeUserLogin(APIView):
 class GetMessageData(APIView):
 	''' получает стартовые данные сообщения в формате json для общения'''
 	
+	# curl -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5yanNoa2FAZ21haWwuY29tIiwib3JpZ19pYXQiOjE1MDU2Mzc0MTksInVzZXJfaWQiOjEsImV4cCI6MTUzNjc0MTQxOX0.WPAlhaNszqT86ipVlpVeE1o7NCvJ5zn9DsOBJcfx97Q" https://127.0.0.1:8000/api/getmessagedata/
 	permission_classes = (IsAuthenticated, )
 	renderer_classes = {JSONRenderer, }
-	
+
 	def post(self, request, format = None):
+		#TODO: переписать структуру данных message 
 		if request.data['receiver_id']:
 			''' если все "ок", то мы должны
 				написать свой сериалайзер, 
 				который будет удобен для представления '''
 			output = []
 
+			#получаем отправителя и получателя
+			receiver = User.objects.get(username = request.user.username)
+			sender = User.objects.get(id = request.data['receiver_id'])
 			
+			#sender - у того, у кого login < логина 2го(переписать)			
+			if receiver.username < sender.username:
+				swap = receiver
+				receiver = sender
+				sender = swap
+
+			messages = Message.objects.filter(sender = sender, receiver = receiver)
+
+			prev = False
+			#TODO: отрефакторить код
+			for msg in messages:
+				#messages.all()[0].sender.all()[0]
+				#msg.sender.all()[0]
+				#будем писать охренеть какое дерьмо
+				if prev == False:
+					prev = msg.sender.all()[0]
+					localStorage = {
+						'sender': prev.id,
+						'author': prev.name + " " +prev.surname,
+						'messages': [
+							{
+								'id': msg.id,
+								'time': msg.time,
+								'text': msg.text
+							}
+						],
+					}
+				elif prev == msg.sender.all()[0]:
+					localStorage['messages'].append({
+						'id': msg.id,
+						'time': msg.time,
+						'text': msg.text
+						})
+				else:
+					prev = msg.sender.all()[0]
+					output.append(localStorage)
+
+					localStorage = {
+						'sender': prev.id,
+						'author': prev.name + " " +prev.surname,
+						'messages': [
+							{
+								'id': msg.id,
+								'time': msg.time,
+								'text': msg.text
+							}
+						],
+					}
+
+			output.append(localStorage)
 			return Response({ 'msg_data': output })
 		else:
 			#пробрасываем ошибку в обратном случае
