@@ -162,25 +162,27 @@ class GetMessageData(APIView):
 			output = []
 
 			#получаем отправителя и получателя
-			receiver = User.objects.get(username = request.user.username)
-			sender = User.objects.get(id = request.data['receiver_id'])
+			sender1 = User.objects.get(username = request.user.username)
+			sender2 = User.objects.get(id = request.data['receiver_id'])
 			
 			#sender - у того, у кого login < логина 2го(переписать)			
-			if receiver.username < sender.username:
-				swap = receiver
-				receiver = sender
-				sender = swap
+			if sender1.username < sender2.username:
+				swap = sender1
+				sender1 = sender2
+				sender2 = swap
 
-			messages = Message.objects.filter(sender = sender, receiver = receiver)
+			messages = Message.objects.filter(sender_one = sender1, sender_two = sender2)
 
 			prev = False
+			localStorage = {}
+
 			#TODO: отрефакторить код
 			for msg in messages:
 				#messages.all()[0].sender.all()[0]
 				#msg.sender.all()[0]
 				#будем писать охренеть какое дерьмо
 				if prev == False:
-					prev = msg.sender.all()[0]
+					prev = msg.typing.all()[0]
 					localStorage = {
 						'sender': prev.id,
 						'author': prev.name + " " +prev.surname,
@@ -192,14 +194,14 @@ class GetMessageData(APIView):
 							}
 						],
 					}
-				elif prev == msg.sender.all()[0]:
+				elif prev == msg.typing.all()[0]:
 					localStorage['messages'].append({
 						'id': msg.id,
 						'time': msg.time,
 						'text': msg.text
 						})
 				else:
-					prev = msg.sender.all()[0]
+					prev = msg.typing.all()[0]
 					output.append(localStorage)
 
 					localStorage = {

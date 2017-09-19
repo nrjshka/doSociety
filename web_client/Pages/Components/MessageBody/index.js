@@ -49,7 +49,7 @@ class MessageBody extends Component{
             <div className="col-lg-8 col-md-8 col-sm-9 col-xs-12 content">
               <div className="contentDialog">
                 <div className="contentDialog__header">
-                  <div className="contentDialog__avatar"><a href="#"><img src={this.state.user_foto} /></a>
+                  <div className="contentDialog__avatar"><a href="#"><img src={this.state.user} /></a>
                     <div className="avatarOnline"></div>
                   </div>
                   <div className="contentDialog__name_padding-left_69"><a href="#">{this.state.name} {this.state.surname}</a><span className="contentDialog__navIcon"><a href="#">&bull; &bull; &bull;</a></span></div>

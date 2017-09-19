@@ -9,8 +9,13 @@ import Reducers from './Reducers'
 //console.log('Token ',localStorage.getItem('token'));
 
 //Redux
-const store = createStore(Reducers);
+const store = createStore(Reducers, 0);
 
+store.subscribe( () => {
+	console.log('Store changes', store.getState());
+})
+
+store.dispatch({type: "INC", payload: 1})
 //Подгрузка модулей
 
 ReactDOM.render(
