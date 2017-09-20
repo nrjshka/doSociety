@@ -2,10 +2,14 @@ import React, { Component } from 'react'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import MessageHandler from '../MessageHandler'
+import * as getMessage from '../../../Redux/Actions'
 
 class MessageBody extends Component{
   constructor(props){
     super(props);
+
+    //отправляем действие на загрузку информации в Redux
+    this.props.getMessage.default(this.props.to);
 
     this.state = {
       id: this.props.to,
@@ -41,15 +45,16 @@ class MessageBody extends Component{
     var messageData = this.props.message.msg_data;
     var messageArray = [];
 
-    messageData.forEach( (element) => {
-      messageArray.push(<MessageHandler sender={element.sender} messages={element.messages} author={element.author} time={element.time}/>);
-    });
+    if (messageData)
+        messageData.forEach( (element) => {
+          messageArray.push(<MessageHandler sender={element.sender} messages={element.messages} author={element.author} time={element.time}/>);
+        });
 
 		return(
             <div className="col-lg-8 col-md-8 col-sm-9 col-xs-12 content">
               <div className="contentDialog">
                 <div className="contentDialog__header">
-                  <div className="contentDialog__avatar"><a href="#"><img src={this.state.user} /></a>
+                  <div className="contentDialog__avatar"><a href="#"><img src={this.state.user_foto} /></a>
                     <div className="avatarOnline"></div>
                   </div>
                   <div className="contentDialog__name_padding-left_69"><a href="#">{this.state.name} {this.state.surname}</a><span className="contentDialog__navIcon"><a href="#">&bull; &bull; &bull;</a></span></div>
@@ -89,7 +94,9 @@ function messageStore(state){
 }
 
 function matchDispatchToProps(dispatch){
-	return bindActionCreators({select: '3'}, dispatch);
+	return {
+    getMessage: bindActionCreators(getMessage, dispatch)
+  };
 }
 
 export default connect(messageStore, matchDispatchToProps)(MessageBody);

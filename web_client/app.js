@@ -1,21 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
-import {createStore} from 'redux'
+import {createStore, applyMiddleware} from 'redux';
+import thunk from 'redux-thunk'
 
 import { App } from './Pages';
-import Reducers from './Reducers'
+import Reducers from './Redux'
 
 //console.log('Token ',localStorage.getItem('token'));
 
 //Redux
-const store = createStore(Reducers, 0);
+const middleware = applyMiddleware(thunk);
+const store = createStore(Reducers, middleware);
 
-store.subscribe( () => {
-	console.log('Store changes', store.getState());
-})
-
-store.dispatch({type: "INC", payload: 1})
 //Подгрузка модулей
 
 ReactDOM.render(
