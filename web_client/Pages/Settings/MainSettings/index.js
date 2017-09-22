@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 
-import Header from '../Components/Header/'
-import Menu from '../Components/Menu/'
-import SettingsBody from '../Components/SettingsBody/'
-import SettingsMenu from '../Components/SettingsMenu/'
+import Header from '../../Components/Header/'
+import Menu from '../../Components/Menu/'
+import SettingsBody from '../../Components/SettingsBody/'
+import SettingsMenu from '../../Components/SettingsMenu/'
 
 class Settings extends Component{
 	constructor(props){
