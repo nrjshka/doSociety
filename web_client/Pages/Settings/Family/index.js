@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 
-import Header from '../Components/Header/'
-import Menu from '../Components/Menu'
-import FamilyBody from '../Components/FamilyBody/'
-import SettingsMenu from '../Components/SettingsMenu/'
+import Header from '../../Components/Header/'
+import Menu from '../../Components/Menu'
+import FamilyBody from '../../Components/FamilyBody/'
+import SettingsMenu from '../../Components/SettingsMenu/'
 
 class Family extends Component{
     render(){
