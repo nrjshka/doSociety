@@ -39023,14 +39023,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-//console.log('Token ',localStorage.getItem('token'));
+console.log('Token ', localStorage.getItem('token'));
 
 //Redux
 const middleware = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3_redux__["a" /* applyMiddleware */])(__WEBPACK_IMPORTED_MODULE_4_redux_thunk___default.a);
 const store = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3_redux__["b" /* createStore */])(__WEBPACK_IMPORTED_MODULE_6__Redux__["a" /* default */], middleware);
 
-var client = new WebSocket("ws://127.0.0.1:5012");
-client.close();
+var client = new WebSocket("ws://localhost:5012");
 //Подгрузка модулей
 
 __WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(

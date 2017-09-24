@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from rest_framework import viewsets
+from django.db.models import Q
 from rest_framework.renderers import JSONRenderer
 from django.http import HttpResponseBadRequest
 from rest_framework.views import APIView
@@ -148,13 +149,15 @@ class ChangeUserLogin(APIView):
 
 class GetMessageData(APIView):
 	''' получает стартовые данные сообщения в формате json для общения'''
-	
-	# curl -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5yanNoa2FAZ21haWwuY29tIiwib3JpZ19pYXQiOjE1MDU2Mzc0MTksInVzZXJfaWQiOjEsImV4cCI6MTUzNjc0MTQxOX0.WPAlhaNszqT86ipVlpVeE1o7NCvJ5zn9DsOBJcfx97Q" https://127.0.0.1:8000/api/getmessagedata/
+	#curl -H "Accept: application/json" -H "Content-type: application/json" -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im0xNDA1NzRAZ21haWwuY29tIiwib3JpZ19pYXQiOjE1MDYyNDgwODksInVzZXJfaWQiOjIsImV4cCI6MTUzNzM1MjA4OX0.oL0Nl6Zem1qOotOoQKxp4Evr17t8aoaog5FMUSspz5g" -X POST -d '{"receiver_id": 2}' 127.0.0.1:8000/api/getmessagedata/
+
 	permission_classes = (IsAuthenticated, )
 	renderer_classes = {JSONRenderer, }
 
 	def post(self, request, format = None):
 		#TODO: переписать структуру данных message 
+		print("here")
+		print(request.data)
 		if request.data['receiver_id']:
 			''' если все "ок", то мы должны
 				написать свой сериалайзер, 
@@ -165,14 +168,23 @@ class GetMessageData(APIView):
 			sender1 = User.objects.get(username = request.user.username)
 			sender2 = User.objects.get(id = request.data['receiver_id'])
 			
-			#sender - у того, у кого login < логина 2го(переписать)			
-			if sender1.username < sender2.username:
-				swap = sender1
-				sender1 = sender2
-				sender2 = swap
-
-			messages = Message.objects.filter(sender_one = sender1, sender_two = sender2)
-
+			print(sender1)
+			print(sender2)
+			
+			query1 = Q(sender = sender1)
+			query1.add(Q(receiver = sender2), Q.AND)
+			
+			query2 = Q(sender = sender2)
+			query2.add(Q(receiver = sender1), Q.AND)
+			
+			query1.add(query2, Q.OR)
+			
+			print(query1)
+			
+			messages = Message.objects.all().filter(query1)
+			
+			print(messages)
+			
 			prev = False
 			localStorage = {}
 
@@ -182,7 +194,7 @@ class GetMessageData(APIView):
 				#msg.sender.all()[0]
 				#будем писать охренеть какое дерьмо
 				if prev == False:
-					prev = msg.typing.all()[0]
+					prev = msg.sender.all()[0]
 					localStorage = {
 						'sender': prev.id,
 						'author': prev.name + " " +prev.surname,
@@ -194,14 +206,14 @@ class GetMessageData(APIView):
 							}
 						],
 					}
-				elif prev == msg.typing.all()[0]:
+				elif prev == msg.sender.all()[0]:
 					localStorage['messages'].append({
 						'id': msg.id,
 						'time': msg.time,
 						'text': msg.text
 						})
 				else:
-					prev = msg.typing.all()[0]
+					prev = msg.sender.all()[0]
 					output.append(localStorage)
 
 					localStorage = {
