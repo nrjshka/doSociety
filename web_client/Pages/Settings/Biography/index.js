@@ -6,6 +6,13 @@ import BiographyBody from '../../Components/BiographyBody/'
 import SettingsMenu from '../../Components/SettingsMenu/'
 
 class Biography extends Component{
+	componentDidMount(){
+		var head = document.getElementById('head');
+		var script = document.createElement('script');
+		script.src = "static/js/scripts.min.js";
+		head.appendChild(script);
+	}
+	
     render(){
         return(
             <div id="index">

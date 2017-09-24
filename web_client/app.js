@@ -13,6 +13,8 @@ import Reducers from './Redux';
 const middleware = applyMiddleware(thunk);
 const store = createStore(Reducers, middleware);
 
+var client = new WebSocket("ws://127.0.0.1:5012");
+client.close();
 //Подгрузка модулей
 
 ReactDOM.render(

@@ -13,7 +13,14 @@ class Settings extends Component{
 		document.title = 'Настройки';
 		super(props);
 	}
-
+	
+	componentDidMount(){
+		var head = document.getElementById('head');
+		var script = document.createElement('script');
+		script.src = "static/js/scripts.min.js";
+		head.appendChild(script);
+	}
+	
 	render(){
 		return(
 			<div id="index">

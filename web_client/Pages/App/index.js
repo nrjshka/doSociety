@@ -12,6 +12,13 @@ import Message from '../Message'
 import Quest from '../Quest'
 
 class App extends Component {
+	componentDidMount(){
+		var head = document.getElementById('head');
+		var script = document.createElement('script');
+		script.src = "static/js/scripts.min.js";
+		head.appendChild(script);
+	}
+	
 	render(){
 		return(
 			<div>
