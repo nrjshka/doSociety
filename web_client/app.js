@@ -5,7 +5,7 @@ import {createStore, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk'
 
 import { App } from './Pages';
-import Reducers from './Redux'
+import Reducers from './Redux';
 
 //console.log('Token ',localStorage.getItem('token'));
 

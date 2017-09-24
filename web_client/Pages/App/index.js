@@ -9,6 +9,7 @@ import NotFound from '../404'
 import UserPage from '../UserPage'
 import Linker  from '../Linker'
 import Message from '../Message'
+import Quest from '../Quest'
 
 class App extends Component {
 	render(){
@@ -19,6 +20,7 @@ class App extends Component {
 					    <Route exact path="/" component={Index} />
 					    <Route path="/id:id" component={UserPage} />
 						<Route path="/msg" component={Message} />
+					    <Route path="/quest" component={Quest} />
 					    <Linker />
 					    <Route path="*" component={NotFound} />
 					</Switch>
