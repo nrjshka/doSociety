@@ -7,20 +7,26 @@ import UserPageBody from '../Components/UserPageBody/'
 class UserPage extends Component{
 	constructor(props){
 		super(props);
-
 		//debug-mod only
 		//console.log("ID", props.match.params.id);
 		this.state = {
 			id : props.match.params.id,
 		}
 	}
-
+	
 	componentWillReceiveProps(props){
 		this.setState({id: props.match.params.id});
 		//debug-mod only
 		//console.log('UserPage', props.match.params.id);
 	}
-
+	
+	componentDidMount(){
+		var head = document.getElementById('head');
+		var script = document.createElement('script');
+		script.src = "static/js/scripts.min.js";
+		head.appendChild(script);
+	}
+	
 	render(){
 		return(
 			<div id="index">

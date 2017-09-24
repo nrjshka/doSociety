@@ -7,7 +7,7 @@ import Ideology from '../Settings/Ideology/'
 import Family from '../Settings/Family/'
 import Biography from '../Settings/Biography/'
 
-class Linker extends Component{
+class Linker extends Component{	
 	render(){
 		var illusionURL = window.location.search;
 
