@@ -17,7 +17,7 @@ class MessageHandler extends Component{
   		return(
         <ul className="contentDialog__content contentDialog__contentI">
             <div className="contentDialog__avatar contentDialog__avatar_margin-left">
-              <a href="#"><img src="static/img/nav/1_nav.png" /></a>
+              <a href="#"><img src={this.props.author_foto} /></a>
               <div className="avatarOnline"></div>
             </div>
             <div className="contentDialog__time">{this.props.time}</div>

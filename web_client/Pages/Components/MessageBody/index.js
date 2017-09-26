@@ -47,8 +47,10 @@ class MessageBody extends Component{
 
     if (messageData)
         messageData.forEach( (element) => {
-          messageArray.push(<MessageHandler sender={element.sender} messages={element.messages} author={element.author} time={element.time}/>);
+          messageArray.push(<MessageHandler sender={element.sender} messages={element.messages} author={element.author} time={element.time} author_foto={element.author_foto} />);
         });
+
+    var outPath = "/id" + this.props.to;
 
 		return(
             <div className="col-lg-8 col-md-8 col-sm-9 col-xs-12 content">
@@ -57,7 +59,7 @@ class MessageBody extends Component{
                   <div className="contentDialog__avatar"><a href="#"><img src={this.state.user_foto} /></a>
                     <div className="avatarOnline"></div>
                   </div>
-                  <div className="contentDialog__name_padding-left_69"><a href="#">{this.state.name} {this.state.surname}</a><span className="contentDialog__navIcon"><a href="#">&bull; &bull; &bull;</a></span></div>
+                  <div className="contentDialog__name_padding-left_69"><a href={outPath}>{this.state.name} {this.state.surname}</a><span className="contentDialog__navIcon"><a href="#">&bull; &bull; &bull;</a></span></div>
                   <div className="contentDialog__nav">
                     <ul>
                       <li><img src="static/img/dialog/dialog_1.png" /><a href="#">Показать вложения</a></li>
@@ -68,7 +70,7 @@ class MessageBody extends Component{
                   </div>
                 </div>
                 <div className="contentDialog__screenWrap">
-                  <div className="contentDialog__screen">
+                  <div className="contentDialog__screen" style={{marginBottom: "20px" }}>
                     {messageArray}               
                   </div>
                 </div>

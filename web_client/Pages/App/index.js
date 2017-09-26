@@ -28,7 +28,7 @@ class App extends Component {
 					    <Route path="/id:id" component={UserPage} />
 						<Route path="/msg" component={Message} />
 					    <Route path="/quest" component={Quest} />
-					    <Linker />
+					    <Route path="/settings" component={Linker} />
 					    <Route path="*" component={NotFound} />
 					</Switch>
 			    </BrowserRouter>

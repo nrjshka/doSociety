@@ -168,8 +168,8 @@ class GetMessageData(APIView):
 			sender1 = User.objects.get(username = request.user.username)
 			sender2 = User.objects.get(id = request.data['receiver_id'])
 			
-			print(sender1)
-			print(sender2)
+			#print(sender1)
+			#print(sender2)
 			
 			query1 = Q(sender = sender1)
 			query1.add(Q(receiver = sender2), Q.AND)
@@ -179,11 +179,11 @@ class GetMessageData(APIView):
 			
 			query1.add(query2, Q.OR)
 			
-			print(query1)
+			#print(query1)
 			
 			messages = Message.objects.all().filter(query1)
 			
-			print(messages)
+			#print(messages)
 			
 			prev = False
 			localStorage = {}
@@ -198,6 +198,7 @@ class GetMessageData(APIView):
 					localStorage = {
 						'sender': prev.id,
 						'author': prev.name + " " +prev.surname,
+						'author_foto': prev.user_foto,
 						'messages': [
 							{
 								'id': msg.id,
@@ -219,6 +220,7 @@ class GetMessageData(APIView):
 					localStorage = {
 						'sender': prev.id,
 						'author': prev.name + " " +prev.surname,
+						'author_foto': prev.user_foto,
 						'messages': [
 							{
 								'id': msg.id,

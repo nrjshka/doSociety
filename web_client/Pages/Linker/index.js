@@ -14,14 +14,16 @@ class Linker extends Component{
 		switch(illusionURL){
 			case "?p=ilg":
 				return(<Route component={Ideology} />)
-			break
+				break;
 			case "?p=bio":
 				return(<Route component={Biography} />)
-			break
+				break;
 			case "?p=fml":
 				return(<Route component={Family} />)
-			break
-			default: return(<Route component={Settings} />);	
+				break;
+			case "": 
+				return(<Route component={Settings} />);	
+				break;
 		}
 	}
 }

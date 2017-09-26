@@ -16,4 +16,4 @@ class Message(models.Model):
 	time = models.DateTimeField(default = timezone.now())
 
 	def __str__(self):
-		return "{} and {}".format(self.sender, self.sender)
+		return "{} and {} : {}".format(self.sender.get().username, self.receiver.get().username, self.text)
