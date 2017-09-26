@@ -4,11 +4,16 @@ import Header from '../Components/Header/'
 import MessageBody from '../Components/MessageBody/'
 import MessageMenu from '../Components/MessageMenu/'
 import Menu from '../Components/Menu'
+import * as queryString from 'query-string'
 
 class Message extends Component{
     constructor(props){
         super(props);
         //если не залогинен, то редирект на 404
+        
+        //only debug mod = true
+        //console.log(props.location);
+        
         if  (localStorage.getItem('token') == null){
             document.location.href = '/404';
         }
@@ -16,10 +21,7 @@ class Message extends Component{
     }
     
     getReceiverId(){
-        var to = window.location.search;
-        if (to.substr(1,2) == 'to')
-            to = to.substr(4);
-        return to 
+        return queryString.parse(this.props.location.search).to;
     }
 
 	componentDidMount(){

@@ -41,13 +41,39 @@ class MessageBody extends Component{
     })
   }
 
+  componentWillReceiveProps(props){
+    //отправляем действие на загрузку информации в Redux
+    this.props.getMessage.default(this.props.to);
+
+    fetch('/api/getuserinfo/',{
+      method: 'POST',
+      headers : {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+      },
+      body: JSON.stringify({
+          id:  this.props.to 
+        }
+      )
+    })
+    .then( (result) => {return result.json()})
+    .then( (data) => {
+      this.setState({
+        id: this.props.to,
+        name : data['name'],
+        surname : data['surname'],
+        user_foto : data['user_foto'],
+      });
+    })
+  }
+
 	render(){
     var messageData = this.props.message.msg_data;
     var messageArray = [];
 
     if (messageData)
         messageData.forEach( (element) => {
-          messageArray.push(<MessageHandler sender={element.sender} messages={element.messages} author={element.author} time={element.time} author_foto={element.author_foto} />);
+          messageArray.push(<MessageHandler key={element.time} sender={element.sender} messages={element.messages} author={element.author} time={element.time} author_foto={element.author_foto} />);
         });
 
     var outPath = "/id" + this.props.to;
@@ -80,7 +106,7 @@ class MessageBody extends Component{
                       <input className="formMessage__uploadInput" type="file" />
                       <button className="formMessage__uploadButton" type="button" alt="Загрузить файл"><img src="static/img/dialog/dialog_1.png" /></button>
                     </div>
-                    <textarea className="formMessage__textInput" onkeydown="textAreaHeight(this)" rows="1" placeholder="Напишите сообщение..."></textarea>
+                    <textarea className="formMessage__textInput" rows="1" placeholder="Напишите сообщение..."></textarea>
                     <div className="formMessage__smail"><a href="#"><img src="static/img/dialog/dialog_6.png" /></a></div>
                     <button className="formMessage__sumbitButton" type="submit" alt="Отправить сообщение"><img src="static/img/dialog/dialog_7.png" /></button>
                   </form>

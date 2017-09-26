@@ -21,6 +21,7 @@
     "moment": "^2.18.1",
     "node-sass": "^4.5.3",
     "postcss-loader": "^2.0.6",
+    "query-string": "^5.0.0",
     "react": "^15.6.1",
     "react-addons-css-transition-group": "^15.6.0",
     "react-dom": "^15.6.1",

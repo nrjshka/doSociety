@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 
 class MessageHandler extends Component{
     componentWillMount(){
-      console.log(this.props.sender);
-      console.log(this.props.messages);
+      //only debug mod = true
+
+      //console.log(this.props.sender);
+      //console.log(this.props.messages);
     }
 
     render(){
@@ -17,7 +20,7 @@ class MessageHandler extends Component{
   		return(
         <ul className="contentDialog__content contentDialog__contentI">
             <div className="contentDialog__avatar contentDialog__avatar_margin-left">
-              <a href="#"><img src={this.props.author_foto} /></a>
+              <Link to="#"><img src={this.props.author_foto} /></Link>
               <div className="avatarOnline"></div>
             </div>
             <div className="contentDialog__time">{this.props.time}</div>

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 
 class MessageMenu extends Component{
 	render(){
@@ -11,14 +12,14 @@ class MessageMenu extends Component{
                   <button className="formSearchDialog__buttonAdd">&#10010;</button>
                 </form>
                 <nav className="sidebar__dialogChoice">
-				<ul>
-				  <li>
-					<div className="sidebar__dialogChoice__avatar"><a href="#"><img src="static/img/nav/1_nav.png" /></a>
-					  <div className="avatarOnline"></div>
-					</div>
-					<div className="sidebar__dialogChoice__name"><a href="#">Наталия Гончарова</a></div>
-				  </li>
-				</ul>
+        				<ul>
+        				  <li>
+        					<div className="sidebar__dialogChoice__avatar"><a href="#"><img src="static/img/nav/1_nav.png" /></a>
+        					  <div className="avatarOnline"></div>
+        					</div>
+        					<div className="sidebar__dialogChoice__name"><Link to="?to=1">Максим Королев</Link></div>
+        				  </li>
+        				</ul>
                   <ul>
                     <li>
                       <div className="sidebar__dialogChoice__avatar"><a href="#"><img src="static/img/nav/1_nav.png" /></a></div>
