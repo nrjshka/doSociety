@@ -37344,8 +37344,7 @@ class MessageBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     //отправляем действие на загрузку информации в Redux
     this.props.getMessage.default(this.props.to);
 
-    console.log(messageStore(this.state));
-
+    console.log(this.props);
     this.state = {
       id: this.props.to,
       name: '',
@@ -37353,11 +37352,55 @@ class MessageBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     };
   }
 
-  componentWillMount() {}
+  componentWillMount() {
+    fetch('/api/getuserinfo/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        id: this.props.to
+      })
+    }).then(result => {
+      return result.json();
+    }).then(data => {
+      this.setState({
+        id: this.props.to,
+        name: data['name'],
+        surname: data['surname'],
+        user_foto: data['user_foto']
+      });
+    });
+  }
 
-  componentWillReceiveProps(props) {
+  componentWillReceiveProps(nextProps) {
     //отправляем действие на загрузку информации в Redux
-    this.props.getMessage.default(this.props.to);
+    if (nextProps.to != this.props.message.oldTo) {
+      nextProps.getMessage.default(nextProps.to);
+    }
+
+    this.props.message.oldTo = nextProps.to;
+
+    fetch('/api/getuserinfo/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        id: nextProps.to
+      })
+    }).then(result => {
+      return result.json();
+    }).then(data => {
+      this.setState({
+        id: nextProps.to,
+        name: data['name'],
+        surname: data['surname'],
+        user_foto: data['user_foto']
+      });
+    });
   }
 
   render() {
@@ -39444,7 +39487,7 @@ function getMessageInfo(id) {
 		}).then(result => {
 			return result.json();
 		}).then(data => {
-			dispatch({ type: __WEBPACK_IMPORTED_MODULE_0__Consts__["a" /* GET_MESSAGE */], payload: data });
+			dispatch({ type: __WEBPACK_IMPORTED_MODULE_0__Consts__["a" /* GET_MESSAGE */], payload: Object.assign({}, data, { oldTo: id }) });
 		});
 	};
 }

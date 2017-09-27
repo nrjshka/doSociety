@@ -15,7 +15,7 @@ export default function getMessageInfo(id){
 	    })
 	    .then( (result) => {return result.json()})
 	    .then( (data) => {
-	    	dispatch({type: GET_MESSAGE, payload: data});
+	    	dispatch({type: GET_MESSAGE, payload: Object.assign({}, data, {oldTo: id}) });
 	    }) 
 	}
 }
