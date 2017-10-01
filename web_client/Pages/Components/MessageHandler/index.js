@@ -12,7 +12,7 @@ class MessageHandler extends Component{
     render(){
       var messagesOut = [];
       var messages = this.props.messages;
-
+      
       messages.forEach( (element) => {
         messagesOut.push(<li key={element.id}>{element.text}</li>);
       });

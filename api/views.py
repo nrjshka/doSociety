@@ -234,6 +234,81 @@ class GetMessageData(APIView):
 			#пробрасываем ошибку в обратном случае
 			return HttpResponseBadRequest()
 
+class RequestToFriend(APIView):
+
+	permission_classes = (IsAuthenticated,)
+	renderer_classes = (JSONRenderer,)
+	
+	def post(self, request, format = None):
+		if request.data['newFriend']:
+			#Пользователь "меняется" данными с тем
+			#кого хочет добавить в друзья
+			owner = User.objects.get(username = request.user.username)
+			sub = User.objects.get(id = request.data['newFriend'])
+
+			if not(sub in owner.listOfOutcoming) and not(owner in sub.listOfIncoming):
+				
+				owner.listOfOutcoming.append(sub)
+				sub.listOfIncoming.append(owner)
+			
+				owner.save()
+				sub.save()
+			else :
+				return HttpResponseBadRequest()
+
+			return Response({'status': True})
+		else :
+			return HttpResponseBadRequest()
+
+class AddFriend(APIView):
+	
+	permission_classes = (IsAuthenticated,)
+	renderer_classes = (JSONRenderer,)
+
+	def post(self, request, format = None):
+		if request.data['addFriend']:
+			#Пользователь "переносит" "друга" в список друзей
+			owner = User.objects.get(username = request.user.username)
+			sub = User.objects.get(id = request.data['addFriend'])
+
+			if not(sub in owner.listOfFriends) and not(owner in sub.listOfFriends):
+				#добавляем пользователей друг другу в список друзей
+				owner.listOfFriends.append(sub)
+				sub.listOfFriends.append(owner)
+				#удаляем пользователей из списков ожидания ответа на заявку
+				owner.listOfIncoming.remove(sub)
+				sub.listOfOutcoming.remove(owner)
+
+				owner.save()
+				sub.save()
+			else:
+				return HttpResponseBadRequest()	
+
+			return Response({'status': True})
+		else :
+			return HttpResponseBadRequest()
+
+class DeleteFriend(APIView):
+	permission_classes = (IsAuthenticated,)
+	renderer_classes = (JSONRenderer,)
+
+	def post(self, request, format = None):
+		if request.data['delFriend']:
+			#удаление друга из списка друзей
+			owner = User.objects.get(username = request.user.username)
+			sub = User.objects.get(id = request.data['delFriend'])
+
+			if (sub in owner.listOfFriends) and (owner in sub.listOfFriends):
+				owner.listOfFriends.remove(sub)
+				sub.listOfFriends.remove(owner)
+
+				owner.save()
+				sub.save()
+			else:
+				return HttpResponseBadRequest()
+			return Response({'status': True})
+		else :
+			return HttpResponseBadRequest()
 
 
 
