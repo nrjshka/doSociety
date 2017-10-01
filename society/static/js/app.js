@@ -37347,6 +37347,10 @@ class MessageBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     //отправляем действие на загрузку информации в Redux
     this.props.getMessage.default(this.props.to);
 
+<<<<<<< HEAD
+=======
+    console.log(this.props);
+>>>>>>> d3f12d53ad348926353a373a1f207c183d1fa3d9
     this.state = {
       id: this.props.to,
       name: '',
@@ -37376,9 +37380,17 @@ class MessageBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     });
   }
 
-  componentWillReceiveProps(props) {
+  componentWillReceiveProps(nextProps) {
     //отправляем действие на загрузку информации в Redux
+<<<<<<< HEAD
     this.props.getMessage.default(this.props.to);
+=======
+    if (nextProps.to != this.props.message.oldTo) {
+      nextProps.getMessage.default(nextProps.to);
+    }
+
+    this.props.message.oldTo = nextProps.to;
+>>>>>>> d3f12d53ad348926353a373a1f207c183d1fa3d9
 
     fetch('/api/getuserinfo/', {
       method: 'POST',
@@ -37387,13 +37399,21 @@ class MessageBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
         'Accept': 'application/json'
       },
       body: JSON.stringify({
+<<<<<<< HEAD
         id: this.props.to
+=======
+        id: nextProps.to
+>>>>>>> d3f12d53ad348926353a373a1f207c183d1fa3d9
       })
     }).then(result => {
       return result.json();
     }).then(data => {
       this.setState({
+<<<<<<< HEAD
         id: this.props.to,
+=======
+        id: nextProps.to,
+>>>>>>> d3f12d53ad348926353a373a1f207c183d1fa3d9
         name: data['name'],
         surname: data['surname'],
         user_foto: data['user_foto']
@@ -39521,7 +39541,7 @@ function getMessageInfo(id) {
 		}).then(result => {
 			return result.json();
 		}).then(data => {
-			dispatch({ type: __WEBPACK_IMPORTED_MODULE_0__Consts__["a" /* GET_MESSAGE */], payload: data });
+			dispatch({ type: __WEBPACK_IMPORTED_MODULE_0__Consts__["a" /* GET_MESSAGE */], payload: Object.assign({}, data, { oldTo: id }) });
 		});
 	};
 }

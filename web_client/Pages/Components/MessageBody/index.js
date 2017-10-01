@@ -11,6 +11,7 @@ class MessageBody extends Component{
     //отправляем действие на загрузку информации в Redux
     this.props.getMessage.default(this.props.to);
 
+    console.log(this.props);
     this.state = {
       id: this.props.to,
       name : '',
@@ -41,9 +42,13 @@ class MessageBody extends Component{
     })
   }
 
-  componentWillReceiveProps(props){
+  componentWillReceiveProps(nextProps){
     //отправляем действие на загрузку информации в Redux
-    this.props.getMessage.default(this.props.to);
+    if (nextProps.to != this.props.message.oldTo){
+      nextProps.getMessage.default(nextProps.to);
+    }
+    
+    this.props.message.oldTo = nextProps.to;
 
     fetch('/api/getuserinfo/',{
       method: 'POST',
@@ -52,14 +57,14 @@ class MessageBody extends Component{
           'Accept': 'application/json',
       },
       body: JSON.stringify({
-          id:  this.props.to 
+          id:  nextProps.to 
         }
       )
     })
     .then( (result) => {return result.json()})
     .then( (data) => {
       this.setState({
-        id: this.props.to,
+        id: nextProps.to,
         name : data['name'],
         surname : data['surname'],
         user_foto : data['user_foto'],
