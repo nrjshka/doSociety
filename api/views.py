@@ -156,8 +156,6 @@ class GetMessageData(APIView):
 
 	def post(self, request, format = None):
 		#TODO: переписать структуру данных message 
-		print("here")
-		print(request.data)
 		if request.data['receiver_id']:
 			''' если все "ок", то мы должны
 				написать свой сериалайзер, 

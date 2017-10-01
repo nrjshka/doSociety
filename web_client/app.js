@@ -6,14 +6,14 @@ import thunk from 'redux-thunk'
 
 import { App } from './Pages';
 import Reducers from './Redux';
+import wsMiddleware from './Redux/wsMiddleware';
 
 console.log('Token ',localStorage.getItem('token'));
 
 //Redux
-const middleware = applyMiddleware(thunk);
+const middleware = applyMiddleware(thunk, wsMiddleware);
 const store = createStore(Reducers, middleware);
 
-var client = new WebSocket("ws://localhost:5012");
 //Подгрузка модулей
 
 ReactDOM.render(

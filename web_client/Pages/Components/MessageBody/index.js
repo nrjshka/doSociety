@@ -2,15 +2,18 @@ import React, { Component } from 'react'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import MessageHandler from '../MessageHandler'
-import * as getMessage from '../../../Redux/Actions'
+import {getMessageInfo, wsAction} from '../../../Redux/Actions'
 
 class MessageBody extends Component{
   constructor(props){
     super(props);
 
     //отправляем действие на загрузку информации в Redux
-    this.props.getMessage.default(this.props.to);
-
+    console.log(this.props);
+    
+    this.props.getMessage(this.props.to);
+    this.props.wsAction();
+    
     console.log(this.props);
     this.state = {
       id: this.props.to,
@@ -45,7 +48,7 @@ class MessageBody extends Component{
   componentWillReceiveProps(nextProps){
     //отправляем действие на загрузку информации в Redux
     if (nextProps.to != this.props.message.oldTo){
-      nextProps.getMessage.default(nextProps.to);
+      nextProps.getMessage(nextProps.to);
     }
     
     this.props.message.oldTo = nextProps.to;
@@ -128,7 +131,8 @@ function messageStore(state){
 
 function matchDispatchToProps(dispatch){
 	return {
-    getMessage: bindActionCreators(getMessage, dispatch)
+    getMessage: bindActionCreators(getMessageInfo, dispatch),
+    wsAction: bindActionCreators(wsAction, dispatch)
   };
 }
 
