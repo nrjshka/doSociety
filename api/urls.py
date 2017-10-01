@@ -25,4 +25,7 @@ urlpatterns += [
 	url(r'^changeuserurl', ChangeUserUrl.as_view()),
 	url(r'^changeuserlogin', ChangeUserLogin.as_view()),
 	url(r'^getmessagedata', GetMessageData.as_view()),
+	url(r'^requesttofriend', RequestToFriend.as_view()),
+	url(r'^addfriend', AddFriend.as_view()),
+	url(r'^deletefriend', DeleteFriend.as_view()),
 ]

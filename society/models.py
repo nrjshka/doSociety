@@ -72,6 +72,12 @@ class User(AbstractBaseUser):
 	is_active = models.BooleanField(default=True)
 	#это админ?
 	is_admin = models.BooleanField(default=False)
+	#список исходящих заявок в друзья
+	listOfIncoming = models.ManyToManyField("self", related_name = "listOfIncoming")
+	#список входящих заявок в друзья
+	listOfOutcoming = models.ManyToManyField("self" , related_name = "listOfOutcoming")
+	#список друзей
+	listOfFriends = models.ManyToManyField("self" , related_name = "listOfFriends")
 
 	objects = UserManager()
 
