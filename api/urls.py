@@ -28,4 +28,5 @@ urlpatterns += [
 	url(r'^requesttofriend', RequestToFriend.as_view()),
 	url(r'^addfriend', AddFriend.as_view()),
 	url(r'^deletefriend', DeleteFriend.as_view()),
+	url(r'^addmessage', AddMessage.as_view()),
 ]

@@ -234,6 +234,35 @@ class GetMessageData(APIView):
 			#пробрасываем ошибку в обратном случае
 			return HttpResponseBadRequest()
 
+class AddMessage(APIView):
+	''' Позволяет добавить сообщение '''
+
+	#curl -H "Accept: application/json" -H "Content-on/json" -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im0xNDA1NzRAZ21haWwuY29tIiwib3JpZ19pYXQiOjE1MDYyNDgwODksInVzZXJfaWQiOjIsImV4cCI6MTUzNzM1MjA4OX0.oL0Nl6Zem1qOotOoQKxp4Evr17t8aoaog5FMUSspz5g" -X POST -d '{"receiver_id": 2, "text": "Fedor"}' 127.0.0.1:8000/api/addmessage/
+
+	permission_classes = (IsAuthenticated,)
+	renderer_classes = (JSONRenderer,)
+	
+	def post(self, request, format = None):
+		if request.data['receiver_id']:
+			#получаем отправителя и получателя
+			sender = User.objects.get(username = request.user.username)
+			receiver = User.objects.get(id = request.data['receiver_id'])
+			
+			msg = Message()
+			
+			msg.text = request.data['text']
+			msg.save()
+
+			msg.sender.add(sender)
+			msg.receiver.add(receiver)
+
+			msg.save()
+			return Response({'status': True})
+		else:
+			return HttpResponseBadRequest()
+
+
+
 class RequestToFriend(APIView):
 
 	permission_classes = (IsAuthenticated,)
@@ -256,7 +285,6 @@ class RequestToFriend(APIView):
 			else :
 				return HttpResponseBadRequest()
 
-			return Response({'status': True})
 		else :
 			return HttpResponseBadRequest()
 
@@ -284,7 +312,6 @@ class AddFriend(APIView):
 			else:
 				return HttpResponseBadRequest()	
 
-			return Response({'status': True})
 		else :
 			return HttpResponseBadRequest()
 
@@ -306,10 +333,8 @@ class DeleteFriend(APIView):
 				sub.save()
 			else:
 				return HttpResponseBadRequest()
-			return Response({'status': True})
 		else :
 			return HttpResponseBadRequest()
-
 
 
 

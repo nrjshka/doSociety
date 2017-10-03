@@ -30,12 +30,12 @@ export function wsMessage(message, to){
 		outputArray.type = 'MESSAGE';
 		outputArray.to = to;
 		outputArray.data = {message: message};
-		return (dispatch) => 
+		return (dispatch) => {
 			dispatch(
 				{	
 					type: WS_SEND_MESSAGE, 
 					payload: outputArray
 				}
 			)
-
+		}
 	}

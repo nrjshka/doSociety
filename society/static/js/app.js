@@ -12573,10 +12573,12 @@ function wsMessage(message, to) {
 	outputArray.type = 'MESSAGE';
 	outputArray.to = to;
 	outputArray.data = { message: message };
-	return dispatch => dispatch({
-		type: __WEBPACK_IMPORTED_MODULE_0__Consts__["c" /* WS_SEND_MESSAGE */],
-		payload: outputArray
-	});
+	return dispatch => {
+		dispatch({
+			type: __WEBPACK_IMPORTED_MODULE_0__Consts__["c" /* WS_SEND_MESSAGE */],
+			payload: outputArray
+		});
+	};
 }
 
 /***/ }),
@@ -12661,6 +12663,11 @@ const socketMiddleware = function () {
 
 	const onMessage = (ws, store) => evt => {
 		console.log('Getting message: ' + evt.data);
+		switch (evt.data) {
+			case 'RELOAD_MESSAGE':
+				__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__Actions__["a" /* getMessageInfo */])(action.payload.to)(store.dispatch);
+				break;
+		}
 	};
 
 	return store => next => action => {
@@ -12692,7 +12699,23 @@ const socketMiddleware = function () {
 				}
 				break;
 			case __WEBPACK_IMPORTED_MODULE_1__Consts__["c" /* WS_SEND_MESSAGE */]:
-				socket.send(JSON.stringify(action.payload));
+				fetch('/api/addmessage/', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'Accept': 'application/json',
+						'Authorization': 'JWT ' + localStorage.getItem('token')
+					},
+					body: JSON.stringify({
+						receiver_id: action.payload.to,
+						text: action.payload.data.message
+					})
+				}).then(result => {
+					return result.json();
+				}).then(data => {
+					socket.send(JSON.stringify({ type: 'RELOAD_MESSAGE', to: action.payload.to }));
+					__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__Actions__["a" /* getMessageInfo */])(action.payload.to)(store.dispatch);
+				});
 				break;
 			default:
 				return next(action);
@@ -37503,6 +37526,7 @@ class MessageBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       nextProps.getMessage(nextProps.to);
     }
 
+    console.log('im in updating props');
     this.props.message.oldTo = nextProps.to;
 
     fetch('/api/getuserinfo/', {

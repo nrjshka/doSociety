@@ -1,4 +1,4 @@
-import Actions from '../Actions';
+import {getMessageInfo} from '../Actions';
 import {GET_MESSAGE, WS_CONNECT, WS_DISCONNECT, WS_SEND_MESSAGE} from "../Consts"
 
 
@@ -14,6 +14,11 @@ const socketMiddleware = (function(){
 
 	const onMessage = (ws, store) => evt => {
 		console.log('Getting message: ' + evt.data)
+		switch (evt.data){
+			case 'RELOAD_MESSAGE':
+					getMessageInfo(action.payload.to)(store.dispatch);
+				break;
+		}
 	}
 
 	return store => next => action => {
@@ -29,7 +34,7 @@ const socketMiddleware = (function(){
 						'Authorization' : 'JWT ' + localStorage.getItem('token'),
 					},
 				})
-				.then(function(response){return response.json()})
+				.then(function(response){ return response.json()})
 				.then( (data) => {
 			        socket = new WebSocket("ws://localhost:5012", [data.id]);
 			        
@@ -45,7 +50,24 @@ const socketMiddleware = (function(){
 		        }
 		      break;
 		    case WS_SEND_MESSAGE:
-		    	socket.send(JSON.stringify(action.payload));
+		    	    fetch('/api/addmessage/',{
+				    	method: 'POST',
+				    	headers : {
+				        	'Content-Type': 'application/json',
+				        	'Accept': 'application/json',
+			    			'Authorization' : 'JWT ' + localStorage.getItem('token'),
+				      	},
+				      	body: JSON.stringify({
+				        	receiver_id: action.payload.to ,
+				        	text: action.payload.data.message,
+				       	}
+				      )
+				    })
+				    .then( (result) => {return result.json()})
+				    .then( (data) => {
+		    			socket.send(JSON.stringify({type: 'RELOAD_MESSAGE', to: action.payload.to}));
+				    	getMessageInfo(action.payload.to)(store.dispatch);
+				    })
 		      break;
 		    default:
 		    	return next(action);				 

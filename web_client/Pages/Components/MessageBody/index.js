@@ -51,6 +51,7 @@ class MessageBody extends Component{
       nextProps.getMessage(nextProps.to);
     }
     
+    console.log('im in updating props');
     this.props.message.oldTo = nextProps.to;
 
     fetch('/api/getuserinfo/',{
@@ -126,7 +127,8 @@ class MessageBody extends Component{
                           var message = document.getElementsByClassName('formMessage__textInput')[0].value;
                           message = message.replace(/\n$/m, '');
                           document.getElementsByClassName('formMessage__textInput')[0].value = "";
-                          this.props.wsMessage(message, this.props.to);}
+                          this.props.wsMessage(message, this.props.to);
+                          }
                         } >
                       <img src="static/img/dialog/dialog_7.png" />
                     </button>
