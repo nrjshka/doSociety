@@ -1,42 +1,51 @@
 import Actions from '../Actions';
+import {GET_MESSAGE, WS_CONNECT, WS_DISCONNECT, WS_SEND_MESSAGE} from "../Consts"
+
 
 const socketMiddleware = (function(){
 	var socket = null;
 
 	const onOpen = (ws, store) => evt => {
-		console.log('Oppened');
-		console.log(store.getState());
-		ws.send(store.getState().oldTo);
 	}
 
 	const onClose = (ws, store) => evt => {
-		console.log('Disconnected');
+		// Тут код на отключение
 	}
 
 	const onMessage = (ws, store) => evt => {
-		console.log(evt);
 		console.log('Getting message: ' + evt.data)
 	}
 
 	return store => next => action => {
 		switch (action.type){
-			case 'CONNECT':
+			case WS_CONNECT:
 				if(socket != null) {
 		        	socket.close();
 		        }
 
-		        socket = new WebSocket("ws://localhost:5012");
-		        
-		        socket.onmessage = onMessage(socket, store);
-		        socket.onclose = onClose(socket, store);
-		        socket.onopen = onOpen(socket, store);
-
+		        fetch('/api/getid/', {
+					method: 'GET',
+					headers : {
+						'Authorization' : 'JWT ' + localStorage.getItem('token'),
+					},
+				})
+				.then(function(response){return response.json()})
+				.then( (data) => {
+			        socket = new WebSocket("ws://localhost:5012", [data.id]);
+			        
+			        socket.onmessage = onMessage(socket, store);
+			        socket.onclose = onClose(socket, store);
+			        socket.onopen = onOpen(socket, store);
+			     })
 			  break;
 
-			case 'DISCONNECT':
+			case WS_DISCONNECT:
 				if(socket != null) {
 		        	socket.close();
 		        }
+		      break;
+		    case WS_SEND_MESSAGE:
+		    	socket.send(JSON.stringify(action.payload));
 		      break;
 		    default:
 		    	return next(action);				 

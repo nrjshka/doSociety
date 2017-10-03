@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import MessageHandler from '../MessageHandler'
-import {getMessageInfo, wsAction} from '../../../Redux/Actions'
+import {getMessageInfo, wsCreate, wsMessage} from '../../../Redux/Actions'
 
 class MessageBody extends Component{
   constructor(props){
@@ -12,7 +12,7 @@ class MessageBody extends Component{
     console.log(this.props);
     
     this.props.getMessage(this.props.to);
-    this.props.wsAction();
+    this.props.wsCreate();
     
     console.log(this.props);
     this.state = {
@@ -37,7 +37,7 @@ class MessageBody extends Component{
     .then( (result) => {return result.json()})
     .then( (data) => {
       this.setState({
-        id: this.props.to,
+        id : this.props.to,
         name : data['name'],
         surname : data['surname'],
         user_foto : data['user_foto'],
@@ -67,12 +67,18 @@ class MessageBody extends Component{
     .then( (result) => {return result.json()})
     .then( (data) => {
       this.setState({
-        id: nextProps.to,
+        id : nextProps.to,
         name : data['name'],
         surname : data['surname'],
         user_foto : data['user_foto'],
       });
     })
+  }
+
+  messageKeyListener(key){
+    if (key.keyCode == 13){
+      document.getElementsByClassName('formMessage__sumbitButton')[0].click();
+    }
   }
 
 	render(){
@@ -96,10 +102,10 @@ class MessageBody extends Component{
                   <div className="contentDialog__name_padding-left_69"><a href={outPath}>{this.state.name} {this.state.surname}</a><span className="contentDialog__navIcon"><a href="#">&bull; &bull; &bull;</a></span></div>
                   <div className="contentDialog__nav">
                     <ul>
-                      <li><img src="static/img/dialog/dialog_1.png" /><a href="#">Показать вложения</a></li>
-                      <li><img src="static/img/dialog/dialog_2.png" /><a href="#">Поиск по истории сообщений</a></li>
-                      <li><img src="static/img/dialog/dialog_3.png" /><a href="#">Отключить уведомления</a></li>
-                      <li><img src="static/img/dialog/dialog_4.png" /><a href="#">Очистить историю сообщений</a></li>
+                      <li key={1} ><img src="static/img/dialog/dialog_1.png" /><a href="#">Показать вложения</a></li>
+                      <li key={2} ><img src="static/img/dialog/dialog_2.png" /><a href="#">Поиск по истории сообщений</a></li>
+                      <li key={3} ><img src="static/img/dialog/dialog_3.png" /><a href="#">Отключить уведомления</a></li>
+                      <li key={4} ><img src="static/img/dialog/dialog_4.png" /><a href="#">Очистить историю сообщений</a></li>
                     </ul>
                   </div>
                 </div>
@@ -109,16 +115,22 @@ class MessageBody extends Component{
                   </div>
                 </div>
                 <div className="contentDialog__footer">
-                  <form className="formMessage" action="" method="get">
                     <div className="formMessage__upload">
                       <input className="formMessage__uploadInput" type="file" />
                       <button className="formMessage__uploadButton" type="button" alt="Загрузить файл"><img src="static/img/dialog/dialog_1.png" /></button>
                     </div>
-                    <textarea className="formMessage__textInput" rows="1" placeholder="Напишите сообщение..."></textarea>
+                    <textarea className="formMessage__textInput" onKeyUp={this.messageKeyListener} rows="1" placeholder="Напишите сообщение..."></textarea>
                     <div className="formMessage__smail"><a href="#"><img src="static/img/dialog/dialog_6.png" /></a></div>
-                    <button className="formMessage__sumbitButton" type="submit" alt="Отправить сообщение"><img src="static/img/dialog/dialog_7.png" /></button>
-                  </form>
-                </div>
+                    <button className="formMessage__sumbitButton" 
+                        onClick={ (event) => {
+                          var message = document.getElementsByClassName('formMessage__textInput')[0].value;
+                          message = message.replace(/\n$/m, '');
+                          document.getElementsByClassName('formMessage__textInput')[0].value = "";
+                          this.props.wsMessage(message, this.props.to);}
+                        } >
+                      <img src="static/img/dialog/dialog_7.png" />
+                    </button>
+                 </div>
               </div>
             </div>
 		);
@@ -132,7 +144,8 @@ function messageStore(state){
 function matchDispatchToProps(dispatch){
 	return {
     getMessage: bindActionCreators(getMessageInfo, dispatch),
-    wsAction: bindActionCreators(wsAction, dispatch)
+    wsCreate: bindActionCreators(wsCreate, dispatch),
+    wsMessage: bindActionCreators(wsMessage, dispatch)  
   };
 }
 

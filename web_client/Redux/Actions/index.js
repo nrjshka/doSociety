@@ -1,4 +1,4 @@
-import {GET_MESSAGE} from "../Consts"
+import {GET_MESSAGE, WS_CONNECT, WS_SEND_MESSAGE} from "../Consts"
 
 export function getMessageInfo(id){
 		return (dispatch) => {
@@ -20,6 +20,22 @@ export function getMessageInfo(id){
 		}
 	}
 
-export function wsAction(){
-		 return (dispatch) => dispatch({type: "CONNECT"});
+export function wsCreate(){
+		 return (dispatch) => dispatch({type: WS_CONNECT});
 	   }
+
+export function wsMessage(message, to){
+		//TODO: переписать этот кусок, не нужно дергать каждый раз `getid`
+		var outputArray = {};
+		outputArray.type = 'MESSAGE';
+		outputArray.to = to;
+		outputArray.data = {message: message};
+		return (dispatch) => 
+			dispatch(
+				{	
+					type: WS_SEND_MESSAGE, 
+					payload: outputArray
+				}
+			)
+
+	}
