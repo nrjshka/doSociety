@@ -12545,6 +12545,7 @@ module.exports = g;
 
 
 function getMessageInfo(id) {
+	console.log(id);
 	return dispatch => {
 		fetch('/api/getmessagedata/', {
 			method: "POST",
@@ -12558,6 +12559,7 @@ function getMessageInfo(id) {
 		}).then(result => {
 			return result.json();
 		}).then(data => {
+			console.log('getMessageInfo');
 			dispatch({ type: __WEBPACK_IMPORTED_MODULE_0__Consts__["a" /* GET_MESSAGE */], payload: Object.assign({}, data, { oldTo: id }) });
 		});
 	};
@@ -12662,10 +12664,11 @@ const socketMiddleware = function () {
 	};
 
 	const onMessage = (ws, store) => evt => {
-		console.log('Getting message: ' + evt.data);
-		switch (evt.data) {
+		console.log(evt.data);
+		var data = JSON.parse(evt.data);
+		switch (data.type) {
 			case 'RELOAD_MESSAGE':
-				__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__Actions__["a" /* getMessageInfo */])(action.payload.to)(store.dispatch);
+				__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__Actions__["a" /* getMessageInfo */])(parseInt(data.to))(store.dispatch);
 				break;
 		}
 	};

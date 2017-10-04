@@ -13,10 +13,11 @@ const socketMiddleware = (function(){
 	}
 
 	const onMessage = (ws, store) => evt => {
-		console.log('Getting message: ' + evt.data)
-		switch (evt.data){
+		console.log(evt.data);
+		var data = JSON.parse(evt.data);
+		switch (data.type){
 			case 'RELOAD_MESSAGE':
-					getMessageInfo(action.payload.to)(store.dispatch);
+					getMessageInfo(parseInt(data.to))(store.dispatch);
 				break;
 		}
 	}

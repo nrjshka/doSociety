@@ -1,6 +1,7 @@
 import {GET_MESSAGE, WS_CONNECT, WS_SEND_MESSAGE} from "../Consts"
 
 export function getMessageInfo(id){
+		console.log(id);
 		return (dispatch) => {
 			fetch('/api/getmessagedata/',{
 		        method: "POST",
@@ -15,6 +16,7 @@ export function getMessageInfo(id){
 		    })
 		    .then( (result) => {return result.json()})
 		    .then( (data) => {
+		    	console.log('getMessageInfo');
 		    	dispatch({type: GET_MESSAGE, payload: Object.assign({}, data, {oldTo: id}) });
 		    }) 
 		}
