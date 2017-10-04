@@ -44,6 +44,7 @@ class IndexBody extends Component{
 					return response.json();
 				})
 				.then(function(data){
+					localStorage.setItem('id', data['id']);
 					document.location.href = '/id' + data['id'];
 				});
 			}

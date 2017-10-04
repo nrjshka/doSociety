@@ -77,9 +77,9 @@ class SettingsBody extends Component{
                 'Authorization' : 'JWT ' + localStorage.getItem('token'),
             },
             body:JSON.stringify({
-				//отправляем старый пароль
-				password: oldPassword,
-			}
+      				//отправляем старый пароль
+      				password: oldPassword,
+      			}
 			)
         })
         .then( (result) => { return result.json()})

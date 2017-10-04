@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 
 class UserPageBody extends Component{
 	constructor(props){
@@ -110,8 +111,45 @@ class UserPageBody extends Component{
 		});
 	}
 
-	render(){
+	componentDidMount(){
+		var deleteButton = document.getElementById('buttonDelFriend');
+		var addButton = document.getElementById('buttonAddFriend');
+		var requestButton = document.getElementById('buttonRequestFriend');
+		deleteButton.onclick = this.DeleteFriend;
+		addButton.onclick = this.AddFriend;
+		requestButton.style.display = "none";
+	}
 
+	AddFriend(event){
+		var deleteButton = document.getElementById('buttonDelFriend');
+		var addButton = document.getElementById('buttonAddFriend');
+		deleteButton.style.display = 'inherit';
+		addButton.style.display = 'none';
+	}
+
+	DeleteFriend(event){ 
+		var deleteButton =document.getElementById('buttonDelFriend'); 
+		var addButton = document.getElementById('buttonAddFriend');
+		deleteButton.style.display = 'none';
+		addButton.style.display = 'inherit'; 
+	}
+
+	render(){
+		var outputURl = "/msg?to=" + this.state.id; 
+		
+		var UserButton;
+  		if (localStorage.getItem('id') != this.props.id){
+			UserButton = 
+			<div>
+				<Link to={outputURl}>
+	                <button className="contentProfile__button" id="buttonMessage">Написать сообщение</button>
+		        </Link>  
+				<button className="contentProfile__button" id="buttonAddFriend">Добавить в друзья</button>
+				<button className="contentProfile__button" id="buttonDelFriend">Удалить из друзей</button>
+	    		<button className="contentProfile__button" id="buttonRequestFriend">Заявка отправлена</button>
+	    	</div>	
+	    }
+	     
 		return(
 			<div>
 	          <div className="col-lg-8 col-md-8 col-sm-9 col-xs-12 content">
@@ -125,6 +163,7 @@ class UserPageBody extends Component{
 	                    <div className="contentProfile__newFotoHide">&times;</div>
 	                  </div>
 	                  <div className="contentProfile__status">Online</div>
+	                  	{UserButton}
 	                </div>
 	                <div className="col-lg-8 col-md-8 col-sm-8 col-xs-12">
 	                  <div className="contentProfile__name">{this.state.name} {this.state.surname}</div>
