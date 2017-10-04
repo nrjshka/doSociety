@@ -151,5 +151,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = '/home/django/site/static'
+
 #Переопределение базовой модели пользователя
 AUTH_USER_MODEL = 'society.User'
