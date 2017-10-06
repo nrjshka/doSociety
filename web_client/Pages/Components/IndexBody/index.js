@@ -77,8 +77,8 @@ class IndexBody extends Component{
 	        <div className="row">
 	          <div className="col-lg-1 col-md-1 hidden-sm col-xs-1"></div>
 	          <div className="col-lg-5 col-md-5 col-sm-6 col-xs-10 contentIndex">
-	            <div className="contentIndex__tit_font-size_24px">doSociesy для мобильных устройств</div>
-	            <div className="contentIndex__tit_font-size_18px">Установите официальное мобильное приложение doSociesy и Вы сможете найти близких по духу друзей, куда бы Вас не забросила жизнь.</div><img className="contentIndex__imgSmart" src="static/img/index/smart.png" />
+	            <div className="contentIndex__tit_font-size_24px">doSociety для мобильных устройств</div>
+	            <div className="contentIndex__tit_font-size_18px">Установите официальное мобильное приложение doSociety и Вы сможете найти близких по духу друзей, куда бы Вас не забросила жизнь.</div><img className="contentIndex__imgSmart" src="static/img/index/smart.png" />
 	          </div>
 	          <div className="hidden-lg hidden-md hidden-sm col-xs-1"></div>
 	          <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
