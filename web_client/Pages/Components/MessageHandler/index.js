@@ -14,6 +14,7 @@ class MessageHandler extends Component{
       var messages = this.props.messages;
       
       messages.forEach( (element) => {
+        console.log(element.id);
         messagesOut.push(<li key={element.id}>{element.text}</li>);
       });
 

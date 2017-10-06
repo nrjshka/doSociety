@@ -2,18 +2,18 @@ import React, { Component } from 'react'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import MessageHandler from '../MessageHandler'
-import {getMessageInfo, wsCreate, wsMessage} from '../../../Redux/Actions'
+import {getMessageInfo, wsCreate, wsMessage, getUserInfo} from '../../../Redux/Actions'
 
 class MessageBody extends Component{
   constructor(props){
     super(props);
 
     //отправляем действие на загрузку информации в Redux
-    console.log(this.props);
     
     this.props.getMessage(this.props.to);
+    this.props.getUserInfo(this.props.to);
     this.props.wsCreate();
-    
+
     console.log(this.props);
     this.state = {
       id: this.props.to,
@@ -22,62 +22,25 @@ class MessageBody extends Component{
     }
   }
 
-  componentWillMount(){
-    fetch('/api/getuserinfo/',{
-      method: 'POST',
-      headers : {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-      },
-      body: JSON.stringify({
-          id:  this.props.to 
-        }
-      )
-    })
-    .then( (result) => {return result.json()})
-    .then( (data) => {
-      this.setState({
-        id : this.props.to,
-        name : data['name'],
-        surname : data['surname'],
-        user_foto : data['user_foto'],
-      });
-    })
-  }
-
   componentWillReceiveProps(nextProps){
     //отправляем действие на загрузку информации в Redux
-    if (nextProps.to != this.props.message.oldTo){
+    if (nextProps.to != this.props.to){
       nextProps.getMessage(nextProps.to);
+      this.props.getUserInfo(nextProps.to);
     }
-    
-    console.log('im in updating props');
-    this.props.message.oldTo = nextProps.to;
 
-    fetch('/api/getuserinfo/',{
-      method: 'POST',
-      headers : {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-      },
-      body: JSON.stringify({
-          id:  nextProps.to 
-        }
-      )
-    })
-    .then( (result) => {return result.json()})
-    .then( (data) => {
-      this.setState({
-        id : nextProps.to,
-        name : data['name'],
-        surname : data['surname'],
-        user_foto : data['user_foto'],
-      });
-    })
+	  //переписать этот код, почему он лезет в message???
+    this.setState({
+       id : nextProps.to,
+       name : nextProps.message.name,
+       surname : nextProps.message.surname,
+       user_foto : nextProps.message.user_foto,
+    });
+
   }
 
-  messageKeyListener(key){
-    if (key.keyCode == 13){
+  messageKeyListener(event){
+    if ((event.keyCode == 13) && (!event.shiftKey)){
       document.getElementsByClassName('formMessage__sumbitButton')[0].click();
     }
   }
@@ -145,9 +108,10 @@ function messageStore(state){
 
 function matchDispatchToProps(dispatch){
 	return {
-    getMessage: bindActionCreators(getMessageInfo, dispatch),
-    wsCreate: bindActionCreators(wsCreate, dispatch),
-    wsMessage: bindActionCreators(wsMessage, dispatch)  
+	    getMessage: bindActionCreators(getMessageInfo, dispatch),
+	    getUserInfo: bindActionCreators(getUserInfo, dispatch),
+	    wsCreate: bindActionCreators(wsCreate, dispatch),
+	    wsMessage: bindActionCreators(wsMessage, dispatch)  
   };
 }
 

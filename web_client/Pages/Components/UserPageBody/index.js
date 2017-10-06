@@ -1,9 +1,15 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
+import {getUserInfo} from '../../../Redux/Actions'
 
 class UserPageBody extends Component{
 	constructor(props){
 		super(props);
+		
+		this.props.getUserInfo(this.props.id);			
+		
 		this.state = {
 			id: this.props.id,
 			name : '',
@@ -13,111 +19,83 @@ class UserPageBody extends Component{
 			user_foto : '',
 			workplace : '',
 		}
-
 		//debug-mod only
-		//console.log('ID', this.props.id);
+		//console.log('ID', this.props.id);;
 	}
 
-	componentWillMount(){
+	componentWillReceiveProps(newProps){
+		if (newProps.id != this.props.id){
+			newProps.getUserInfo(newProps.id);			
+		}
+
 		//первоначальная версия для вывода даты
 		var months = ['янваврь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'];
 
-		fetch('/api/getuserinfo/',{
-			method: 'POST',
-			headers : {
-	    		'Content-Type': 'application/json',
-	    		'Accept': 'application/json',
-			},
-			body: JSON.stringify({
-				//отправляем id-пользователя
-				id:  this.state.id //window.location.pathname.substr(3)
-			}
-			)
-		})
-		.then((request) => {return request.json()})
-		.then((data) => {
+		//определяем месяц
+		var month = Number(newProps.user.birthDate.substr(5,2)) -1;
+		//определяем день
+		var day = Number(newProps.user.birthDate.substr(8));
+		//определяем год
+		var year = Number(newProps.user.birthDate.substr(0,4));
+		//выводим дату
+		var date = day + ' ' + months[month] + ' ' + year;
+
+		//Меняю заголовок на имя пользователя
+		document.title = newProps.user.name + ' ' + newProps.user.surname;
+
+		this.setState({
+			id: this.props.id,
+			name : newProps.user.name,
+			surname : newProps.user.surname,
+			birthDate : date,
+			hometown : newProps.user.hometown,
+			user_foto : newProps.user.user_foto,
+			workplace : newProps.user.workplace,
+		});
+	}
+
+		componentWillMount(){
+
+			//первоначальная версия для вывода даты
+			var months = ['янваврь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'];
 
 			//определяем месяц
-			var month = Number(data['birthDate'].substr(5,2)) -1;
+			var month = Number(this.props.user.birthDate.substr(5,2)) -1;
 			//определяем день
-			var day = Number(data['birthDate'].substr(8));
+			var day = Number(this.props.user.birthDate.substr(8));
 			//определяем год
-			var year = Number(data['birthDate'].substr(0,4));
+			var year = Number(this.props.user.birthDate.substr(0,4));
 			//выводим дату
 			var date = day + ' ' + months[month] + ' ' + year;
 
 			//Меняю заголовок на имя пользователя
-			document.title = data['name'] + ' ' + data['surname'];
+			document.title = this.props.user.name + ' ' + this.props.user.surname;
 
-			//заполняем данные
 			this.setState({
 				id: this.props.id,
-				name : data['name'],
-				surname : data['surname'],
+				name : this.props.user.name,
+				surname : this.props.user.surname,
 				birthDate : date,
-				hometown : data['hometown'],
-				user_foto : data['user_foto'],
-				workplace : data['workplace'],
+				hometown : this.props.user.hometown,
+				user_foto : this.props.user.user_foto,
+				workplace : this.props.user.workplace,
 			});
-		});
-	}
+		}
 
-	componentWillReceiveProps(props){
 
-		//debug-mod only
-		//console.log('UserPageBody', 'reload №2');
-		//console.log('UserPageBody', props.id);
-
-		//первоначальная версия для вывода даты
-		var months = ['янваврь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'];
-
-		fetch('/api/getuserinfo/',{
-			method: 'POST',
-			headers : {
-				'Content-Type': 'application/json',
-				'Accept': 'application/json',
-			},
-			body: JSON.stringify({
-				//отправляем id-пользователя
-				id:  props.id //window.location.pathname.substr(3)
-			}
-			)
-		})
-		.then((request) => {return request.json()})
-		.then((data) => {
-
-			//определяем месяц
-			var month = Number(data['birthDate'].substr(5,2)) -1;
-			//определяем день
-			var day = Number(data['birthDate'].substr(8));
-			//определяем год
-			var year = Number(data['birthDate'].substr(0,4));
-			//выводим дату
-			var date = day + ' ' + months[month] + ' ' + year;
-
-			//Меняю заголовок на имя пользователя
-			document.title = data['name'] + ' ' + data['surname'];
-
-			//заполняем данные
-			this.setState({
-				id: props.id,
-				name : data['name'],
-				surname : data['surname'],
-				birthDate : date,
-				hometown : data['hometown'],
-				user_foto : data['user_foto'],
-				workplace : data['workplace'],
-			});
-		});
+	componentWillMount(){
+		this.props.getUserInfo(this.props.id)
 	}
 
 	componentDidMount(){
 		var deleteButton = document.getElementById('buttonDelFriend');
 		var addButton = document.getElementById('buttonAddFriend');
 		var requestButton = document.getElementById('buttonRequestFriend');
-		deleteButton.onclick = this.DeleteFriend;
-		addButton.onclick = this.AddFriend;
-		requestButton.style.display = "none";
+		if (deleteButton){	
+			deleteButton.onclick = this.DeleteFriend;
+			addButton.onclick = this.AddFriend;
+			requestButton.style.display = "none";
+		}
 	}
 
 	AddFriend(event){
@@ -192,5 +170,15 @@ class UserPageBody extends Component{
 		);
 	}
 }
+function mapToStateProps(state){
+	return {
+		user: state.message
+	};
+}
 
-export default UserPageBody
+function matchDispatchToProps(dispatch){
+	return {
+	    getUserInfo: bindActionCreators(getUserInfo, dispatch),
+	};
+}
+export default connect(mapToStateProps, matchDispatchToProps)(UserPageBody)
