@@ -15,9 +15,12 @@
     <div class="site" id="site">
       {% csrf_token %}
     </div>
+    <script src="//vk.com/js/api/openapi.js"></script>
+    <script language="javascript">
+      VK.init({
+        apiId: 6210781
+      });
+    </script>
     <script src="{% static 'js/app.js' %}"></script>
-    <!-- 
-    <script src="{% static 'js/scripts.min.js' %}"></script>
-	-->
   </body>
 </html>

@@ -1,5 +1,5 @@
 import {GET_MESSAGE, WS_CONNECT, WS_SEND_MESSAGE,
-		GET_USER_INFO} from "../Consts"
+		GET_USER_INFO, FRIEND_ADD} from "../Consts"
 
 export function getMessageInfo(id){
 		return (dispatch) => {
@@ -62,3 +62,11 @@ export function wsMessage(message, to){
 			)
 		}
 	}
+
+export function addFriend(){
+			return (dispatch) => {
+				dispatch({
+					type: FRIEND_ADD
+				})
+			}
+		}

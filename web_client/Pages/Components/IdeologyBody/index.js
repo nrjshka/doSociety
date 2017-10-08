@@ -7,24 +7,6 @@ class IdeologyBody extends Component{
 		super(props);
 	}
 
-	changeReligion(){
-
-	}
-
-	changePoliticVision(){
-
-	}
-
-	addQuote(){
-		var newQuote = document.getElementsByclassNameName("")[0].value;
-
-
-	}
-
-	save(){
-
-	}
-
 	render(){
 		return(
 		<div>

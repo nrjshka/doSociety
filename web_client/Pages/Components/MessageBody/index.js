@@ -79,6 +79,7 @@ class MessageBody extends Component{
                   </div>
                 </div>
                 <div className="contentDialog__footer">
+                  <for class="formMessage">
                     <div className="formMessage__upload">
                       <input className="formMessage__uploadInput" type="file" />
                       <button className="formMessage__uploadButton" type="button" alt="Загрузить файл"><img src="static/img/dialog/dialog_1.png" /></button>
@@ -95,6 +96,7 @@ class MessageBody extends Component{
                         } >
                       <img src="static/img/dialog/dialog_7.png" />
                     </button>
+                  </for>
                  </div>
               </div>
             </div>

@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
-import { push } from 'react-router-redux'
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
+import {vkLogin} from '../../../Redux/Actions/vk'
 
 class IndexBody extends Component{
 	sendForm(){
@@ -93,7 +95,7 @@ class IndexBody extends Component{
 	              <div>
 	                <input className="formLogin__submit" type="button" name="commit" value="Войти" onClick={this.sendForm} /><a href="#">Забыли пароль?</a>
 	              </div>
-	              <div className="formLogin__socia"><a href="#" title="Войти, используя ВКонтакте"><span className="fa fa-vk"></span><span className="formLogin__socialLink">Зарегистрироваться через ВКонтакте</span></a></div>
+	              <div className="formLogin__socia"><a title="Войти, используя ВКонтакте" onClick={ (event)=> this.props.vkLogin()}><span className="fa fa-vk"></span><span className="formLogin__socialLink">Зарегистрироваться через ВКонтакте</span></a></div>
 	            </form>
 	          </div>
 	        </div>
@@ -102,4 +104,14 @@ class IndexBody extends Component{
 	}
 }
 
-export default IndexBody
+function mapToStateProps(state){
+	return state;
+}
+
+function matchDispatchToProps(dispatch){
+	return {
+		vkLogin: bindActionCreators(vkLogin, dispatch), 
+	};
+}
+
+export default connect(mapToStateProps, matchDispatchToProps)(IndexBody)

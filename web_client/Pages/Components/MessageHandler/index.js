@@ -17,9 +17,17 @@ class MessageHandler extends Component{
         console.log(element.id);
         messagesOut.push(<li key={element.id}>{element.text}</li>);
       });
-
-  		return(
-        <ul className="contentDialog__content contentDialog__contentI">
+      
+      var classMessage = 'contentDialog__content';
+      
+      if (localStorage.getItem('id') == this.props.sender){
+        classMessage += ' contentDialog__contentYou';
+      }else {
+        classMessage += ' contentDialog__contentI';
+      }
+  		
+      return(
+        <ul className={classMessage}>
             <div className="contentDialog__avatar contentDialog__avatar_margin-left">
               <Link to="#"><img src={this.props.author_foto} /></Link>
               <div className="avatarOnline"></div>
