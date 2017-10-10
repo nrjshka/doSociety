@@ -78,6 +78,8 @@ class User(AbstractBaseUser):
 	listOfOutcoming = models.ManyToManyField("self" , related_name = "listOfOutcoming")
 	#список друзей
 	listOfFriends = models.ManyToManyField("self" , related_name = "listOfFriends")
+	#vk id
+	vk_id = models.CharField(max_length = 100)
 
 	objects = UserManager()
 
