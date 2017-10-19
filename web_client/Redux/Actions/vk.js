@@ -3,6 +3,7 @@ import {VK_LOGIN} from "../Consts"
 export function vkLogin(){
 			return (dispatch) => {
 				VK.Auth.login( (r) =>{
+					console.log(r);
 					if (r.session){
 	            		var data = r.session;
 			            var user = r.session.user;

@@ -93,6 +93,13 @@ class User(AbstractBaseUser):
 	def get_short_name(self):
 		return '{} {}'.format(self.name, self.surname)
 
+	def setHometown(self, hometown):
+		if hometown == 0:
+			self.hometown = 'Moscow'
+		else:
+			self.hometown = 'Rybinsk'
+
+
 	def has_perm(self, perm, obj=None):
 		return True
 

@@ -336,6 +336,35 @@ class DeleteFriend(APIView):
 		else :
 			return HttpResponseBadRequest()
 
+class Register(APIView):
+	permission_classes = ()
+	renderer_classes = (JSONRenderer, )
 
+	def post(self, request, format = None):
+		print(request.data)
+		if request.data['login'] and request.data['fname'] and request.data['sname'] and request.data['password']:
+			#регистрация пользователя
+			try:
+				User.objects.get(username = request.data['login'])
+				#если такой логин использовался
+				return Response({'status': False})
+			except User.DoesNotExist:
+				#создаем дату
+				date = request.data['birthDate'].split('.')
+				date = date[2] + '-' + date[1] + '-' + date[0]
+				#создаем пользователя и присваиваем ему значения	
+				newUser = User()
+				newUser.username = request.data['login']
+				newUser.name = request.data['fname']
+				newUser.surname = request.data['sname']
+				newUser.setHometown(request.data['hometown'])
+				newUser.birthDate = date
+				newUser.user_foto = request.data['userFoto']
+				newUser.workplace = 'None'
+				newUser.vk_id = request.data['uid']
+				newUser.set_password(request.data['password'])
+				newUser.save()
 
-
+				return Response({'status': True})		
+		else:
+			return HttpResponseBadRequest()

@@ -12,3 +12,5 @@ export const WS_DISCONNECT = 'DISCONNECT';
 export const WS_SEND_MESSAGE = 'WS_SEND_MESSAGE';
 //Vk
 export const VK_LOGIN = 'VK_LOGIN';
+//doSociety
+export const DS_REGISTRATION = 'DS_REGISTRATION';
