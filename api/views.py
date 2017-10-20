@@ -349,9 +349,16 @@ class Register(APIView):
 				#если такой логин использовался
 				return Response({'status': False})
 			except User.DoesNotExist:
+				
 				#создаем дату
+				try:
+					request.data['birthDate']
+				except KeyError:
+					request.data['birthDate'] = '1.1.1970'
+				
 				date = request.data['birthDate'].split('.')
 				date = date[2] + '-' + date[1] + '-' + date[0]
+				
 				#создаем пользователя и присваиваем ему значения	
 				newUser = User()
 				newUser.username = request.data['login']
@@ -368,3 +375,17 @@ class Register(APIView):
 				return Response({'status': True})		
 		else:
 			return HttpResponseBadRequest()
+
+class CheckRegistered(APIView): 
+	permission_classes = ()
+	renderer_classes = (JSONRenderer, )
+
+	def post(self, request, format = None):
+		if request.data['vk_id']: 
+			try:
+				User.objects.get(vk_id = request.data['vk_id'])
+				#если мы нашли пользователя, то возвращаем False
+				return Response({'status': False})
+			except User.DoesNotExist:
+				return Response({'status': True})
+		return HttpResponseBadRequest()
