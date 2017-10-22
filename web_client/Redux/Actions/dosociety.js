@@ -54,6 +54,7 @@ export function dsRegistration(props){
 					return response.json();
 				})
 				.then((data) => {
+					// тут нужно будет отправлять группы
 					localStorage.setItem('id', data['id']);
 					document.location.href = '/id' + data['id'];
 				});

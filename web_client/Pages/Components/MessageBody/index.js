@@ -28,7 +28,7 @@ class MessageBody extends Component{
       nextProps.getMessage(nextProps.to);
       this.props.getUserInfo(nextProps.to);
     }
-
+  
 	  //переписать этот код, почему он лезет в message???
     this.setState({
        id : nextProps.to,
@@ -45,13 +45,19 @@ class MessageBody extends Component{
     }
   }
 
+  componentDidUpdate(){
+    var messageBody = document.getElementsByClassName('contentDialog__screen')[0];
+    messageBody.scrollTop = messageBody.scrollHeight;
+  }
+
 	render(){
     var messageData = this.props.message.msg_data;
     var messageArray = [];
-
+    var iterator = 0;
     if (messageData)
         messageData.forEach( (element) => {
-          messageArray.push(<MessageHandler key={element.time} sender={element.sender} messages={element.messages} author={element.author} time={element.time} author_foto={element.author_foto} />);
+          messageArray.push(<MessageHandler key={iterator.toString()} sender={element.sender} messages={element.messages} author={element.author} time={element.time} author_foto={element.author_foto} />);
+          iterator += 1;  
         });
 
     var outPath = "/id" + this.props.to;
@@ -79,7 +85,7 @@ class MessageBody extends Component{
                   </div>
                 </div>
                 <div className="contentDialog__footer">
-                  <for class="formMessage">
+                  <for className="formMessage">
                     <div className="formMessage__upload">
                       <input className="formMessage__uploadInput" type="file" />
                       <button className="formMessage__uploadButton" type="button" alt="Загрузить файл"><img src="static/img/dialog/dialog_1.png" /></button>
@@ -87,13 +93,14 @@ class MessageBody extends Component{
                     <textarea className="formMessage__textInput" onKeyUp={this.messageKeyListener} rows="1" placeholder="Напишите сообщение..."></textarea>
                     <div className="formMessage__smail"><a href="#"><img src="static/img/dialog/dialog_6.png" /></a></div>
                     <button className="formMessage__sumbitButton" 
-                        onClick={ (event) => {
+                      onClick={ (event) => {
                           var message = document.getElementsByClassName('formMessage__textInput')[0].value;
                           message = message.replace(/\n$/m, '');
-                          document.getElementsByClassName('formMessage__textInput')[0].value = "";
-                          this.props.wsMessage(message, this.props.to);
-                          }
-                        } >
+                          if (message != ''){
+                            document.getElementsByClassName('formMessage__textInput')[0].value = "";
+                            this.props.wsMessage(message, this.props.to);
+                        }
+                      } }>
                       <img src="static/img/dialog/dialog_7.png" />
                     </button>
                   </for>

@@ -37,7 +37,7 @@ const socketMiddleware = (function(){
 				})
 				.then(function(response){ return response.json()})
 				.then( (data) => {
-			        socket = new WebSocket("ws://95.183.10.52:5012", [data.id]);
+			        socket = new WebSocket("ws://localhost:5012", [data.id]);
 			        
 			        socket.onmessage = onMessage(socket, store);
 			        socket.onclose = onClose(socket, store);
@@ -67,7 +67,8 @@ const socketMiddleware = (function(){
 				    })
 				    .then( (result) => {return result.json()})
 				    .then( (data) => {
-		    			socket.send(JSON.stringify({type: 'RELOAD_MESSAGE', to: action.payload.to}));
+				    	socket.send(JSON.stringify({type: 'RELOAD_MESSAGE', to: action.payload.to}));
+				    	// раньше мы отправляли на обновление всю переписку, теперь мы будем апендить в коде
 				    	getMessageInfo(action.payload.to)(store.dispatch);
 				    })
 		      break;

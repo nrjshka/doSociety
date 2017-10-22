@@ -12645,7 +12645,7 @@ const socketMiddleware = function () {
 				}).then(function (response) {
 					return response.json();
 				}).then(data => {
-					socket = new WebSocket("ws://95.183.10.52:5012", [data.id]);
+					socket = new WebSocket("ws://localhost:5012", [data.id]);
 
 					socket.onmessage = onMessage(socket, store);
 					socket.onclose = onClose(socket, store);
@@ -12675,6 +12675,7 @@ const socketMiddleware = function () {
 					return result.json();
 				}).then(data => {
 					socket.send(JSON.stringify({ type: 'RELOAD_MESSAGE', to: action.payload.to }));
+					// раньше мы отправляли на обновление всю переписку, теперь мы будем апендить в коде
 					__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__Actions__["a" /* getMessageInfo */])(action.payload.to)(store.dispatch);
 				});
 				break;
@@ -37183,12 +37184,18 @@ class MessageBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     }
   }
 
+  componentDidUpdate() {
+    var messageBody = document.getElementsByClassName('contentDialog__screen')[0];
+    messageBody.scrollTop = messageBody.scrollHeight;
+  }
+
   render() {
     var messageData = this.props.message.msg_data;
     var messageArray = [];
-
+    var iterator = 0;
     if (messageData) messageData.forEach(element => {
-      messageArray.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__MessageHandler__["a" /* default */], { key: element.time, sender: element.sender, messages: element.messages, author: element.author, time: element.time, author_foto: element.author_foto }));
+      messageArray.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__MessageHandler__["a" /* default */], { key: iterator.toString(), sender: element.sender, messages: element.messages, author: element.author, time: element.time, author_foto: element.author_foto }));
+      iterator += 1;
     });
 
     var outPath = "/id" + this.props.to;
@@ -37295,7 +37302,7 @@ class MessageBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
           { className: 'contentDialog__footer' },
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'for',
-            { 'class': 'formMessage' },
+            { className: 'formMessage' },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'div',
               { className: 'formMessage__upload' },
@@ -37322,8 +37329,10 @@ class MessageBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
                 onClick: event => {
                   var message = document.getElementsByClassName('formMessage__textInput')[0].value;
                   message = message.replace(/\n$/m, '');
-                  document.getElementsByClassName('formMessage__textInput')[0].value = "";
-                  this.props.wsMessage(message, this.props.to);
+                  if (message != '') {
+                    document.getElementsByClassName('formMessage__textInput')[0].value = "";
+                    this.props.wsMessage(message, this.props.to);
+                  }
                 } },
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { src: 'static/img/dialog/dialog_7.png' })
             )
@@ -37371,12 +37380,11 @@ class MessageHandler extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   render() {
     var messagesOut = [];
     var messages = this.props.messages;
-
     messages.forEach(element => {
-      console.log(element.id);
+      var key = element.id.toString();
       messagesOut.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'li',
-        { key: element.id },
+        { key: key },
         element.text
       ));
     });
@@ -37389,6 +37397,7 @@ class MessageHandler extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       classMessage += ' contentDialog__contentI';
     }
 
+    var senderId = '/id' + this.props.sender;
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'ul',
       { className: classMessage },
@@ -37397,7 +37406,7 @@ class MessageHandler extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
         { className: 'contentDialog__avatar contentDialog__avatar_margin-left' },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           __WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
-          { to: '#' },
+          { to: senderId },
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { src: this.props.author_foto })
         ),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'avatarOnline' })
@@ -37411,8 +37420,8 @@ class MessageHandler extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
         'div',
         { className: 'contentDialog__name_padding-left_30' },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'a',
-          { href: '#' },
+          __WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
+          { to: senderId },
           this.props.author
         )
       ),
@@ -38085,7 +38094,7 @@ class RegisterBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
                           var password = document.getElementById('password').value;
                           var fname = document.getElementsByName('fname')[0].value || this.props.vk.first_name;
                           var sname = document.getElementsByName('sname')[0].value || this.props.vk.last_name;
-
+                          alert(this.props.vk.user_id);
                           if (this.checkPassword()) {
                             document.getElementById('errorNewPassword').style.display = 'none';
                             this.props.dsRegistration(Object.assign({}, outputArray, { login: login, password: password, first_name: fname, last_name: sname }));
@@ -39729,6 +39738,7 @@ function dsRegistration(props) {
 				}).then(response => {
 					return response.json();
 				}).then(data => {
+					// тут нужно будет отправлять группы
 					localStorage.setItem('id', data['id']);
 					document.location.href = '/id' + data['id'];
 				});
@@ -39750,7 +39760,7 @@ function vkLogin() {
 	return dispatch => {
 		VK.Auth.login(r => {
 			//only debug mod = true
-			//console.log(r);
+			console.log(r);
 			if (r.session) {
 				var data = r.session;
 				var user = r.session.user;
@@ -39767,11 +39777,11 @@ function vkLogin() {
 					return result.json();
 				}).then(data => {
 					if (data['status']) {
-						//отправляем метод на обработку, если человек не зарегистрирован
+						// отправляем метод на обработку, если человек не зарегистрирован
 						VK.Api.call('users.get', { fields: 'email, first_name, last_name, city, sex, photo_max_orig, bdate, email' }, res => {
 							dispatch({
 								type: __WEBPACK_IMPORTED_MODULE_0__Consts__["g" /* VK_LOGIN */],
-								payload: res
+								payload: Object.assign({}, res, { user_id: user.id })
 							});
 						});
 					}
@@ -39793,7 +39803,7 @@ function vkLogin() {
 
 
 function dsReducer(state = null, action) {
-	switch (__WEBPACK_IMPORTED_MODULE_0__Consts__["f" /* DS_REGISTRATION */]) {
+	switch (action.type) {
 		case __WEBPACK_IMPORTED_MODULE_0__Consts__["f" /* DS_REGISTRATION */]:
 			//отправляем обработанные данные
 			return Object.assign({}, state, action.payload);
