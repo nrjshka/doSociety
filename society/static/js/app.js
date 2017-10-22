@@ -12645,7 +12645,7 @@ const socketMiddleware = function () {
 				}).then(function (response) {
 					return response.json();
 				}).then(data => {
-					socket = new WebSocket("ws://95.183.10.52 :5012", [data.id]);
+					socket = new WebSocket("ws://95.183.10.52:5012", [data.id]);
 
 					socket.onmessage = onMessage(socket, store);
 					socket.onclose = onClose(socket, store);
