@@ -1,5 +1,6 @@
 import {getMessageInfo} from '../Actions';
 import {GET_MESSAGE, WS_CONNECT, WS_DISCONNECT, WS_SEND_MESSAGE} from "../Consts"
+import * as queryString from 'query-string'
 
 
 const socketMiddleware = (function(){
@@ -13,11 +14,11 @@ const socketMiddleware = (function(){
 	}
 
 	const onMessage = (ws, store) => evt => {
-		console.log(evt.data);
 		var data = JSON.parse(evt.data);
 		switch (data.type){
 			case 'RELOAD_MESSAGE':
-					getMessageInfo(parseInt(data.to))(store.dispatch);
+					if (Number(queryString.parse(window.location.search).to) == Number(data.to))
+						getMessageInfo(parseInt(data.to))(store.dispatch);
 				break;
 		}
 	}
@@ -37,7 +38,7 @@ const socketMiddleware = (function(){
 				})
 				.then(function(response){ return response.json()})
 				.then( (data) => {
-			        socket = new WebSocket("ws://95.183.10.52:5012", [data.id]);
+			        socket = new WebSocket("ws://localhost:5012", [data.id]);
 			        
 			        socket.onmessage = onMessage(socket, store);
 			        socket.onclose = onClose(socket, store);
@@ -51,7 +52,6 @@ const socketMiddleware = (function(){
 		        }
 		      break;
 		    case WS_SEND_MESSAGE:
-		    		console.log(action.payload.data.message);
 		    	    fetch('/api/addmessage/',{
 				    	method: 'POST',
 				    	headers : {

@@ -95,7 +95,7 @@ class MessageBody extends Component{
                     <button className="formMessage__sumbitButton" 
                       onClick={ (event) => {
                           var message = document.getElementsByClassName('formMessage__textInput')[0].value;
-                          message = message.replace(/\n$/m, '');
+                          // message = message.replace(/\n$/m, '');
                           if (message != ''){
                             document.getElementsByClassName('formMessage__textInput')[0].value = "";
                             this.props.wsMessage(message, this.props.to);
