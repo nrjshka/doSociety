@@ -8,7 +8,7 @@ class UserPageBody extends Component{
 	constructor(props){
 		super(props);
 		
-		this.props.getUserInfo(this.props.id);			
+		// this.props.getUserInfo(this.props.id);			
 		
 		this.state = {
 			id: this.props.id,
@@ -54,7 +54,7 @@ class UserPageBody extends Component{
 		});
 	}
 
-		componentWillMount(){
+	componentWillMount(){
 
 			//первоначальная версия для вывода даты
 			var months = ['янваврь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'];
@@ -87,43 +87,115 @@ class UserPageBody extends Component{
 		this.props.getUserInfo(this.props.id)
 	}
 
-	componentDidMount(){
+	checkFriendsStatus(Page){
+		/*Проверка статуса в котором находятся пользователь между собой, где:
+		  '0'- Просто не друзья
+		  '1'- Заявка отправлена
+		  '2'- Друзья 	
+		*/
 		var deleteButton = document.getElementById('buttonDelFriend');
 		var addButton = document.getElementById('buttonAddFriend');
 		var requestButton = document.getElementById('buttonRequestFriend');
-		if (deleteButton){	
-			deleteButton.onclick = this.DeleteFriend;
-			addButton.onclick = this.AddFriend;
-			requestButton.style.display = "none";
-		}
+		
+		fetch('/api/checkfriends/', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'Accept': 'application/json',
+					'Authorization': 'JWT ' + localStorage.getItem('token'),
+				},
+				body:JSON.stringify({
+					checkFriends: Page.state.id
+				})
+		})
+		.then( (result) => { return result.json()})
+		.then( (data) => {
+			switch(data['status']){
+				case '0':
+						deleteButton.style.display = 'none';
+						requestButton.style.display = 'none';
+						addButton.style.display = 'inherit';
+					break;
+				case '1':
+						deleteButton.style.display = 'none';
+						requestButton.style.display = 'inherit';
+						addButton.style.display = 'none';
+					break;
+				case '2':
+						deleteButton.style.display = 'inherit';
+						requestButton.style.display = 'none';
+						addButton.style.display = 'none';
+					break;
+			}
+		})	
 	}
 
-	AddFriend(event){
-		var deleteButton = document.getElementById('buttonDelFriend');
-		var addButton = document.getElementById('buttonAddFriend');
-		deleteButton.style.display = 'inherit';
-		addButton.style.display = 'none';
+	requestToFriend(Page){
+		/*Отправка заявки в друзья*/
+		fetch('/api/requesttofriend/', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'Accept': 'application/json',
+					'Authorization': 'JWT ' + localStorage.getItem('token'),
+				},
+				body:JSON.stringify({
+					newFriend: Page.state.id
+				})
+		})
+		.then( (result) => { return result.json()})
+		.then( (data) => {
+			if (data['status'] === '1'){
+				//если все прошло хорошо, то меняем кнопки на UserPage
+				var deleteButton = document.getElementById('buttonDelFriend');
+				var addButton = document.getElementById('buttonAddFriend');
+				deleteButton.style.display = 'none';
+				requestButton.style.display = 'inherit';
+				addButton.style.display = 'none';
+			}
+		})
 	}
 
-	DeleteFriend(event){ 
-		var deleteButton =document.getElementById('buttonDelFriend'); 
-		var addButton = document.getElementById('buttonAddFriend');
-		deleteButton.style.display = 'none';
-		addButton.style.display = 'inherit'; 
+	deleteFriend(Page){
+		/*Удаляет пользователя из списка друзей*/
+		fetch('api/deletefriend/', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'Accept': 'application/json',
+					'Authorization': 'JWT ' + localStorage.getItem('token'),
+				},
+				body:JSON.stringify({
+					delFriend: Page.state.id
+				})
+		})
+		.then( (result) => { return result.json()})
+		.then ( (data) => {
+			if (data['status'] === '0'){
+				//если все прошло хорошо, то меняем кнопки на UserPage
+				var deleteButton =document.getElementById('buttonDelFriend'); 
+				var addButton = document.getElementById('buttonAddFriend');
+				deleteButton.style.display = 'none';
+				requestButton.style.display = 'none';
+				addButton.style.display = 'inherit';
+			}	
+		})
 	}
 
 	render(){
 		var outputURl = "/msg?to=" + this.state.id; 
+		var UserButton; var Page = this;
 		
-		var UserButton;
-  		if (localStorage.getItem('id') != this.props.id){
+		this.checkFriendsStatus(Page);
+
+  		if ((localStorage.getItem('id') != this.props.id) && (localStorage.getItem('token'))){
 			UserButton = 
 			<div>
 				<Link to={outputURl}>
 	                <button className="contentProfile__button" id="buttonMessage">Написать сообщение</button>
 		        </Link>  
-				<button className="contentProfile__button" id="buttonAddFriend">Добавить в друзья</button>
-				<button className="contentProfile__button" id="buttonDelFriend">Удалить из друзей</button>
+				<button className="contentProfile__button" id="buttonAddFriend" onClick={ (event) => {this.requestToFriend(Page)}}> Добавить в друзья</button>
+				<button className="contentProfile__button" id="buttonDelFriend" onClick={(event) => {this.deleteFriend(Page)}}>Удалить из друзей</button>
 	    		<button className="contentProfile__button" id="buttonRequestFriend">Заявка отправлена</button>
 	    	</div>	
 	    }

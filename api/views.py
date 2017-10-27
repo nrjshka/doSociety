@@ -261,10 +261,8 @@ class AddMessage(APIView):
 		else:
 			return HttpResponseBadRequest()
 
-
-
 class RequestToFriend(APIView):
-
+	'''Отправка заявки на добавления в друзья'''
 	permission_classes = (IsAuthenticated,)
 	renderer_classes = (JSONRenderer,)
 	
@@ -275,13 +273,14 @@ class RequestToFriend(APIView):
 			owner = User.objects.get(username = request.user.username)
 			sub = User.objects.get(id = request.data['newFriend'])
 
-			if not(sub in owner.listOfOutcoming) and not(owner in sub.listOfIncoming):
+			if not(sub in owner.listOfOutcoming.all()) and not(owner in sub.listOfIncoming.all()):
 				
-				owner.listOfOutcoming.append(sub)
-				sub.listOfIncoming.append(owner)
+				owner.listOfOutcoming.add(sub)
+				sub.listOfIncoming.add(owner)
 			
 				owner.save()
 				sub.save()
+				return Response({'status': '1'})
 			else :
 				return HttpResponseBadRequest()
 
@@ -289,7 +288,7 @@ class RequestToFriend(APIView):
 			return HttpResponseBadRequest()
 
 class AddFriend(APIView):
-	
+	'''Принимает заявку в друзья'''
 	permission_classes = (IsAuthenticated,)
 	renderer_classes = (JSONRenderer,)
 
@@ -299,16 +298,17 @@ class AddFriend(APIView):
 			owner = User.objects.get(username = request.user.username)
 			sub = User.objects.get(id = request.data['addFriend'])
 
-			if not(sub in owner.listOfFriends) and not(owner in sub.listOfFriends):
+			if not(sub in owner.listOfFriends.all()) and not(owner in sub.listOfFriends.all()):
 				#добавляем пользователей друг другу в список друзей
-				owner.listOfFriends.append(sub)
-				sub.listOfFriends.append(owner)
+				owner.listOfFriends.add(sub)
+				sub.listOfFriends.add(owner)
 				#удаляем пользователей из списков ожидания ответа на заявку
 				owner.listOfIncoming.remove(sub)
 				sub.listOfOutcoming.remove(owner)
 
 				owner.save()
 				sub.save()
+				return Response({'status': '2'})
 			else:
 				return HttpResponseBadRequest()	
 
@@ -316,25 +316,53 @@ class AddFriend(APIView):
 			return HttpResponseBadRequest()
 
 class DeleteFriend(APIView):
+	'''Удаление друга из списка друзей'''
 	permission_classes = (IsAuthenticated,)
 	renderer_classes = (JSONRenderer,)
 
 	def post(self, request, format = None):
 		if request.data['delFriend']:
-			#удаление друга из списка друзей
 			owner = User.objects.get(username = request.user.username)
 			sub = User.objects.get(id = request.data['delFriend'])
 
-			if (sub in owner.listOfFriends) and (owner in sub.listOfFriends):
+			if (sub in owner.listOfFriends.all()) and (owner in sub.listOfFriends.all()):
 				owner.listOfFriends.remove(sub)
 				sub.listOfFriends.remove(owner)
-
+				
 				owner.save()
 				sub.save()
+				return Response({'status': '0'})
 			else:
 				return HttpResponseBadRequest()
 		else :
 			return HttpResponseBadRequest()
+
+class CheckFriends(APIView):
+	'''Проверка состояния в котором пользователи находятся друг с другом, где:
+		'0'- Просто не друзья
+		'1'- Заявка в друзья отправлена
+		'2'- Друзья
+	'''
+	permission_classes = (IsAuthenticated,)
+	renderer_classes = (JSONRenderer,)
+
+	def post(self, request, format = None):
+		if request.data['checkFriends']:
+
+			owner = User.objects.get(username = request.user.username)
+			sub =  User.objects.get(id = request.data['checkFriends'])
+			
+			if sub in owner.listOfOutcoming.all():
+				return Response({'status': '1'})
+			else:
+				if sub in owner.listOfFriends.all():
+					return Response({'status': '2'})
+				else: 
+					return Response({'status': '0'})	
+		else :
+			return HttpResponseBadRequest()	
+
+#TODO:Добавить классы отмены заявки с той и другой стороны пользователей
 
 class Register(APIView):
 	permission_classes = ()
