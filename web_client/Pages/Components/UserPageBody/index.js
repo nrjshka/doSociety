@@ -149,10 +149,38 @@ class UserPageBody extends Component{
 				//если все прошло хорошо, то меняем кнопки на UserPage
 				var deleteButton = document.getElementById('buttonDelFriend');
 				var addButton = document.getElementById('buttonAddFriend');
+				var requestButton = document.getElementById('buttonRequestFriend');
 				deleteButton.style.display = 'none';
 				requestButton.style.display = 'inherit';
 				addButton.style.display = 'none';
 			}
+		})
+	}
+
+	cancellationOfRequest(Page){
+		/*Отмена заявки в друзья*/
+		fetch('api/cancellationofrequest/', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'Accept': 'application/json',
+					'Authorization': 'JWT ' + localStorage.getItem('token'),
+				},
+				body:JSON.stringify({
+					cancelFriend: Page.state.id
+				})
+		})
+		.then( (result) => { return result.json()})
+		.then ( (data) => {
+			if (data['status'] === '0'){
+				//если все прошло хорошо, то меняем кнопки на UserPage
+				var deleteButton =document.getElementById('buttonDelFriend'); 
+				var addButton = document.getElementById('buttonAddFriend');
+				var requestButton = document.getElementById('buttonRequestFriend');
+				deleteButton.style.display = 'none';
+				requestButton.style.display = 'none';
+				addButton.style.display = 'inherit';
+			}	
 		})
 	}
 
@@ -175,6 +203,7 @@ class UserPageBody extends Component{
 				//если все прошло хорошо, то меняем кнопки на UserPage
 				var deleteButton =document.getElementById('buttonDelFriend'); 
 				var addButton = document.getElementById('buttonAddFriend');
+				var requestButton = document.getElementById('buttonRequestFriend');
 				deleteButton.style.display = 'none';
 				requestButton.style.display = 'none';
 				addButton.style.display = 'inherit';
@@ -196,7 +225,7 @@ class UserPageBody extends Component{
 		        </Link>  
 				<button className="contentProfile__button" id="buttonAddFriend" onClick={ (event) => {this.requestToFriend(Page)}}> Добавить в друзья</button>
 				<button className="contentProfile__button" id="buttonDelFriend" onClick={(event) => {this.deleteFriend(Page)}}>Удалить из друзей</button>
-	    		<button className="contentProfile__button" id="buttonRequestFriend">Заявка отправлена</button>
+	    		<button className="contentProfile__button" id="buttonRequestFriend" onClick={(event) => {this.cancellationOfRequest(Page)}}>Заявка отправлена</button>
 	    	</div>	
 	    }
 	     

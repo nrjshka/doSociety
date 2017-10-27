@@ -336,6 +336,29 @@ class DeleteFriend(APIView):
 		else :
 			return HttpResponseBadRequest()
 
+class CancellationOfRequest(APIView):
+	'''Отмена заявки в друзья'''
+	permission_classes = (IsAuthenticated,)
+	renderer_classes = (JSONRenderer,)
+
+	def post(self, request, format = None):
+		if request.data['cancelFriend']:
+			owner = User.objects.get(username = request.user.username)
+			sub = User.objects.get(id = request.data['cancelFriend'])
+
+			if (sub in owner.listOfOutcoming.all()) and (owner in sub.listOfIncoming.all()):
+				owner.listOfOutcoming.remove(sub)
+				sub.listOfIncoming.remove(owner)
+				
+				owner.save()
+				sub.save()
+				return Response({'status': '0'})
+			else:
+				return HttpResponseBadRequest()
+		else :
+			return HttpResponseBadRequest()
+
+
 class CheckFriends(APIView):
 	'''Проверка состояния в котором пользователи находятся друг с другом, где:
 		'0'- Просто не друзья
@@ -361,7 +384,7 @@ class CheckFriends(APIView):
 		else :
 			return HttpResponseBadRequest()	
 
-#TODO:Добавить классы отмены заявки с той и другой стороны пользователей
+#TODO:Добавить классы отмены заявки со стороны sub'a (sub-пользователь, которому отправляют заявку)
 
 class Register(APIView):
 	permission_classes = ()
