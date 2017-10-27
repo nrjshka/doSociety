@@ -25,10 +25,13 @@ export function vkLogin(){
 						    	// отправляем метод на обработку, если человек не зарегистрирован
 						    	VK.Api.call('users.get', { fields: 'email, first_name, last_name, city, sex, photo_max_orig, bdate, email' }, 
 				            	(res) => {
-									dispatch({
-										type: VK_LOGIN,
-										payload: Object.assign({}, res, {user_id: user.id})
-									})
+				            		VK.Api.call('groups.get', {extended: 1, user_id: Number(user.id)}, 
+				            			(result) => {	
+				            				dispatch({
+												type: VK_LOGIN,
+												payload: Object.assign({}, res.response[0], {vk_groups: result.response}, {user_id: user.id})
+											})
+							    		});
 				            	  }
 				            	);
 				            }

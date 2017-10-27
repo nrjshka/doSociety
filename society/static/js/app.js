@@ -38090,16 +38090,18 @@ class RegisterBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
                     { className: 'col-lg-6 col-md-6 col-sm-6 col-xs-6 contentRegistration__button text-left' },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                       'button',
-                      { className: 'contentTuning__button', onClick: event => {
-                          var outputArray = this.props.vk;
+                      { className: 'contentTuning__button', id: 'acceptbutton', onClick: event => {
+                          var inputArray = this.props.vk;
                           var login = document.getElementById('email').value;
                           var password = document.getElementById('password').value;
                           var fname = document.getElementsByName('fname')[0].value || this.props.vk.first_name;
                           var sname = document.getElementsByName('sname')[0].value || this.props.vk.last_name;
                           alert(this.props.vk.user_id);
+
                           if (this.checkPassword()) {
                             document.getElementById('errorNewPassword').style.display = 'none';
-                            this.props.dsRegistration(Object.assign({}, outputArray, { login: login, password: password, first_name: fname, last_name: sname }));
+                            document.getElementById('waitingForRegister').style.display = 'inherit';
+                            this.props.dsRegistration(Object.assign({}, inputArray, { login: login, password: password, first_name: fname, last_name: sname }));
                           } else {
                             document.getElementById('errorNewPassword').style.display = 'inherit';
                           }
@@ -38117,10 +38119,21 @@ class RegisterBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
                   { className: 'contentRegistration__error', id: 'errorNewPassword' },
                   '\u0423\u043A\u0430\u0437\u0430\u043D\u043D\u044B\u0435 \u043F\u0430\u0440\u043E\u043B\u0438 \u043D\u0435 \u0441\u043E\u0432\u043F\u0430\u0434\u0430\u044E\u0442. \u041F\u043E\u0436\u0430\u043B\u0443\u0439\u0441\u0442\u0430, \u043F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u0435 \u043F\u043E\u043F\u044B\u0442\u043A\u0443.'
                 ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'div',
+                  { className: 'contentRegistration__error', id: 'errorNewPassword' },
+                  '\u0423\u043A\u0430\u0437\u0430\u043D\u043D\u044B\u0435 \u043F\u0430\u0440\u043E\u043B\u0438 \u043D\u0435 \u0441\u043E\u0432\u043F\u0430\u0434\u0430\u044E\u0442. \u041F\u043E\u0436\u0430\u043B\u0443\u0439\u0441\u0442\u0430, \u043F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u0435 \u043F\u043E\u043F\u044B\u0442\u043A\u0443.'
+                ),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                   'div',
                   { className: 'contentRegistration__error', id: 'errorEmail' },
                   '\u041D\u0435 \u0443\u0434\u0430\u043B\u043E\u0441\u044C \u043E\u0442\u043F\u0440\u0430\u0432\u0438\u0442\u044C \u043A\u043E\u0434 \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043D\u0438\u044F \u043D\u0430 \u0443\u043A\u0430\u0437\u0430\u043D\u043D\u044B\u0439 \u0430\u0434\u0440\u0435\u0441  '
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'div',
+                  { className: 'contentTuning__error', id: 'waitingForRegister', style: { display: "none" } },
+                  '\u0414\u043E\u0436\u0434\u0438\u0442\u0435\u0441\u044C \u043E\u043A\u043E\u043D\u0447\u0430\u043D\u0438\u044F \u043E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438 \u0438\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0438\u0438.'
                 ),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                   'div',
@@ -39694,6 +39707,8 @@ class UserPage extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
 function dsRegistration(props) {
 	return dispatch => {
+		console.log(props);
+		alert();
 		fetch('/api/register/', {
 			method: "POST",
 			headers: {
@@ -39708,7 +39723,8 @@ function dsRegistration(props) {
 				workplace: 'None',
 				birthDate: props.bdate,
 				password: props.password,
-				uid: props.uid
+				uid: props.uid,
+				vk_groups: props.vk_groups
 			})
 		}).then(result => {
 			return result.json();
@@ -39781,9 +39797,11 @@ function vkLogin() {
 					if (data['status']) {
 						// отправляем метод на обработку, если человек не зарегистрирован
 						VK.Api.call('users.get', { fields: 'email, first_name, last_name, city, sex, photo_max_orig, bdate, email' }, res => {
-							dispatch({
-								type: __WEBPACK_IMPORTED_MODULE_0__Consts__["g" /* VK_LOGIN */],
-								payload: Object.assign({}, res, { user_id: user.id })
+							VK.Api.call('groups.get', { extended: 1, user_id: Number(user.id) }, result => {
+								dispatch({
+									type: __WEBPACK_IMPORTED_MODULE_0__Consts__["g" /* VK_LOGIN */],
+									payload: Object.assign({}, res.response[0], { vk_groups: result.response }, { user_id: user.id })
+								});
 							});
 						});
 					}
@@ -39850,7 +39868,7 @@ function messageReducer(state = { msg_data: null }, action) {
 function vkReducer(state = null, action) {
 	switch (action.type) {
 		case __WEBPACK_IMPORTED_MODULE_0__Consts__["g" /* VK_LOGIN */]:
-			return Object.assign({}, state, action.payload.response[0]);
+			return Object.assign({}, state, action.payload);
 			break;
 	}
 

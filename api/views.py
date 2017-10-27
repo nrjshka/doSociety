@@ -12,6 +12,8 @@ from rest_framework import authentication, permissions
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.hashers import check_password
 from message.models import Message
+from vkGroups.models import vkGroup 
+import threading
 
 class UserViewSet(viewsets.ModelViewSet):
 	queryset = User.objects.all()
@@ -165,9 +167,6 @@ class GetMessageData(APIView):
 			#получаем отправителя и получателя
 			sender1 = User.objects.get(username = request.user.username)
 			sender2 = User.objects.get(id = request.data['receiver_id'])
-			
-			#print(sender1)
-			#print(sender2)
 			
 			query1 = Q(sender = sender1)
 			query1.add(Q(receiver = sender2), Q.AND)
@@ -341,7 +340,25 @@ class Register(APIView):
 	renderer_classes = (JSONRenderer, )
 
 	def post(self, request, format = None):
-		print(request.data)
+		#добавление групп пользователя
+		def addGroups(newUser, groups):
+			#1 элемент отвечает за длину
+			for i in range(1, len(groups)):
+				try:					
+					#добавляем в владельцы нашего пользователя
+					vk = vkGroup.objects.get(url = groups[i]['gid'])
+					vk.save()
+					newUser.vk_groups.add(vk)
+					newUser.save()
+
+				except vkGroup.DoesNotExist:
+					#создаем новую группу и добавляем в нее пользователя
+					vk = vkGroup()
+					vk.url = groups[i]['gid']
+					vk.save()
+					newUser.vk_groups.add(vk)
+					newUser.save()
+
 		if request.data['login'] and request.data['fname'] and request.data['sname'] and request.data['password']:
 			#регистрация пользователя
 			try:
@@ -370,11 +387,21 @@ class Register(APIView):
 				newUser.workplace = 'None'
 				newUser.vk_id = request.data['uid']
 				newUser.set_password(request.data['password'])
+
 				newUser.save()
+
+				#обработка подписок
+				groups = request.data['vk_groups']
+
+				#добавление групп в потоке
+				t = threading.Thread(target = addGroups, args = (newUser, groups, ))
+				t.daemon = True
+				t.start()
 
 				return Response({'status': True})		
 		else:
 			return HttpResponseBadRequest()
+
 
 class CheckRegistered(APIView): 
 	permission_classes = ()

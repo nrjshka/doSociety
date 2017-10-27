@@ -7,6 +7,7 @@ from django.utils import timezone
 from django.db import models
 from society.models import User
 from main.settings import DATE_INPUT_FORMATS
+
 #здесь описана модель сообщения
 
 class Message(models.Model):
