@@ -93,28 +93,32 @@ class RegisterBody extends Component{
                               <button className="contentTuning__button" onClick={this.exitEvent}>Отмена</button>
                             </div>
                             <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6 contentRegistration__button text-left">
-                              <button className="contentTuning__button" onClick = { 
+                              <button className="contentTuning__button" id="acceptbutton" onClick = { 
                               	(event) => {
-                                    var outputArray = this.props.vk;
+                                    var inputArray = this.props.vk;
                                     var login = document.getElementById('email').value;
                                     var password = document.getElementById('password').value;
                                     var fname = document.getElementsByName('fname')[0].value || this.props.vk.first_name;
                                     var sname = document.getElementsByName('sname')[0].value || this.props.vk.last_name;
-                                    
+                                    alert(this.props.vk.user_id);
+
                                     if (this.checkPassword()){
-                                		document.getElementById('errorNewPassword').style.display = 'none';
-                                    	this.props.dsRegistration(Object.assign({},outputArray, {login: login, password: password, first_name: fname, last_name: sname }));
-                                	}else {
-                                		document.getElementById('errorNewPassword').style.display = 'inherit';
-                                	}
+                                		  document.getElementById('errorNewPassword').style.display = 'none';
+                                    	document.getElementById('waitingForRegister').style.display = 'inherit';
+                                      this.props.dsRegistration(Object.assign({},inputArray, {login: login, password: password, first_name: fname, last_name: sname }));
+                                  	}else {
+                                  		document.getElementById('errorNewPassword').style.display = 'inherit';
+                                  	}
                                 }
                               }>Подтвердить</button>
                             </div>
                           </div>
                         </div>
-                        <div className="col-lg-10 col-lg-push-2 col-md-12 col-sm-12 col-xs-12">
+                        <div className="col-lg-10 col-lg-push-2 col-md-12 col-sm-12 col-xs-12"><div className="contentRegistration__error" id="errorNewPassword">Указанные пароли не совпадают. Пожалуйста, повторите попытку.</div>
+                          <br />
                           <div className="contentRegistration__error" id="errorNewPassword">Указанные пароли не совпадают. Пожалуйста, повторите попытку.</div>
-                          <div className="contentRegistration__error" id="errorEmail">Не удалось отправить код подтверждения на указанный адрес  </div>
+                          <div className="contentRegistration__error" id="errorEmail">Не удалось отправить код подтверждения на указанный адрес  </div> 
+                          <div className="contentTuning__error" id="waitingForRegister" style={{display: "none" }}>Дождитесь окончания обработки информации.</div>
                           <div className="contentTuning__novel" id="novelEmailCode">
                             <div className="contentTuning__novelReport">На ваш e-mail отправлено письмо с кодом подтверждения. Пожалуйста, введите код</div>
                             <div className="contentTuning__novelReport">Отправить повторно через <span id="timerEmail">59</span><span>с.</span><span className="contentTuning__novelReportRepeat" id="repeatEmail"><a href="#">Отправить</a></span></div>

@@ -1,10 +1,12 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from django.db import models
+from django.db import models 
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
+
+from vkGroups.models import vkGroup
 
 #
 
@@ -80,6 +82,8 @@ class User(AbstractBaseUser):
 	listOfFriends = models.ManyToManyField("self" , related_name = "listOfFriends")
 	#vk id
 	vk_id = models.CharField(max_length = 100)
+	#Список групп вк
+	vk_groups = models.ManyToManyField(vkGroup, related_name = "vk_groups")
 
 	objects = UserManager()
 

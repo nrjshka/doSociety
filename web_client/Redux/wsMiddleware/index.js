@@ -1,5 +1,6 @@
 import {getMessageInfo} from '../Actions';
 import {GET_MESSAGE, WS_CONNECT, WS_DISCONNECT, WS_SEND_MESSAGE} from "../Consts"
+import * as queryString from 'query-string'
 
 
 const socketMiddleware = (function(){
@@ -13,11 +14,11 @@ const socketMiddleware = (function(){
 	}
 
 	const onMessage = (ws, store) => evt => {
-		console.log(evt.data);
 		var data = JSON.parse(evt.data);
 		switch (data.type){
 			case 'RELOAD_MESSAGE':
-					getMessageInfo(parseInt(data.to))(store.dispatch);
+					if (Number(queryString.parse(window.location.search).to) == Number(data.to))
+						getMessageInfo(parseInt(data.to))(store.dispatch);
 				break;
 		}
 	}
@@ -51,7 +52,6 @@ const socketMiddleware = (function(){
 		        }
 		      break;
 		    case WS_SEND_MESSAGE:
-		    		console.log(action.payload.data.message);
 		    	    fetch('/api/addmessage/',{
 				    	method: 'POST',
 				    	headers : {
@@ -67,7 +67,8 @@ const socketMiddleware = (function(){
 				    })
 				    .then( (result) => {return result.json()})
 				    .then( (data) => {
-		    			socket.send(JSON.stringify({type: 'RELOAD_MESSAGE', to: action.payload.to}));
+				    	socket.send(JSON.stringify({type: 'RELOAD_MESSAGE', to: action.payload.to}));
+				    	// раньше мы отправляли на обновление всю переписку, теперь мы будем апендить в коде
 				    	getMessageInfo(action.payload.to)(store.dispatch);
 				    })
 		      break;
