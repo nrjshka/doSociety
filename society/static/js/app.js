@@ -7701,7 +7701,6 @@ function wsMessage(message, to) {
 	outputArray.type = 'MESSAGE';
 	outputArray.to = to;
 	outputArray.data = { message: message };
-	alert(message);
 	return dispatch => {
 		dispatch({
 			type: __WEBPACK_IMPORTED_MODULE_0__Consts__["d" /* WS_SEND_MESSAGE */],
@@ -12856,6 +12855,7 @@ const socketMiddleware = function () {
 				}
 				break;
 			case __WEBPACK_IMPORTED_MODULE_1__Consts__["d" /* WS_SEND_MESSAGE */]:
+				console.log('MESSAGE', action.payload);
 				fetch('/api/addmessage/', {
 					method: 'POST',
 					headers: {
@@ -39813,7 +39813,6 @@ class UserPage extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 function dsRegistration(props) {
 	return dispatch => {
 		console.log(props);
-		alert();
 		fetch('/api/register/', {
 			method: "POST",
 			headers: {
