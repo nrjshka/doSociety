@@ -39021,9 +39021,37 @@ class UserPageBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 				//если все прошло хорошо, то меняем кнопки на UserPage
 				var deleteButton = document.getElementById('buttonDelFriend');
 				var addButton = document.getElementById('buttonAddFriend');
+				var requestButton = document.getElementById('buttonRequestFriend');
 				deleteButton.style.display = 'none';
 				requestButton.style.display = 'inherit';
 				addButton.style.display = 'none';
+			}
+		});
+	}
+
+	cancellationOfRequest(Page) {
+		/*Отмена заявки в друзья*/
+		fetch('api/cancellationofrequest/', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Accept': 'application/json',
+				'Authorization': 'JWT ' + localStorage.getItem('token')
+			},
+			body: JSON.stringify({
+				cancelFriend: Page.state.id
+			})
+		}).then(result => {
+			return result.json();
+		}).then(data => {
+			if (data['status'] === '0') {
+				//если все прошло хорошо, то меняем кнопки на UserPage
+				var deleteButton = document.getElementById('buttonDelFriend');
+				var addButton = document.getElementById('buttonAddFriend');
+				var requestButton = document.getElementById('buttonRequestFriend');
+				deleteButton.style.display = 'none';
+				requestButton.style.display = 'none';
+				addButton.style.display = 'inherit';
 			}
 		});
 	}
@@ -39047,6 +39075,7 @@ class UserPageBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 				//если все прошло хорошо, то меняем кнопки на UserPage
 				var deleteButton = document.getElementById('buttonDelFriend');
 				var addButton = document.getElementById('buttonAddFriend');
+				var requestButton = document.getElementById('buttonRequestFriend');
 				deleteButton.style.display = 'none';
 				requestButton.style.display = 'none';
 				addButton.style.display = 'inherit';
@@ -39089,7 +39118,9 @@ class UserPageBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 				),
 				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 					'button',
-					{ className: 'contentProfile__button', id: 'buttonRequestFriend' },
+					{ className: 'contentProfile__button', id: 'buttonRequestFriend', onClick: event => {
+							this.cancellationOfRequest(Page);
+						} },
 					'\u0417\u0430\u044F\u0432\u043A\u0430 \u043E\u0442\u043F\u0440\u0430\u0432\u043B\u0435\u043D\u0430'
 				)
 			);
