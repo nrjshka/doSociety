@@ -85,6 +85,18 @@ class User(AbstractBaseUser):
 	#Список групп вк
 	vk_groups = models.ManyToManyField(vkGroup, related_name = "vk_groups")
 
+	#Начало того что касается БИОГРАФИИ
+
+	#Девичья фамилия
+	maidenName = models.CharField(max_length = 100, default = "")
+	#Пол
+	sex = models.CharField(max_length = 10, default = "1")
+	#Родной город
+	birthtown = models.CharField(max_length = 100, default = "")
+	#Семейное положение
+	maritalstatus = models.CharField(max_length = 10, default = "1")
+	#Конец того что касается БИОГРАФИИ
+
 	objects = UserManager()
 
 	USERNAME_FIELD = 'username'

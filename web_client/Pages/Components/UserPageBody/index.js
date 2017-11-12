@@ -18,6 +18,7 @@ class UserPageBody extends Component{
 			hometown : '',
 			user_foto : '',
 			workplace : '',
+			listOfIncoming: [],
 		}
 		//debug-mod only
 		//console.log('ID', this.props.id);;
@@ -51,6 +52,7 @@ class UserPageBody extends Component{
 			hometown : newProps.user.hometown,
 			user_foto : newProps.user.user_foto,
 			workplace : newProps.user.workplace,
+			listOfIncoming : newProps.user.listOfIncoming,
 		});
 	}
 
@@ -79,6 +81,7 @@ class UserPageBody extends Component{
 				hometown : this.props.user.hometown,
 				user_foto : this.props.user.user_foto,
 				workplace : this.props.user.workplace,
+				listOfIncoming : this.props.user.listOfIncoming,
 			});
 		}
 
@@ -92,10 +95,7 @@ class UserPageBody extends Component{
 		  '0'- Просто не друзья
 		  '1'- Заявка отправлена
 		  '2'- Друзья 	
-		*/
-		var deleteButton = document.getElementById('buttonDelFriend');
-		var addButton = document.getElementById('buttonAddFriend');
-		var requestButton = document.getElementById('buttonRequestFriend');
+		*/		
 		
 		fetch('/api/checkfriends/', {
 				method: 'POST',
@@ -110,6 +110,11 @@ class UserPageBody extends Component{
 		})
 		.then( (result) => { return result.json()})
 		.then( (data) => {
+			
+			var deleteButton = document.getElementById('buttonDelFriend');
+			var addButton = document.getElementById('buttonAddFriend');
+			var requestButton = document.getElementById('buttonRequestFriend');
+
 			switch(data['status']){
 				case '0':
 						deleteButton.style.display = 'none';
@@ -152,6 +157,13 @@ class UserPageBody extends Component{
 				var requestButton = document.getElementById('buttonRequestFriend');
 				deleteButton.style.display = 'none';
 				requestButton.style.display = 'inherit';
+				addButton.style.display = 'none';
+			}else if (data['status'] === '2'){
+				var deleteButton = document.getElementById('buttonDelFriend');
+				var addButton = document.getElementById('buttonAddFriend');
+				var requestButton = document.getElementById('buttonRequestFriend');
+				deleteButton.style.display = 'inherit';
+				requestButton.style.display = 'none';
 				addButton.style.display = 'none';
 			}
 		})
@@ -214,7 +226,11 @@ class UserPageBody extends Component{
 	render(){
 		var outputURl = "/msg?to=" + this.state.id; 
 		var UserButton; var Page = this;
-		
+
+		/*for (var i = 0; i < this.state.listOfIncoming.length; i++) {
+			console.log(this.state.listOfIncoming[i]);
+		}*/
+
 		this.checkFriendsStatus(Page);
 
   		if ((localStorage.getItem('id') != this.props.id) && (localStorage.getItem('token'))){

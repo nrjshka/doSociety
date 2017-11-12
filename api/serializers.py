@@ -23,6 +23,11 @@ class UserInfoSerializer(serializers.ModelSerializer):
 			'hometown',
 			'user_foto',
 			'workplace',
+			'listOfIncoming',
+			'maidenName',
+        	'sex',
+        	'birthtown',
+        	'maritalstatus',
 		]
 
 class UserSettingsSerializer(serializers.ModelSerializer):

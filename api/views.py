@@ -52,7 +52,7 @@ class GetUserInfo(APIView):
 		except User.DoesNotExist:
 			#если не нашли человека, то отправляем ошибку
 			return HttpResponseBadRequest()
-
+			
 class GetUserSettings(APIView):
 	''' отправляет настройки пользователю в ответ на его токен '''
 
@@ -279,6 +279,7 @@ class RequestToFriend(APIView):
 			
 				owner.save()
 				sub.save()
+				
 				return Response({'status': '1'})
 			else :
 				return HttpResponseBadRequest()
@@ -358,6 +359,27 @@ class CancellationOfRequest(APIView):
 		else :
 			return HttpResponseBadRequest()
 
+class CancellationOfAdding(APIView):
+	'''Отмена заявки со стороны sub'а '''
+	permission_classes = (IsAuthenticated,)
+	renderer_classes = (JSONRenderer,)
+
+	def post(self, request, format = None):
+		if request.data['cancelAdd']:
+			owner = User.objects.get(username = request.user.username)
+			sub = User.objects.get(id = request.data['cancelAdd'])
+
+			if (sub in owner.listOfIncoming.all()) and (owner in sub.listOfOutcoming.all()):
+				owner.listOfIncoming.remove(sub)
+				sub.listOfOutcoming.remove(owner)
+
+				owner.save()
+				sub.save()
+				return Response({'status': '0'})
+			else :
+				return HttpResponseBadRequest()
+		else :
+			return HttpResponseBadRequest()
 
 class CheckFriends(APIView):
 	'''Проверка состояния в котором пользователи находятся друг с другом, где:
@@ -374,17 +396,41 @@ class CheckFriends(APIView):
 			owner = User.objects.get(username = request.user.username)
 			sub =  User.objects.get(id = request.data['checkFriends'])
 			
-			if sub in owner.listOfOutcoming.all():
-				return Response({'status': '1'})
-			else:
-				if sub in owner.listOfFriends.all():
-					return Response({'status': '2'})
-				else: 
-					return Response({'status': '0'})	
+			if not(sub in owner.listOfFriends.all()) and (sub in owner.listOfIncoming.all()):
+				return Response({'status': '0'})
+			else:	
+				if sub in owner.listOfOutcoming.all():
+					return Response({'status': '1'})
+				else:
+					if sub in owner.listOfFriends.all():
+						return Response({'status': '2'})
+					else: 
+						return Response({'status': '0'})	
 		else :
-			return HttpResponseBadRequest()	
+			return HttpResponseBadRequest()
 
-#TODO:Добавить классы отмены заявки со стороны sub'a (sub-пользователь, которому отправляют заявку)
+class SaveBiography(APIView):
+	permission_classes = ()
+	renderer_classes = (JSONRenderer,)
+
+	def post(self, request, format =None):
+		if request.data['id']:
+			
+			option = User.objects.get(username = request.user.username)
+			option.name = request.data['name']
+			option.surname = request.data['surname']
+			option.birthDate = request.data['birthDate']
+			option.hometown = request.data['hometown']
+			option.maidenName = request.data['maidenName']
+			option.sex = request.data['sex']
+			option.birthtown = request.data['birthtown']
+			option.maritalstatus = request.data['maritalstatus']
+
+			option.save()
+			
+			return Response({'status': True})
+		else:
+			return HttpResponseBadRequest()
 
 class Register(APIView):
 	permission_classes = ()
