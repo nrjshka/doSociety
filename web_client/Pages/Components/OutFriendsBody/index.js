@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import {getUserInfo} from '../../../Redux/Actions'
 
 
-class FriendsBody extends Component{
+class OutFriendsBody extends Component{
 	constructor(props){
 		super(props);
 
@@ -16,8 +16,7 @@ class FriendsBody extends Component{
 			hometown: '',
 			user_foro: '',
 			workplace: '',
-			listOfFriends: '',
-
+			listOfOutcoming: '',
 			something: '',
 		}
 	}
@@ -37,7 +36,7 @@ class FriendsBody extends Component{
 			hometown : newProps.user.hometown,
 			user_foto : newProps.user.user_foto,
 			workplace : newProps.user.workplace,
-			listOfFriends : newProps.user.listOfFriends,
+			listOfIncoming : newProps.user.listOfOutcoming,
 		});
 	}
 
@@ -51,7 +50,7 @@ class FriendsBody extends Component{
 			hometown : this.props.user.hometown,
 			user_foto: this.props.user.user_foto,
 			workplace: this.props.user.workplace,
-			listOfFriends: this.props.user.listOfFriends,
+			listOfIncoming: this.props.user.listOfOutcoming,
 		});
 	}
 
@@ -73,41 +72,34 @@ class FriendsBody extends Component{
 	}
 
 	creatorOfFriendsBar(Page,illusionObject){
-		var illusionFriendBar =[];
-		for (var i = 0; i < (Page.state.listOfFriends.length+1); i++) {
-			fetch('/api/getuserinfo/',{
-		 			method: 'POST',
-			    	headers : {
-			    	    'Content-Type': 'application/json',
-			   		    'Accept': 'application/json',
-		    	},
-		    	body: JSON.stringify({
-		        	id: Page.state.listOfFriends[i], 
-		    	})
-			})
-			.then( (result) => {return result.json()})
-			.then( (data) => {
-					illusionObject = data.name+' '+data.surname;	
-			
-					Page.setState({
-						something: Page.state.something+
-									<div>
+		fetch('/api/getuserinfo/',{
+		 		method: 'POST',
+			    headers : {
+			        'Content-Type': 'application/json',
+			        'Accept': 'application/json',
+		    },
+		    body: JSON.stringify({
+		        id: Page.state.listOfOutcoming[0], 
+		    })
+		})
+		.then( (result) => {return result.json()})
+		.then( (data) => {
+				illusionObject = data.name+' '+data.surname;	
+				Page.setState({
+					something: <div>
 							
-								{illusionObject}
-								<button >Написать сообщение</button>				
-								<button >Удалить из друзей</button>
+							{illusionObject}
 							   
-								   </div></br>,
-					});
-			});
-		};
+							   </div>,
+				});
+		})
 	}
 
 	render(){
 		var Page = this;
 		var illusionObject = '';
 		
-		//if (this.state.listOfFriends.length != 0){
+		//if (this.state.listOfOutcoming.length != 0){
 		//	this.creatorOfFriendsBar(Page,illusionObject);
 		//}
 
@@ -130,4 +122,4 @@ function matchDispatchToProps(dispatch){
 	    getUserInfo: bindActionCreators(getUserInfo, dispatch),
 	};
 }
-export default connect(mapToStateProps, matchDispatchToProps)(FriendsBody)
+export default connect(mapToStateProps, matchDispatchToProps)(OutFriendsBody)

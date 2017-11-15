@@ -417,6 +417,7 @@ class SaveBiography(APIView):
 		if request.data['id']:
 			
 			option = User.objects.get(username = request.user.username)
+			
 			option.name = request.data['name']
 			option.surname = request.data['surname']
 			option.birthDate = request.data['birthDate']
@@ -428,6 +429,24 @@ class SaveBiography(APIView):
 
 			option.save()
 			
+			return Response({'status': True})
+		else:
+			return HttpResponseBadRequest()
+
+class SaveIdeology(APIView):
+	permission_classes = ()
+	renderer_classes = (JSONRenderer,)
+
+	def post(self, request, format =None):
+		if request.data['id']:
+			
+			option = User.objects.get(username = request.user.username)
+
+			option.religiousBeliefs = request.data['religiousBeliefs']
+			option.politicalBeliefs = request.data['politicalBeliefs']
+
+			option.save()
+
 			return Response({'status': True})
 		else:
 			return HttpResponseBadRequest()

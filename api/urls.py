@@ -28,6 +28,7 @@ urlpatterns += [
 	url(r'^requesttofriend', RequestToFriend.as_view()),
 	url(r'^addfriend', AddFriend.as_view()),
 	url(r'^savebiography', SaveBiography.as_view()),
+	url(r'^saveideology', SaveIdeology.as_view()),
 	url(r'^deletefriend', DeleteFriend.as_view()),
 	url(r'^checkfriends', CheckFriends.as_view()),
 	url(r'^cancellationofrequest', CancellationOfRequest.as_view()),

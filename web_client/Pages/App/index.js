@@ -9,8 +9,8 @@ import NotFound from '../404'
 import UserPage from '../UserPage'
 import Linker  from '../Linker'
 import Message from '../Message'
-import Friends from '../Friends'
 import Quest from '../Quest'
+import FriendsLinker from '../FriendsLinker'
 
 class App extends Component {
 	componentDidMount(){
@@ -26,7 +26,7 @@ class App extends Component {
 				<BrowserRouter>
 			    	<Switch>
 					    <Route exact path="/" component={Index} />
-					    <Route path="/friends" component={Friends} />
+					    <Route path="/friends" component={FriendsLinker} />
 					    <Route path="/id:id" component={UserPage} />
 						<Route path="/msg" component={Message} />
 					    <Route path="/quest" component={Quest} />

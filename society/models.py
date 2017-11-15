@@ -49,7 +49,6 @@ class UserManager(BaseUserManager):
 
 		return user
 
-
 class User(AbstractBaseUser):
 	#логин юзера
 	username = models.CharField(max_length = 100, unique=True)
@@ -85,7 +84,7 @@ class User(AbstractBaseUser):
 	#Список групп вк
 	vk_groups = models.ManyToManyField(vkGroup, related_name = "vk_groups")
 
-	#Начало того что касается БИОГРАФИИ
+	#Начало того, что касается БИОГРАФИИ
 
 	#Девичья фамилия
 	maidenName = models.CharField(max_length = 100, default = "")
@@ -95,7 +94,19 @@ class User(AbstractBaseUser):
 	birthtown = models.CharField(max_length = 100, default = "")
 	#Семейное положение
 	maritalstatus = models.CharField(max_length = 10, default = "1")
-	#Конец того что касается БИОГРАФИИ
+	
+	#Конец того, что касается БИОГРАФИИ
+
+	#Начало того, что касается МИРОВОЗЗРЕНИЯ
+
+	#Политические убеждения
+	politicalBeliefs = models.CharField(max_length = 10, default = '0')
+	#Религиозные убеждения
+	religiousBeliefs = models.CharField(max_length = 10, default = '0')
+	#Список цитат
+	citations = models.ManyToManyField("self", related_name = 'citations')
+	
+	#Конец того, что касается МИРОВОЗЗРЕНИЯ
 
 	objects = UserManager()
 

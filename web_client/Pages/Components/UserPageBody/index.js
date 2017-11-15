@@ -19,6 +19,8 @@ class UserPageBody extends Component{
 			user_foto : '',
 			workplace : '',
 			listOfIncoming: [],
+			maritalstatus: '',
+			politicalBeliefs: '',
 		}
 		//debug-mod only
 		//console.log('ID', this.props.id);;
@@ -53,6 +55,8 @@ class UserPageBody extends Component{
 			user_foto : newProps.user.user_foto,
 			workplace : newProps.user.workplace,
 			listOfIncoming : newProps.user.listOfIncoming,
+			maritalstatus : newProps.user.maritalstatus,
+			politicalBeliefs : newProps.user.politicalBeliefs,
 		});
 	}
 
@@ -82,6 +86,8 @@ class UserPageBody extends Component{
 				user_foto : this.props.user.user_foto,
 				workplace : this.props.user.workplace,
 				listOfIncoming : this.props.user.listOfIncoming,
+				maritalstatus : this.props.user.maritalstatus,
+				politicalBeliefs: this.props.user.politicalBeliefs,
 			});
 		}
 
@@ -227,9 +233,13 @@ class UserPageBody extends Component{
 		var outputURl = "/msg?to=" + this.state.id; 
 		var UserButton; var Page = this;
 
-		/*for (var i = 0; i < this.state.listOfIncoming.length; i++) {
-			console.log(this.state.listOfIncoming[i]);
-		}*/
+		var arrayStatusValue = ['Не указано','Не замужем/не женат','Замужем/женат',
+                              'Встречаюсь','Гражданский брак','Всё сложно',
+                              'Всё просто','В активном поиске'];
+
+        var arrayPoliticalValue = ['Не выбраны','Индифферентные','Коммунистические',
+									'Социалистические','Умеренные','Либеральные','Консервативные',
+									'Ультраконсервативные','Либертарианские','Другие'];
 
 		this.checkFriendsStatus(Page);
 
@@ -273,6 +283,14 @@ class UserPageBody extends Component{
 	                  <div className="row contentProfile__info">
 	                    <div className="col-lg-3 col-md-3 col-sm-3 col-xs-4 contentProfile__parameter">Место работы: </div>
 	                    <div className="col-lg-9 col-md-9 col-sm-9 col-xs-8 contentProfile__value">{this.state.workplace}</div>
+	                  </div>
+	                  <div className="row contentProfile__info">
+	                    <div className="col-lg-3 col-md-3 col-sm-3 col-xs-4 contentProfile__parameter">Семейное положение: </div>
+	                    <div className="col-lg-9 col-md-9 col-sm-9 col-xs-8 contentProfile__value">{arrayStatusValue[this.state.maritalstatus]}</div>
+	                  </div>
+	                  <div className="row contentProfile__info">
+	                    <div className="col-lg-3 col-md-3 col-sm-3 col-xs-4 contentProfile__parameter">Политические убеждения: </div>
+	                    <div className="col-lg-9 col-md-9 col-sm-9 col-xs-8 contentProfile__value">{arrayPoliticalValue[this.state.politicalBeliefs]}</div>
 	                  </div>
 	                </div>
 	              </div>
