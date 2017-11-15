@@ -72,7 +72,7 @@ class OutFriendsBody extends Component{
 	}
 
 	creatorOfFriendsBar(Page,illusionObject){
-		fetch('/api/getuserinfo/',{
+		/*fetch('/api/getuserinfo/',{
 		 		method: 'POST',
 			    headers : {
 			        'Content-Type': 'application/json',
@@ -92,7 +92,7 @@ class OutFriendsBody extends Component{
 							   
 							   </div>,
 				});
-		})
+		})*/
 	}
 
 	render(){

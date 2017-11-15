@@ -73,7 +73,7 @@ class FriendsBody extends Component{
 	}
 
 	creatorOfFriendsBar(Page,illusionObject){
-		var illusionFriendBar =[];
+		/*var illusionFriendBar =[];
 		for (var i = 0; i < (Page.state.listOfFriends.length+1); i++) {
 			fetch('/api/getuserinfo/',{
 		 			method: 'POST',
@@ -100,7 +100,7 @@ class FriendsBody extends Component{
 								   </div></br>,
 					});
 			});
-		};
+		};*/
 	}
 
 	render(){
