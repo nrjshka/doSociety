@@ -315,6 +315,36 @@ class AddFriend(APIView):
 		else :
 			return HttpResponseBadRequest()
 
+class GetFriendsInfo(APIView):
+	'''Достает информацию о списке друзей'''
+	permission_classes = (IsAuthenticated,)
+	renderer_classes = (JSONRenderer,)
+
+	def post(self, request, format = None):
+		owner = User.objects.get(username = request.user.username)
+		i = 0
+		mass = []
+		for i in range(0,len(owner.listOfFriends.all())):
+			sub = owner.listOfFriends.all()[i]
+			mass.append({'id': sub.id, 'name': sub.name, 'surname': sub.surname, 'photo': sub.user_foto})
+
+		return Response({'friend': mass})
+
+class GetInFriendsInfo(APIView):
+	'''Достает информацию о списке входящих заявок'''
+	permission_classes = (IsAuthenticated,)
+	renderer_classes = (JSONRenderer,)
+
+	def post(self, request, format = None):
+		owner = User.objects.get(username = request.user.username)
+		i = 0
+		mass = []
+		for i in range(0,len(owner.listOfIncoming.all())):
+			sub = owner.listOfIncoming.all()[i]
+			mass.append({'id': sub.id, 'name': sub.name, 'surname': sub.surname, 'photo': sub.user_foto})
+
+		return Response({'infriend': mass})
+
 class DeleteFriend(APIView):
 	'''Удаление друга из списка друзей'''
 	permission_classes = (IsAuthenticated,)

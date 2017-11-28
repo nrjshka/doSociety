@@ -12,10 +12,10 @@ class FriendsMenu extends Component{
                   <li><Link to="/friends">Друзья</Link></li>
                 </ul>
                 <ul>
-                  <li><Link to="/friends?p=in">Исходящие заявки</Link></li>
+                  <li><Link to="/friends?p=in">Входящие заявки</Link></li>
                 </ul>
         <ul>
-                  <li><Link to="/friends?p=out">Входящие заявки</Link></li>
+                  <li><Link to="/friends?p=out">Исходящие заявки</Link></li>
                 </ul>
               </nav>
             </aside>

@@ -18,6 +18,7 @@ class InFriendsBody extends Component{
 			workplace: '',
 			listOfIncoming: '',
 			something: '',
+			infriend: [],
 		}
 	}
 
@@ -71,7 +72,7 @@ class InFriendsBody extends Component{
 		//this.props.getUserInfo(this.props.id);
 	}
 
-	acceptingRequest(Page){
+	acceptingRequest(Page,ButtId){
 		fetch('/api/addfriend/', {
 				method: 'POST',
 				headers: {
@@ -92,7 +93,7 @@ class InFriendsBody extends Component{
 		})
 	}
 
-	cancellationOfRequest(Page){
+	cancellationOfRequest(Page,ButtId){
 		/*Отмена заявки в друзья*/
 		fetch('api/cancellationofadding/', {
 				method: 'POST',
@@ -114,44 +115,47 @@ class InFriendsBody extends Component{
 		})
 	}
 
-	creatorOfFriendsBar(Page,illusionObject){
-		fetch('/api/getuserinfo/',{
-		 		method: 'POST',
-			    headers : {
-			        'Content-Type': 'application/json',
-			        'Accept': 'application/json',
-		    },
-		    body: JSON.stringify({
-		        id: Page.state.listOfIncoming[0], 
-		    })
-		})
-		.then( (result) => {return result.json()})
-		.then( (data) => {
-				illusionObject = data.name+' '+data.surname;	
-				Page.setState({
-					something: <div>
-							
-							{illusionObject}
-							<button onClick={(event) => {this.acceptingRequest(Page)}}>Принять заявку</button>
-							<br />					
-							<button onClick={(event) => {this.cancellationOfRequest(Page)}}>Не принимать заявку</button>
-							   
-							   </div>,
-				});
-		})
+	getInFriendInfo(Page){
+		fetch('/api/getinfriendsinfo',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': 'JWT ' + localStorage.getItem('token'),
+            },
+      	})
+      	.then((response)=>{return response.json();})
+      	.then((data) =>{
+ 			Page.state.infriend.push(data['infriend']);
+     	});
 	}
 
 	render(){
 		var Page = this;
 		var illusionObject = '';
 		
-		if (this.state.listOfIncoming.length != 0){
-			this.creatorOfFriendsBar(Page,illusionObject);
-		}
+		this.getInFriendInfo(Page);
+
+		let illusionList = Page.state.infriend.pop(); 
+		var friendBlock =[];	
+		if (illusionList != undefined) {
+			for (var i = 0; i < illusionList.length; i++) {
+				friendBlock.push(<div className="contentDialog__avatar"><img src={illusionList[i].photo}/></div>);
+				friendBlock.push(<div>{illusionList[i].name} {illusionList[i].surname}</div>);
+				friendBlock.push(<br />);
+				friendBlock.push(<button className="contentProfile__button" id={illusionList[i].id} onClick={(event) => {this.acceptingRequest(Page,event.target.id)}}>Принять заявку</button>);
+				friendBlock.push(<button className="contentProfile__button" id={illusionList[i].id} onClick={(event) => {this.cancellationOfRequest(Page,event.target.id)}}>Не принимать заявку</button>);
+				friendBlock.push(<br />);
+			}
+		};
 
 		return(
 			<div className="col-lg-8 col-md-8 col-sm-9 col-xs-12 content">
-				{this.state.something}
+				<div className="contentTuning container-fluid">
+                	<div className="row">
+						{friendBlock}
+                	</div>
+                </div>
 			</div>
 		)
 	}

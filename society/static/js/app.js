@@ -1406,6 +1406,64 @@ class Header extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
 /***/ }),
 /* 16 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BrowserRouter__ = __webpack_require__(233);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__BrowserRouter__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__HashRouter__ = __webpack_require__(234);
+/* unused harmony reexport HashRouter */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Link__ = __webpack_require__(105);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_2__Link__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__MemoryRouter__ = __webpack_require__(235);
+/* unused harmony reexport MemoryRouter */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__NavLink__ = __webpack_require__(236);
+/* unused harmony reexport NavLink */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Prompt__ = __webpack_require__(237);
+/* unused harmony reexport Prompt */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Redirect__ = __webpack_require__(238);
+/* unused harmony reexport Redirect */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Route__ = __webpack_require__(239);
+/* unused harmony reexport Route */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Router__ = __webpack_require__(240);
+/* unused harmony reexport Router */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__StaticRouter__ = __webpack_require__(241);
+/* unused harmony reexport StaticRouter */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__Switch__ = __webpack_require__(242);
+/* unused harmony reexport Switch */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__matchPath__ = __webpack_require__(243);
+/* unused harmony reexport matchPath */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__withRouter__ = __webpack_require__(244);
+/* unused harmony reexport withRouter */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***/ }),
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1660,64 +1718,6 @@ var ReactUpdates = {
 
 module.exports = ReactUpdates;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
-/* 17 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BrowserRouter__ = __webpack_require__(233);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__BrowserRouter__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__HashRouter__ = __webpack_require__(234);
-/* unused harmony reexport HashRouter */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Link__ = __webpack_require__(105);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_2__Link__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__MemoryRouter__ = __webpack_require__(235);
-/* unused harmony reexport MemoryRouter */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__NavLink__ = __webpack_require__(236);
-/* unused harmony reexport NavLink */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Prompt__ = __webpack_require__(237);
-/* unused harmony reexport Prompt */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Redirect__ = __webpack_require__(238);
-/* unused harmony reexport Redirect */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Route__ = __webpack_require__(239);
-/* unused harmony reexport Route */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Router__ = __webpack_require__(240);
-/* unused harmony reexport Router */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__StaticRouter__ = __webpack_require__(241);
-/* unused harmony reexport StaticRouter */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__Switch__ = __webpack_require__(242);
-/* unused harmony reexport Switch */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__matchPath__ = __webpack_require__(243);
-/* unused harmony reexport matchPath */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__withRouter__ = __webpack_require__(244);
-/* unused harmony reexport withRouter */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /***/ }),
 /* 18 */
@@ -5241,7 +5241,7 @@ module.exports = canDefineProperty;
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router_dom__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router_dom__ = __webpack_require__(16);
 
 
 class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
@@ -6520,7 +6520,7 @@ var _prodInvariant = __webpack_require__(4);
 var ReactCurrentOwner = __webpack_require__(18);
 var ReactInstanceMap = __webpack_require__(35);
 var ReactInstrumentation = __webpack_require__(13);
-var ReactUpdates = __webpack_require__(16);
+var ReactUpdates = __webpack_require__(17);
 
 var invariant = __webpack_require__(2);
 var warning = __webpack_require__(3);
@@ -7725,7 +7725,7 @@ module.exports = lowPriorityWarning;
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router_dom__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router_dom__ = __webpack_require__(16);
 
 
 
@@ -7765,7 +7765,7 @@ class FriendsMenu extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                   __WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
                   { to: '/friends?p=in' },
-                  '\u0418\u0441\u0445\u043E\u0434\u044F\u0449\u0438\u0435 \u0437\u0430\u044F\u0432\u043A\u0438'
+                  '\u0412\u0445\u043E\u0434\u044F\u0449\u0438\u0435 \u0437\u0430\u044F\u0432\u043A\u0438'
                 )
               )
             ),
@@ -7778,7 +7778,7 @@ class FriendsMenu extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                   __WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
                   { to: '/friends?p=out' },
-                  '\u0412\u0445\u043E\u0434\u044F\u0449\u0438\u0435 \u0437\u0430\u044F\u0432\u043A\u0438'
+                  '\u0418\u0441\u0445\u043E\u0434\u044F\u0449\u0438\u0435 \u0437\u0430\u044F\u0432\u043A\u0438'
                 )
               )
             )
@@ -9313,7 +9313,7 @@ var _assign = __webpack_require__(5);
 
 var LinkedValueUtils = __webpack_require__(55);
 var ReactDOMComponentTree = __webpack_require__(6);
-var ReactUpdates = __webpack_require__(16);
+var ReactUpdates = __webpack_require__(17);
 
 var warning = __webpack_require__(3);
 
@@ -9795,7 +9795,7 @@ var ReactInstrumentation = __webpack_require__(13);
 var ReactMarkupChecksum = __webpack_require__(190);
 var ReactReconciler = __webpack_require__(28);
 var ReactUpdateQueue = __webpack_require__(58);
-var ReactUpdates = __webpack_require__(16);
+var ReactUpdates = __webpack_require__(17);
 
 var emptyObject = __webpack_require__(37);
 var instantiateReactComponent = __webpack_require__(97);
@@ -16960,7 +16960,7 @@ var EventPluginHub = __webpack_require__(33);
 var EventPropagators = __webpack_require__(34);
 var ExecutionEnvironment = __webpack_require__(7);
 var ReactDOMComponentTree = __webpack_require__(6);
-var ReactUpdates = __webpack_require__(16);
+var ReactUpdates = __webpack_require__(17);
 var SyntheticEvent = __webpack_require__(20);
 
 var inputValueTracking = __webpack_require__(96);
@@ -18904,7 +18904,7 @@ var ReactDOMComponentTree = __webpack_require__(6);
 var ReactDefaultInjection = __webpack_require__(183);
 var ReactMount = __webpack_require__(88);
 var ReactReconciler = __webpack_require__(28);
-var ReactUpdates = __webpack_require__(16);
+var ReactUpdates = __webpack_require__(17);
 var ReactVersion = __webpack_require__(198);
 
 var findDOMNode = __webpack_require__(215);
@@ -20203,7 +20203,7 @@ var _prodInvariant = __webpack_require__(4),
 var DOMPropertyOperations = __webpack_require__(81);
 var LinkedValueUtils = __webpack_require__(55);
 var ReactDOMComponentTree = __webpack_require__(6);
-var ReactUpdates = __webpack_require__(16);
+var ReactUpdates = __webpack_require__(17);
 
 var invariant = __webpack_require__(2);
 var warning = __webpack_require__(3);
@@ -21156,7 +21156,7 @@ var _prodInvariant = __webpack_require__(4),
 
 var LinkedValueUtils = __webpack_require__(55);
 var ReactDOMComponentTree = __webpack_require__(6);
-var ReactUpdates = __webpack_require__(16);
+var ReactUpdates = __webpack_require__(17);
 
 var invariant = __webpack_require__(2);
 var warning = __webpack_require__(3);
@@ -21946,7 +21946,7 @@ module.exports = ReactDebugTool;
 
 var _assign = __webpack_require__(5);
 
-var ReactUpdates = __webpack_require__(16);
+var ReactUpdates = __webpack_require__(17);
 var Transaction = __webpack_require__(41);
 
 var emptyFunction = __webpack_require__(12);
@@ -22176,7 +22176,7 @@ var EventListener = __webpack_require__(71);
 var ExecutionEnvironment = __webpack_require__(7);
 var PooledClass = __webpack_require__(23);
 var ReactDOMComponentTree = __webpack_require__(6);
-var ReactUpdates = __webpack_require__(16);
+var ReactUpdates = __webpack_require__(17);
 
 var getEventTarget = __webpack_require__(62);
 var getUnboundedScrollPosition = __webpack_require__(129);
@@ -22376,7 +22376,7 @@ var ReactComponentEnvironment = __webpack_require__(56);
 var ReactEmptyComponent = __webpack_require__(84);
 var ReactBrowserEventEmitter = __webpack_require__(39);
 var ReactHostComponent = __webpack_require__(86);
-var ReactUpdates = __webpack_require__(16);
+var ReactUpdates = __webpack_require__(17);
 
 var ReactInjection = {
   Component: ReactComponentEnvironment.injection,
@@ -28796,7 +28796,7 @@ class NotFound extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_router_dom__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_router_dom__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Index___ = __webpack_require__(297);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__404__ = __webpack_require__(274);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__UserPage__ = __webpack_require__(305);
@@ -31852,9 +31852,11 @@ class FamilyBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_redux__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_redux__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Redux_Actions__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router_dom__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_redux__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_redux__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Redux_Actions__ = __webpack_require__(22);
+
 
 
 
@@ -31873,8 +31875,8 @@ class FriendsBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 			user_foro: '',
 			workplace: '',
 			listOfFriends: '',
-
-			something: ''
+			something: '',
+			friend: []
 		};
 	}
 
@@ -31899,6 +31901,7 @@ class FriendsBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
 	componentWillMount() {
 		document.title = 'Друзья';
+
 		this.setState({
 			id: this.props.id,
 			name: this.props.user.name,
@@ -31922,53 +31925,98 @@ class FriendsBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 		}).then(data => {
 			this.props.getUserInfo(data['id']);
 		});
-
-		//this.props.getUserInfo(this.props.id);
 	}
 
-	creatorOfFriendsBar(Page, illusionObject) {
-		/*var illusionFriendBar =[];
-  for (var i = 0; i < (Page.state.listOfFriends.length+1); i++) {
-  	fetch('/api/getuserinfo/',{
-   			method: 'POST',
-  	    	headers : {
-  	    	    'Content-Type': 'application/json',
-  	   		    'Accept': 'application/json',
-      	},
-      	body: JSON.stringify({
-          	id: Page.state.listOfFriends[i], 
-      	})
-  	})
-  	.then( (result) => {return result.json()})
-  	.then( (data) => {
-  			illusionObject = data.name+' '+data.surname;	
-  	
-  			Page.setState({
-  				something: Page.state.something+
-  							<div>
-  					
-  						{illusionObject}
-  						<button >Написать сообщение</button>				
-  						<button >Удалить из друзей</button>
-  					   
-  						   </div></br>,
-  			});
-  	});
-  };*/
+	getFriendInfo(Page) {
+		fetch('/api/getfriendsinfo', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Accept': 'application/json',
+				'Authorization': 'JWT ' + localStorage.getItem('token')
+			}
+		}).then(response => {
+			return response.json();
+		}).then(data => {
+			Page.state.friend.push(data['friend']);
+		});
+	}
+
+	deleteFriend(Page, ButtId) {
+		/*Удаляет пользователя из списка друзей*/
+		fetch('api/deletefriend/', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Accept': 'application/json',
+				'Authorization': 'JWT ' + localStorage.getItem('token')
+			},
+			body: JSON.stringify({
+				delFriend: ButtId
+			})
+		}).then(result => {
+			return result.json();
+		}).then(data => {});
 	}
 
 	render() {
-		var Page = this;
-		var illusionObject = '';
-
-		//if (this.state.listOfFriends.length != 0){
-		//	this.creatorOfFriendsBar(Page,illusionObject);
-		//}
-
+		/*{(() => {
+          		return (
+          		<div>hi</div>
+          	)	
+          })()}*/
+		let Page = this;
+		var illusionObject = [];
+		this.getFriendInfo(Page, illusionObject);
+		let illusionList = Page.state.friend.pop();
+		var friendBlock = [];
+		if (illusionList != undefined) {
+			for (var i = 0; i < illusionList.length; i++) {
+				var Url = '/msg?to=' + illusionList[i].id;
+				friendBlock.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+					'div',
+					{ className: 'contentDialog__avatar' },
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { src: illusionList[i].photo })
+				));
+				friendBlock.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+					'div',
+					null,
+					illusionList[i].name,
+					' ',
+					illusionList[i].surname
+				));
+				friendBlock.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null));
+				friendBlock.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+					__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
+					{ to: Url },
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+						'button',
+						{ className: 'contentProfile__button' },
+						'\u041D\u0430\u043F\u0438\u0441\u0430\u0442\u044C \u0441\u043E\u043E\u0431\u0449\u0435\u043D\u0438\u0435'
+					)
+				));
+				friendBlock.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+					'button',
+					{ className: 'contentProfile__button', id: illusionList[i].id, onClick: event => {
+							this.deleteFriend(Page, event.target.id);
+						} },
+					'\u0423\u0434\u0430\u043B\u0438\u0442\u044C \u0438\u0437 \u0434\u0440\u0443\u0437\u0435\u0439'
+				));
+				friendBlock.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null));
+			}
+		};
 		return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 			'div',
 			{ className: 'col-lg-8 col-md-8 col-sm-9 col-xs-12 content' },
-			this.state.something
+			__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+				'div',
+				{ className: 'contentTuning container-fluid' },
+				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+					'div',
+					{ className: 'row' },
+					friendBlock
+				)
+			)
 		);
 	}
 }
@@ -31981,10 +32029,10 @@ function mapToStateProps(state) {
 
 function matchDispatchToProps(dispatch) {
 	return {
-		getUserInfo: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_3__Redux_Actions__["a" /* getUserInfo */], dispatch)
+		getUserInfo: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["a" /* getUserInfo */], dispatch)
 	};
 }
-/* harmony default export */ __webpack_exports__["a"] = (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_react_redux__["b" /* connect */])(mapToStateProps, matchDispatchToProps)(FriendsBody));
+/* harmony default export */ __webpack_exports__["a"] = (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3_react_redux__["b" /* connect */])(mapToStateProps, matchDispatchToProps)(FriendsBody));
 
 /***/ }),
 /* 279 */
@@ -32293,7 +32341,8 @@ class InFriendsBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 			user_foro: '',
 			workplace: '',
 			listOfIncoming: '',
-			something: ''
+			something: '',
+			infriend: []
 		};
 	}
 
@@ -32345,7 +32394,7 @@ class InFriendsBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 		//this.props.getUserInfo(this.props.id);
 	}
 
-	acceptingRequest(Page) {
+	acceptingRequest(Page, ButtId) {
 		fetch('/api/addfriend/', {
 			method: 'POST',
 			headers: {
@@ -32366,7 +32415,7 @@ class InFriendsBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 		});
 	}
 
-	cancellationOfRequest(Page) {
+	cancellationOfRequest(Page, ButtId) {
 		/*Отмена заявки в друзья*/
 		fetch('api/cancellationofadding/', {
 			method: 'POST',
@@ -32388,42 +32437,18 @@ class InFriendsBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 		});
 	}
 
-	creatorOfFriendsBar(Page, illusionObject) {
-		fetch('/api/getuserinfo/', {
+	getInFriendInfo(Page) {
+		fetch('/api/getinfriendsinfo', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
-				'Accept': 'application/json'
-			},
-			body: JSON.stringify({
-				id: Page.state.listOfIncoming[0]
-			})
-		}).then(result => {
-			return result.json();
+				'Accept': 'application/json',
+				'Authorization': 'JWT ' + localStorage.getItem('token')
+			}
+		}).then(response => {
+			return response.json();
 		}).then(data => {
-			illusionObject = data.name + ' ' + data.surname;
-			Page.setState({
-				something: __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-					'div',
-					null,
-					illusionObject,
-					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-						'button',
-						{ onClick: event => {
-								this.acceptingRequest(Page);
-							} },
-						'\u041F\u0440\u0438\u043D\u044F\u0442\u044C \u0437\u0430\u044F\u0432\u043A\u0443'
-					),
-					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
-					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-						'button',
-						{ onClick: event => {
-								this.cancellationOfRequest(Page);
-							} },
-						'\u041D\u0435 \u043F\u0440\u0438\u043D\u0438\u043C\u0430\u0442\u044C \u0437\u0430\u044F\u0432\u043A\u0443'
-					)
-				)
-			});
+			Page.state.infriend.push(data['infriend']);
 		});
 	}
 
@@ -32431,14 +32456,55 @@ class InFriendsBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 		var Page = this;
 		var illusionObject = '';
 
-		if (this.state.listOfIncoming.length != 0) {
-			this.creatorOfFriendsBar(Page, illusionObject);
-		}
+		this.getInFriendInfo(Page);
+
+		let illusionList = Page.state.infriend.pop();
+		var friendBlock = [];
+		if (illusionList != undefined) {
+			for (var i = 0; i < illusionList.length; i++) {
+				friendBlock.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+					'div',
+					{ className: 'contentDialog__avatar' },
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { src: illusionList[i].photo })
+				));
+				friendBlock.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+					'div',
+					null,
+					illusionList[i].name,
+					' ',
+					illusionList[i].surname
+				));
+				friendBlock.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null));
+				friendBlock.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+					'button',
+					{ className: 'contentProfile__button', id: illusionList[i].id, onClick: event => {
+							this.acceptingRequest(Page, event.target.id);
+						} },
+					'\u041F\u0440\u0438\u043D\u044F\u0442\u044C \u0437\u0430\u044F\u0432\u043A\u0443'
+				));
+				friendBlock.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+					'button',
+					{ className: 'contentProfile__button', id: illusionList[i].id, onClick: event => {
+							this.cancellationOfRequest(Page, event.target.id);
+						} },
+					'\u041D\u0435 \u043F\u0440\u0438\u043D\u0438\u043C\u0430\u0442\u044C \u0437\u0430\u044F\u0432\u043A\u0443'
+				));
+				friendBlock.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null));
+			}
+		};
 
 		return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 			'div',
 			{ className: 'col-lg-8 col-md-8 col-sm-9 col-xs-12 content' },
-			this.state.something
+			__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+				'div',
+				{ className: 'contentTuning container-fluid' },
+				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+					'div',
+					{ className: 'row' },
+					friendBlock
+				)
+			)
 		);
 	}
 }
@@ -32629,7 +32695,7 @@ function matchDispatchToProps(dispatch) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router_dom__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router_dom__ = __webpack_require__(16);
 
 
 
@@ -33140,7 +33206,7 @@ function matchDispatchToProps(dispatch) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router_dom__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router_dom__ = __webpack_require__(16);
 
 
 
@@ -33214,7 +33280,7 @@ class MessageHandler extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router_dom__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router_dom__ = __webpack_require__(16);
 
 
 
@@ -33443,7 +33509,7 @@ class MessageMenu extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router_dom__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router_dom__ = __webpack_require__(16);
 
 
 
@@ -34775,7 +34841,7 @@ class SettingsBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router_dom__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router_dom__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_redux__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_redux__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Redux_Actions__ = __webpack_require__(22);
@@ -35210,7 +35276,7 @@ function matchDispatchToProps(dispatch) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_router_dom__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_router_dom__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Friends_MainFriends___ = __webpack_require__(295);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Friends_InFriends___ = __webpack_require__(294);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Friends_OutFriends___ = __webpack_require__(296);
@@ -35518,7 +35584,7 @@ function mapToStateProps(state) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_router_dom__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_router_dom__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Settings_MainSettings___ = __webpack_require__(304);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Settings_Ideology___ = __webpack_require__(303);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Settings_Family___ = __webpack_require__(302);

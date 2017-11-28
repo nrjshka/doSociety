@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import {getUserInfo} from '../../../Redux/Actions'
@@ -17,8 +18,8 @@ class FriendsBody extends Component{
 			user_foro: '',
 			workplace: '',
 			listOfFriends: '',
-
 			something: '',
+			friend: [],
 		}
 	}
 
@@ -43,6 +44,7 @@ class FriendsBody extends Component{
 
 	componentWillMount(){
 		document.title = 'Друзья';
+
 		this.setState({
 			id: this.props.id,
 			name: this.props.user.name,
@@ -52,7 +54,7 @@ class FriendsBody extends Component{
 			user_foto: this.props.user.user_foto,
 			workplace: this.props.user.workplace,
 			listOfFriends: this.props.user.listOfFriends,
-		});
+		}); 
 	}
 
 	componentWillMount(){
@@ -68,52 +70,70 @@ class FriendsBody extends Component{
     	.then((data) => {
         	this.props.getUserInfo(data['id']);
     	});
-
-		//this.props.getUserInfo(this.props.id);
 	}
 
-	creatorOfFriendsBar(Page,illusionObject){
-		/*var illusionFriendBar =[];
-		for (var i = 0; i < (Page.state.listOfFriends.length+1); i++) {
-			fetch('/api/getuserinfo/',{
-		 			method: 'POST',
-			    	headers : {
-			    	    'Content-Type': 'application/json',
-			   		    'Accept': 'application/json',
-		    	},
-		    	body: JSON.stringify({
-		        	id: Page.state.listOfFriends[i], 
-		    	})
-			})
-			.then( (result) => {return result.json()})
-			.then( (data) => {
-					illusionObject = data.name+' '+data.surname;	
-			
-					Page.setState({
-						something: Page.state.something+
-									<div>
-							
-								{illusionObject}
-								<button >Написать сообщение</button>				
-								<button >Удалить из друзей</button>
-							   
-								   </div></br>,
-					});
-			});
-		};*/
+	getFriendInfo(Page){
+		fetch('/api/getfriendsinfo',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': 'JWT ' + localStorage.getItem('token'),
+            },
+      	})
+      	.then((response)=>{return response.json();})
+      	.then((data) =>{
+ 			Page.state.friend.push(data['friend']);
+     	});
+	}
+
+	deleteFriend(Page,ButtId){
+		/*Удаляет пользователя из списка друзей*/
+		fetch('api/deletefriend/', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'Accept': 'application/json',
+					'Authorization': 'JWT ' + localStorage.getItem('token'),
+				},
+				body:JSON.stringify({
+					delFriend: ButtId
+				})
+		})
+		.then( (result) => { return result.json()})
+		.then ( (data) => {
+		})
 	}
 
 	render(){
-		var Page = this;
-		var illusionObject = '';
-		
-		//if (this.state.listOfFriends.length != 0){
-		//	this.creatorOfFriendsBar(Page,illusionObject);
-		//}
-
+		/*{(() => {
+          		return (
+          		<div>hi</div>
+          	)	
+          })()}*/
+		let Page = this;
+		var illusionObject = [];
+		this.getFriendInfo(Page,illusionObject);
+		let illusionList = Page.state.friend.pop(); 
+		var friendBlock =[];	
+		if (illusionList != undefined) {
+			for (var i = 0; i < illusionList.length; i++) {
+				var Url = '/msg?to='+illusionList[i].id;
+				friendBlock.push(<div className="contentDialog__avatar"><img src={illusionList[i].photo}/></div>);
+				friendBlock.push(<div>{illusionList[i].name} {illusionList[i].surname}</div>);
+				friendBlock.push(<br />);
+				friendBlock.push(<Link to={Url}><button className="contentProfile__button">Написать сообщение</button></Link>);
+				friendBlock.push(<button className="contentProfile__button" id={illusionList[i].id} onClick={(event) => {this.deleteFriend(Page,event.target.id)}}>Удалить из друзей</button>);
+				friendBlock.push(<br />);
+			}
+		};
 		return(
 			<div className="col-lg-8 col-md-8 col-sm-9 col-xs-12 content">
-				{this.state.something}
+				<div className="contentTuning container-fluid">
+                	<div className="row">
+						{friendBlock}
+                	</div>
+                </div>
 			</div>
 		)
 	}
