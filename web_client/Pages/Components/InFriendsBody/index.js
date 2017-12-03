@@ -81,7 +81,7 @@ class InFriendsBody extends Component{
 					'Authorization': 'JWT ' + localStorage.getItem('token'),
 				},
 				body:JSON.stringify({
-					addFriend: Page.state.listOfIncoming[0],
+					addFriend: ButtId,
 				})
 		})
 		.then( (result) => { return result.json()})
@@ -103,15 +103,12 @@ class InFriendsBody extends Component{
 					'Authorization': 'JWT ' + localStorage.getItem('token'),
 				},
 				body:JSON.stringify({
-					cancelFriend: Page.state.listOfIncoming[0],
+					cancelAdd: ButtId,
 				})
 		})
 		.then( (result) => { return result.json()})
 		.then ( (data) => {
 			/*Больше анимации*/
-			if (data['status'] === '0'){
-				--Page.state.listOfIncoming.length
-			}	
 		})
 	}
 

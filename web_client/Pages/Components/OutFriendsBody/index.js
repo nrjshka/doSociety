@@ -89,7 +89,7 @@ class OutFriendsBody extends Component{
 
 	cancellationOfAdd(Page,ButtId){
 		/*Отмена заявки в друзья*/
-		fetch('api/cancellationofadding/', {
+		fetch('api/cancellationofrequest/', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -97,7 +97,7 @@ class OutFriendsBody extends Component{
 					'Authorization': 'JWT ' + localStorage.getItem('token'),
 				},
 				body:JSON.stringify({
-					cancelAdd: ButtId
+					cancelFriend: ButtId
 				})
 		})
 		.then( (result) => { return result.json()})

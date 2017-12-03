@@ -32403,7 +32403,7 @@ class InFriendsBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 				'Authorization': 'JWT ' + localStorage.getItem('token')
 			},
 			body: JSON.stringify({
-				addFriend: Page.state.listOfIncoming[0]
+				addFriend: ButtId
 			})
 		}).then(result => {
 			return result.json();
@@ -32425,15 +32425,12 @@ class InFriendsBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 				'Authorization': 'JWT ' + localStorage.getItem('token')
 			},
 			body: JSON.stringify({
-				cancelFriend: Page.state.listOfIncoming[0]
+				cancelAdd: ButtId
 			})
 		}).then(result => {
 			return result.json();
 		}).then(data => {
 			/*Больше анимации*/
-			if (data['status'] === '0') {
-				--Page.state.listOfIncoming.length;
-			}
 		});
 	}
 
@@ -33722,7 +33719,7 @@ class OutFriendsBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
 	cancellationOfAdd(Page, ButtId) {
 		/*Отмена заявки в друзья*/
-		fetch('api/cancellationofadding/', {
+		fetch('api/cancellationofrequest/', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -33730,7 +33727,7 @@ class OutFriendsBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 				'Authorization': 'JWT ' + localStorage.getItem('token')
 			},
 			body: JSON.stringify({
-				cancelAdd: ButtId
+				cancelFriend: ButtId
 			})
 		}).then(result => {
 			return result.json();
