@@ -138,7 +138,7 @@ class InFriendsBody extends Component{
 
 		let illusionList = Page.state.infriend.pop(); 
 		var friendBlock =[];	
-		if (illusionList != undefined) {
+		if (illusionList !== undefined) {
 			for (var i = 0; i < illusionList.length; i++) {
 				friendBlock.push(<div className="contentDialog__avatar"><img src={illusionList[i].photo}/></div>);
 				friendBlock.push(<div>{illusionList[i].name} {illusionList[i].surname}</div>);

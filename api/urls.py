@@ -21,6 +21,7 @@ urlpatterns += [
 	url(r'^getuserinfo', GetUserInfo.as_view()),
 	url(r'^getfriendsinfo', GetFriendsInfo.as_view()),
 	url(r'^getinfriendsinfo', GetInFriendsInfo.as_view()),
+	url(r'^getoutfriendsinfo', GetOutFriendsInfo.as_view()),
 	url(r'^getsettingsinfo', GetUserSettings.as_view()),
 	url(r'^checkuserpassword', CheckUserPassword.as_view()),
 	url(r'^changeuserpassword', ChangeUserPassword.as_view()),

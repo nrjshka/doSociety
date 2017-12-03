@@ -345,6 +345,22 @@ class GetInFriendsInfo(APIView):
 
 		return Response({'infriend': mass})
 
+class GetOutFriendsInfo(APIView):
+	'''Достает информацию о списке входящих заявок'''
+	permission_classes = (IsAuthenticated,)
+	renderer_classes = (JSONRenderer,)
+
+	def post(self, request, format = None):
+		owner = User.objects.get(username = request.user.username)
+		i = 0
+		mass = []
+		for i in range(0,len(owner.listOfOutcoming.all())):
+			sub = owner.listOfOutcoming.all()[i]
+			mass.append({'id': sub.id, 'name': sub.name, 'surname': sub.surname, 'photo': sub.user_foto})
+
+		return Response({'outfriend': mass})
+
+
 class DeleteFriend(APIView):
 	'''Удаление друга из списка друзей'''
 	permission_classes = (IsAuthenticated,)

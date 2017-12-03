@@ -74,9 +74,9 @@ class User(AbstractBaseUser):
 	#это админ?
 	is_admin = models.BooleanField(default=False)
 	#список исходящих заявок в друзья
-	listOfIncoming = models.ManyToManyField("self", related_name = "listOfIncoming")
+	listOfIncoming = models.ManyToManyField('self', symmetrical = False, related_name = "+")
 	#список входящих заявок в друзья
-	listOfOutcoming = models.ManyToManyField("self" , related_name = "listOfOutcoming")
+	listOfOutcoming = models.ManyToManyField('self', symmetrical = False, related_name = "+")
 	#список друзей
 	listOfFriends = models.ManyToManyField("self" , related_name = "listOfFriends")
 	#vk id

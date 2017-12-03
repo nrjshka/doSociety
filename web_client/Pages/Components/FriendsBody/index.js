@@ -116,7 +116,7 @@ class FriendsBody extends Component{
 		this.getFriendInfo(Page,illusionObject);
 		let illusionList = Page.state.friend.pop(); 
 		var friendBlock =[];	
-		if (illusionList != undefined) {
+		if (illusionList !== undefined) {
 			for (var i = 0; i < illusionList.length; i++) {
 				var Url = '/msg?to='+illusionList[i].id;
 				friendBlock.push(<div className="contentDialog__avatar"><img src={illusionList[i].photo}/></div>);

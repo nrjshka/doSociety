@@ -31970,7 +31970,7 @@ class FriendsBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 		this.getFriendInfo(Page, illusionObject);
 		let illusionList = Page.state.friend.pop();
 		var friendBlock = [];
-		if (illusionList != undefined) {
+		if (illusionList !== undefined) {
 			for (var i = 0; i < illusionList.length; i++) {
 				var Url = '/msg?to=' + illusionList[i].id;
 				friendBlock.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -32460,7 +32460,7 @@ class InFriendsBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
 		let illusionList = Page.state.infriend.pop();
 		var friendBlock = [];
-		if (illusionList != undefined) {
+		if (illusionList !== undefined) {
 			for (var i = 0; i < illusionList.length; i++) {
 				friendBlock.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 					'div',
@@ -33652,7 +33652,8 @@ class OutFriendsBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 			user_foro: '',
 			workplace: '',
 			listOfOutcoming: '',
-			something: ''
+			something: '',
+			outfriend: []
 		};
 	}
 
@@ -33704,42 +33705,84 @@ class OutFriendsBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 		//this.props.getUserInfo(this.props.id);
 	}
 
-	creatorOfFriendsBar(Page, illusionObject) {
-		/*fetch('/api/getuserinfo/',{
-   		method: 'POST',
-  	    headers : {
-  	        'Content-Type': 'application/json',
-  	        'Accept': 'application/json',
-      },
-      body: JSON.stringify({
-          id: Page.state.listOfOutcoming[0], 
-      })
-  })
-  .then( (result) => {return result.json()})
-  .then( (data) => {
-  		illusionObject = data.name+' '+data.surname;	
-  		Page.setState({
-  			something: <div>
-  					
-  					{illusionObject}
-  					   
-  					   </div>,
-  		});
-  })*/
+	getOutFriendInfo(Page) {
+		fetch('/api/getoutfriendsinfo', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Accept': 'application/json',
+				'Authorization': 'JWT ' + localStorage.getItem('token')
+			}
+		}).then(response => {
+			return response.json();
+		}).then(data => {
+			Page.state.outfriend.push(data['outfriend']);
+		});
+	}
+
+	cancellationOfAdd(Page, ButtId) {
+		/*Отмена заявки в друзья*/
+		fetch('api/cancellationofadding/', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Accept': 'application/json',
+				'Authorization': 'JWT ' + localStorage.getItem('token')
+			},
+			body: JSON.stringify({
+				cancelAdd: ButtId
+			})
+		}).then(result => {
+			return result.json();
+		}).then(data => {});
 	}
 
 	render() {
 		var Page = this;
 		var illusionObject = '';
 
-		//if (this.state.listOfOutcoming.length != 0){
-		//	this.creatorOfFriendsBar(Page,illusionObject);
-		//}
+		this.getOutFriendInfo(Page);
+
+		let illusionList = Page.state.outfriend.pop();
+		var friendBlock = [];
+		if (illusionList !== undefined) {
+			for (var i = 0; i < illusionList.length; i++) {
+				friendBlock.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+					'div',
+					{ className: 'contentDialog__avatar' },
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { src: illusionList[i].photo })
+				));
+				friendBlock.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+					'div',
+					null,
+					illusionList[i].name,
+					' ',
+					illusionList[i].surname
+				));
+				friendBlock.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null));
+				friendBlock.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+					'button',
+					{ className: 'contentProfile__button', id: illusionList[i].id, onClick: event => {
+							this.cancellationOfAdd(Page, event.target.id);
+						} },
+					'\u041E\u0442\u043C\u0435\u043D\u0438\u0442\u044C \u0437\u0430\u043F\u0440\u043E\u0441'
+				));
+				friendBlock.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null));
+			}
+		};
 
 		return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 			'div',
 			{ className: 'col-lg-8 col-md-8 col-sm-9 col-xs-12 content' },
-			this.state.something
+			__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+				'div',
+				{ className: 'contentTuning container-fluid' },
+				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+					'div',
+					{ className: 'row' },
+					friendBlock
+				)
+			)
 		);
 	}
 }
