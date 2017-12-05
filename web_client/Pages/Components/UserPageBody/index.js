@@ -99,8 +99,9 @@ class UserPageBody extends Component{
 	checkFriendsStatus(Page){
 		/*Проверка статуса в котором находятся пользователь между собой, где:
 		  '0'- Просто не друзья
-		  '1'- Заявка отправлена
-		  '2'- Друзья 	
+		  '1'- Заявка отправлена со стороны owner'a
+		  '2'- Друзья 
+		  '3'- Заявка отправлена со стороны sub'a	
 		*/		
 		
 		fetch('/api/checkfriends/', {
@@ -120,15 +121,21 @@ class UserPageBody extends Component{
 			var deleteButton = document.getElementById('buttonDelFriend');
 			var addButton = document.getElementById('buttonAddFriend');
 			var requestButton = document.getElementById('buttonRequestFriend');
+			var cansellButton = document.getElementById('buttonCancellRequest');
+			var acceptButton = document.getElementById('buttonAcceptRequest');
 
 			switch(data['status']){
 				case '0':
 						deleteButton.style.display = 'none';
 						requestButton.style.display = 'none';
+						acceptButton.style.display = 'none';
+						cansellButton.style.display = 'none';
 						addButton.style.display = 'inherit';
 					break;
 				case '1':
 						deleteButton.style.display = 'none';
+						acceptButton.style.display = 'none';
+						cansellButton.style.display = 'none';
 						requestButton.style.display = 'inherit';
 						addButton.style.display = 'none';
 					break;
@@ -136,6 +143,15 @@ class UserPageBody extends Component{
 						deleteButton.style.display = 'inherit';
 						requestButton.style.display = 'none';
 						addButton.style.display = 'none';
+						acceptButton.style.display = 'none';
+						cansellButton.style.display = 'none';
+					break;
+				case '3':
+						deleteButton.style.display = 'none';
+						requestButton.style.display = 'none';
+						addButton.style.display = 'none';
+						acceptButton.style.display = 'inherit';
+						cansellButton.style.display = 'inherit';
 					break;
 			}
 		})	
@@ -156,21 +172,27 @@ class UserPageBody extends Component{
 		})
 		.then( (result) => { return result.json()})
 		.then( (data) => {
+			
+			var deleteButton = document.getElementById('buttonDelFriend');
+			var addButton = document.getElementById('buttonAddFriend');
+			var requestButton = document.getElementById('buttonRequestFriend');
+			var cansellButton = document.getElementById('buttonCancellRequest');
+			var acceptButton = document.getElementById('buttonAcceptRequest');
+			
+
 			if (data['status'] === '1'){
 				//если все прошло хорошо, то меняем кнопки на UserPage
-				var deleteButton = document.getElementById('buttonDelFriend');
-				var addButton = document.getElementById('buttonAddFriend');
-				var requestButton = document.getElementById('buttonRequestFriend');
 				deleteButton.style.display = 'none';
 				requestButton.style.display = 'inherit';
 				addButton.style.display = 'none';
+				acceptButton.style.display = 'none';
+				cansellButton.style.display = 'none';
 			}else if (data['status'] === '2'){
-				var deleteButton = document.getElementById('buttonDelFriend');
-				var addButton = document.getElementById('buttonAddFriend');
-				var requestButton = document.getElementById('buttonRequestFriend');
 				deleteButton.style.display = 'inherit';
 				requestButton.style.display = 'none';
 				addButton.style.display = 'none';
+				acceptButton.style.display = 'none';
+				cansellButton.style.display = 'none';
 			}
 		})
 	}
@@ -192,12 +214,17 @@ class UserPageBody extends Component{
 		.then ( (data) => {
 			if (data['status'] === '0'){
 				//если все прошло хорошо, то меняем кнопки на UserPage
-				var deleteButton =document.getElementById('buttonDelFriend'); 
+				var deleteButton = document.getElementById('buttonDelFriend');
 				var addButton = document.getElementById('buttonAddFriend');
 				var requestButton = document.getElementById('buttonRequestFriend');
+				var cansellButton = document.getElementById('buttonCancellRequest');
+				var acceptButton = document.getElementById('buttonAcceptRequest');
+			
 				deleteButton.style.display = 'none';
 				requestButton.style.display = 'none';
 				addButton.style.display = 'inherit';
+				acceptButton.style.display = 'none';
+				cansellButton.style.display = 'none';
 			}	
 		})
 	}
@@ -219,15 +246,84 @@ class UserPageBody extends Component{
 		.then ( (data) => {
 			if (data['status'] === '0'){
 				//если все прошло хорошо, то меняем кнопки на UserPage
-				var deleteButton =document.getElementById('buttonDelFriend'); 
+				var deleteButton = document.getElementById('buttonDelFriend');
 				var addButton = document.getElementById('buttonAddFriend');
 				var requestButton = document.getElementById('buttonRequestFriend');
+				var cansellButton = document.getElementById('buttonCancellRequest');
+				var acceptButton = document.getElementById('buttonAcceptRequest');
+			
 				deleteButton.style.display = 'none';
 				requestButton.style.display = 'none';
 				addButton.style.display = 'inherit';
+				acceptButton.style.display = 'none';
+				cansellButton.style.display = 'none';
 			}	
 		})
 	}
+
+	acceptingRequest(Page){
+		fetch('/api/addfriend/', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'Accept': 'application/json',
+					'Authorization': 'JWT ' + localStorage.getItem('token'),
+				},
+				body:JSON.stringify({
+					addFriend: Page.state.id
+				})
+		})
+		.then( (result) => { return result.json()})
+		.then( (data) => {
+			if (data['status'] === '2'){
+				//если все прошло хорошо, то меняем кнопки на UserPage
+				var deleteButton = document.getElementById('buttonDelFriend');
+				var addButton = document.getElementById('buttonAddFriend');
+				var requestButton = document.getElementById('buttonRequestFriend');
+				var cansellButton = document.getElementById('buttonCancellRequest');
+				var acceptButton = document.getElementById('buttonAcceptRequest');
+			
+				deleteButton.style.display = 'inherit';
+				requestButton.style.display = 'none';
+				addButton.style.display = 'none';
+				acceptButton.style.display = 'none';
+				cansellButton.style.display = 'none';
+			}
+		})
+	}
+
+	cancellatingOfRequest(Page){
+		/*Отмена заявки в друзья*/
+		fetch('api/cancellationofadding/', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'Accept': 'application/json',
+					'Authorization': 'JWT ' + localStorage.getItem('token'),
+				},
+				body:JSON.stringify({
+					cancelAdd: Page.state.id
+				})
+		})
+		.then( (result) => { return result.json()})
+		.then ( (data) => {
+			if (data['status'] === '0'){
+				//если все прошло хорошо, то меняем кнопки на UserPage
+				var deleteButton = document.getElementById('buttonDelFriend');
+				var addButton = document.getElementById('buttonAddFriend');
+				var requestButton = document.getElementById('buttonRequestFriend');
+				var cansellButton = document.getElementById('buttonCancellRequest');
+				var acceptButton = document.getElementById('buttonAcceptRequest');
+			
+				deleteButton.style.display = 'none';
+				requestButton.style.display = 'none';
+				addButton.style.display = 'inherit';
+				acceptButton.style.display = 'none';
+				cansellButton.style.display = 'none';
+			}	
+		})
+	}
+
 
 	render(){
 		var outputURl = "/msg?to=" + this.state.id; 
@@ -252,6 +348,8 @@ class UserPageBody extends Component{
 				<button className="contentProfile__button" id="buttonAddFriend" onClick={ (event) => {this.requestToFriend(Page)}}> Добавить в друзья</button>
 				<button className="contentProfile__button" id="buttonDelFriend" onClick={(event) => {this.deleteFriend(Page)}}>Удалить из друзей</button>
 	    		<button className="contentProfile__button" id="buttonRequestFriend" onClick={(event) => {this.cancellationOfRequest(Page)}}>Заявка отправлена</button>
+	    		<button className="contentProfile__button" id="buttonAcceptRequest" onClick={(event) => {this.acceptingRequest(Page)}}>Принять заявку</button>
+				<button className="contentProfile__button" id="buttonCancellRequest" onClick={(event) => {this.cancellatingOfRequest(Page)}}>Не принимать заявку</button>
 	    	</div>	
 	    }
 	     

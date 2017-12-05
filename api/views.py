@@ -430,8 +430,9 @@ class CancellationOfAdding(APIView):
 class CheckFriends(APIView):
 	'''Проверка состояния в котором пользователи находятся друг с другом, где:
 		'0'- Просто не друзья
-		'1'- Заявка в друзья отправлена
+		'1'- Заявка в друзья отправлена owner'ом
 		'2'- Друзья
+		'3'- Заявка в друзья отправлена sub'ом
 	'''
 	permission_classes = (IsAuthenticated,)
 	renderer_classes = (JSONRenderer,)
@@ -442,9 +443,9 @@ class CheckFriends(APIView):
 			owner = User.objects.get(username = request.user.username)
 			sub =  User.objects.get(id = request.data['checkFriends'])
 			
-			if not(sub in owner.listOfFriends.all()) and (sub in owner.listOfIncoming.all()):
-				return Response({'status': '0'})
-			else:	
+			if owner in sub.listOfOutcoming.all():
+				return Response({'status': '3'})
+			else:
 				if sub in owner.listOfOutcoming.all():
 					return Response({'status': '1'})
 				else:

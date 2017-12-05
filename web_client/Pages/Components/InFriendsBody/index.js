@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import {getUserInfo} from '../../../Redux/Actions'
@@ -137,8 +138,9 @@ class InFriendsBody extends Component{
 		var friendBlock =[];	
 		if (illusionList !== undefined) {
 			for (var i = 0; i < illusionList.length; i++) {
+				var IdUrl ='/id'+illusionList[i].id;
 				friendBlock.push(<div className="contentDialog__avatar"><img src={illusionList[i].photo}/></div>);
-				friendBlock.push(<div>{illusionList[i].name} {illusionList[i].surname}</div>);
+				friendBlock.push(<Link to={IdUrl}>{illusionList[i].name} {illusionList[i].surname}</Link>);
 				friendBlock.push(<br />);
 				friendBlock.push(<button className="contentProfile__button" id={illusionList[i].id} onClick={(event) => {this.acceptingRequest(Page,event.target.id)}}>Принять заявку</button>);
 				friendBlock.push(<button className="contentProfile__button" id={illusionList[i].id} onClick={(event) => {this.cancellationOfRequest(Page,event.target.id)}}>Не принимать заявку</button>);

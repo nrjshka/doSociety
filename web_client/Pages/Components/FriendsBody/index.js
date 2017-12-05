@@ -119,8 +119,9 @@ class FriendsBody extends Component{
 		if (illusionList !== undefined) {
 			for (var i = 0; i < illusionList.length; i++) {
 				var Url = '/msg?to='+illusionList[i].id;
+				var IdUrl ='/id'+illusionList[i].id;
 				friendBlock.push(<div className="contentDialog__avatar"><img src={illusionList[i].photo}/></div>);
-				friendBlock.push(<div>{illusionList[i].name} {illusionList[i].surname}</div>);
+				friendBlock.push(<Link to={IdUrl}>{illusionList[i].name} {illusionList[i].surname}</Link>);
 				friendBlock.push(<br />);
 				friendBlock.push(<Link to={Url}><button className="contentProfile__button">Написать сообщение</button></Link>);
 				friendBlock.push(<button className="contentProfile__button" id={illusionList[i].id} onClick={(event) => {this.deleteFriend(Page,event.target.id)}}>Удалить из друзей</button>);
