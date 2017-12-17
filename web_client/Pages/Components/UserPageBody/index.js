@@ -2,11 +2,12 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import {getUserInfo} from '../../../Redux/Actions'
+import {getUserInfo, wsGetStatus} from '../../../Redux/Actions'
 
 class UserPageBody extends Component{
 	constructor(props){
 		super(props);
+		this.props.wsGetStatus(this.props.id);
 		
 		// this.props.getUserInfo(this.props.id);			
 		
@@ -19,6 +20,7 @@ class UserPageBody extends Component{
 			user_foto : '',
 			workplace : '',
 		}
+
 		//debug-mod only
 		//console.log('ID', this.props.id);;
 	}
@@ -55,7 +57,9 @@ class UserPageBody extends Component{
 	}
 
 	componentWillMount(){
-
+			this.props.getUserInfo(this.props.id);
+			
+			/*
 			//первоначальная версия для вывода даты
 			var months = ['янваврь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'];
 
@@ -80,12 +84,8 @@ class UserPageBody extends Component{
 				user_foto : this.props.user.user_foto,
 				workplace : this.props.user.workplace,
 			});
+			*/
 		}
-
-
-	componentWillMount(){
-		this.props.getUserInfo(this.props.id)
-	}
 
 	checkFriendsStatus(Page){
 		/*Проверка статуса в котором находятся пользователь между собой, где:
@@ -212,6 +212,7 @@ class UserPageBody extends Component{
 	}
 
 	render(){
+		console.log(this.props);
 		var outputURl = "/msg?to=" + this.state.id; 
 		var UserButton; var Page = this;
 		
@@ -280,6 +281,7 @@ function mapToStateProps(state){
 function matchDispatchToProps(dispatch){
 	return {
 	    getUserInfo: bindActionCreators(getUserInfo, dispatch),
+	    wsGetStatus: bindActionCreators(wsGetStatus, dispatch),  
 	};
 }
 export default connect(mapToStateProps, matchDispatchToProps)(UserPageBody)

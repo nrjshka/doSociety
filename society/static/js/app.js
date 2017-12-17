@@ -824,13 +824,13 @@ if (process.env.NODE_ENV !== 'production') {
 /* unused harmony reexport Redirect */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Route__ = __webpack_require__(105);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_3__Route__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Router__ = __webpack_require__(66);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Router__ = __webpack_require__(67);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_4__Router__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__StaticRouter__ = __webpack_require__(247);
 /* unused harmony reexport StaticRouter */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Switch__ = __webpack_require__(248);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_6__Switch__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__matchPath__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__matchPath__ = __webpack_require__(68);
 /* unused harmony reexport matchPath */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__withRouter__ = __webpack_require__(249);
 /* unused harmony reexport withRouter */
@@ -1335,7 +1335,7 @@ var CallbackQueue = __webpack_require__(79);
 var PooledClass = __webpack_require__(21);
 var ReactFeatureFlags = __webpack_require__(84);
 var ReactReconciler = __webpack_require__(27);
-var Transaction = __webpack_require__(40);
+var Transaction = __webpack_require__(41);
 
 var invariant = __webpack_require__(2);
 
@@ -2392,7 +2392,7 @@ var _assign = __webpack_require__(5);
 var ReactCurrentOwner = __webpack_require__(14);
 
 var warning = __webpack_require__(3);
-var canDefineProperty = __webpack_require__(43);
+var canDefineProperty = __webpack_require__(44);
 var hasOwnProperty = Object.prototype.hasOwnProperty;
 
 var REACT_ELEMENT_TYPE = __webpack_require__(107);
@@ -2852,10 +2852,10 @@ const DS_REGISTRATION = 'DS_REGISTRATION';
 
 
 
-var DOMNamespaces = __webpack_require__(51);
-var setInnerHTML = __webpack_require__(42);
+var DOMNamespaces = __webpack_require__(52);
+var setInnerHTML = __webpack_require__(43);
 
-var createMicrosoftUnsafeLocalFunction = __webpack_require__(58);
+var createMicrosoftUnsafeLocalFunction = __webpack_require__(59);
 var setTextContent = __webpack_require__(98);
 
 var ELEMENT_NODE_TYPE = 1;
@@ -3164,8 +3164,8 @@ var createFactory = ReactElement.createFactory;
 var cloneElement = ReactElement.cloneElement;
 
 if (process.env.NODE_ENV !== 'production') {
-  var lowPriorityWarning = __webpack_require__(68);
-  var canDefineProperty = __webpack_require__(43);
+  var lowPriorityWarning = __webpack_require__(69);
+  var canDefineProperty = __webpack_require__(44);
   var ReactElementValidator = __webpack_require__(108);
   var didWarnPropTypesDeprecated = false;
   createElement = ReactElementValidator.createElement;
@@ -3452,9 +3452,9 @@ module.exports = invariant;
 
 var _prodInvariant = __webpack_require__(4);
 
-var EventPluginRegistry = __webpack_require__(37);
-var EventPluginUtils = __webpack_require__(52);
-var ReactErrorUtils = __webpack_require__(56);
+var EventPluginRegistry = __webpack_require__(38);
+var EventPluginUtils = __webpack_require__(53);
+var ReactErrorUtils = __webpack_require__(57);
 
 var accumulateInto = __webpack_require__(91);
 var forEachAccumulated = __webpack_require__(92);
@@ -3731,7 +3731,7 @@ module.exports = EventPluginHub;
 
 
 var EventPluginHub = __webpack_require__(32);
-var EventPluginUtils = __webpack_require__(52);
+var EventPluginUtils = __webpack_require__(53);
 
 var accumulateInto = __webpack_require__(91);
 var forEachAccumulated = __webpack_require__(92);
@@ -3923,7 +3923,7 @@ module.exports = ReactInstanceMap;
 
 var SyntheticEvent = __webpack_require__(16);
 
-var getEventTarget = __webpack_require__(61);
+var getEventTarget = __webpack_require__(62);
 
 /**
  * @interface UIEvent
@@ -3970,6 +3970,107 @@ module.exports = SyntheticUIEvent;
 
 /***/ }),
 /* 36 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["b"] = getMessageInfo;
+/* harmony export (immutable) */ __webpack_exports__["c"] = getUserInfo;
+/* harmony export (immutable) */ __webpack_exports__["a"] = wsCreate;
+/* harmony export (immutable) */ __webpack_exports__["d"] = wsMessage;
+/* unused harmony export addFriend */
+/* harmony export (immutable) */ __webpack_exports__["e"] = wsGetStatus;
+/* harmony export (immutable) */ __webpack_exports__["f"] = setUserStatus;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Consts__ = __webpack_require__(24);
+
+
+function getMessageInfo(id) {
+	return dispatch => {
+		fetch('/api/getmessagedata/', {
+			method: "POST",
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'JWT ' + localStorage.getItem('token')
+			},
+			body: JSON.stringify({
+				receiver_id: id
+			})
+		}).then(result => {
+			return result.json();
+		}).then(data => {
+			dispatch({ type: __WEBPACK_IMPORTED_MODULE_0__Consts__["a" /* GET_MESSAGE */], payload: Object.assign({}, data, { oldTo: id }) });
+		});
+	};
+}
+
+function getUserInfo(id) {
+	return dispatch => {
+		fetch('/api/getuserinfo/', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Accept': 'application/json'
+			},
+			body: JSON.stringify({
+				id: id
+			})
+		}).then(result => {
+			return result.json();
+		}).then(data => {
+			dispatch({ type: __WEBPACK_IMPORTED_MODULE_0__Consts__["b" /* GET_USER_INFO */], payload: Object.assign({}, data)
+			});
+		});
+	};
+}
+
+function wsCreate() {
+	return dispatch => dispatch({ type: __WEBPACK_IMPORTED_MODULE_0__Consts__["c" /* WS_CONNECT */] });
+}
+
+function wsMessage(message, to) {
+	//TODO: переписать этот кусок, не нужно дергать каждый раз `getid`
+	var outputArray = {};
+	outputArray.type = 'MESSAGE';
+	outputArray.to = to;
+	outputArray.data = { message: message };
+	return dispatch => {
+		dispatch({
+			type: __WEBPACK_IMPORTED_MODULE_0__Consts__["d" /* WS_SEND_MESSAGE */],
+			payload: outputArray
+		});
+	};
+}
+
+function addFriend() {
+	return dispatch => {
+		dispatch({
+			type: __WEBPACK_IMPORTED_MODULE_0__Consts__["e" /* FRIEND_ADD */]
+		});
+	};
+}
+
+function wsGetStatus(id) {
+	return dispatch => {
+		dispatch({
+			type: 'WS_GET_STATUS',
+			payload: id
+		});
+	};
+}
+
+function setUserStatus(id, status) {
+	return dispatch => {
+		dispatch({
+			type: "SET_USER_STATUS",
+			payload: {
+				'id': id,
+				'status': status
+			}
+		});
+	};
+}
+
+/***/ }),
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3995,7 +4096,7 @@ module.exports = emptyObject;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4254,7 +4355,7 @@ module.exports = EventPluginRegistry;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4272,12 +4373,12 @@ module.exports = EventPluginRegistry;
 
 var _assign = __webpack_require__(5);
 
-var EventPluginRegistry = __webpack_require__(37);
+var EventPluginRegistry = __webpack_require__(38);
 var ReactEventEmitterMixin = __webpack_require__(184);
 var ViewportMetrics = __webpack_require__(90);
 
 var getVendorPrefixedEventName = __webpack_require__(219);
-var isEventSupported = __webpack_require__(62);
+var isEventSupported = __webpack_require__(63);
 
 /**
  * Summary of `ReactBrowserEventEmitter` event handling:
@@ -4583,7 +4684,7 @@ var ReactBrowserEventEmitter = _assign({}, ReactEventEmitterMixin, {
 module.exports = ReactBrowserEventEmitter;
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4602,7 +4703,7 @@ module.exports = ReactBrowserEventEmitter;
 var SyntheticUIEvent = __webpack_require__(35);
 var ViewportMetrics = __webpack_require__(90);
 
-var getEventModifierState = __webpack_require__(60);
+var getEventModifierState = __webpack_require__(61);
 
 /**
  * @interface MouseEvent
@@ -4660,7 +4761,7 @@ SyntheticUIEvent.augmentClass(SyntheticMouseEvent, MouseEventInterface);
 module.exports = SyntheticMouseEvent;
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4894,7 +4995,7 @@ module.exports = TransactionImpl;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5021,7 +5122,7 @@ function escapeTextContentForBrowser(text) {
 module.exports = escapeTextContentForBrowser;
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5038,12 +5139,12 @@ module.exports = escapeTextContentForBrowser;
 
 
 var ExecutionEnvironment = __webpack_require__(7);
-var DOMNamespaces = __webpack_require__(51);
+var DOMNamespaces = __webpack_require__(52);
 
 var WHITESPACE_TEST = /^[ \r\n\t\f]/;
 var NONVISIBLE_TEST = /<(!--|link|noscript|meta|script|style)[ \r\n\t\f\/>]/;
 
-var createMicrosoftUnsafeLocalFunction = __webpack_require__(58);
+var createMicrosoftUnsafeLocalFunction = __webpack_require__(59);
 
 // SVG temp container for IE lacking innerHTML
 var reusableSVGContainer;
@@ -5124,7 +5225,7 @@ if (ExecutionEnvironment.canUseDOM) {
 module.exports = setInnerHTML;
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5156,7 +5257,7 @@ module.exports = canDefineProperty;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5241,7 +5342,7 @@ class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (Settings);
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5314,7 +5415,7 @@ function shallowEqual(objA, objB) {
 module.exports = shallowEqual;
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5408,7 +5509,7 @@ var locationsAreEqual = exports.locationsAreEqual = function locationsAreEqual(a
 };
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5501,7 +5602,7 @@ var createTransitionManager = function createTransitionManager() {
 exports.default = createTransitionManager;
 
 /***/ }),
-/* 48 */
+/* 49 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5571,7 +5672,7 @@ function isPlainObject(value) {
 /* harmony default export */ __webpack_exports__["a"] = (isPlainObject);
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5591,7 +5692,7 @@ var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
 module.exports = ReactPropTypesSecret;
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5612,8 +5713,8 @@ var Danger = __webpack_require__(157);
 var ReactDOMComponentTree = __webpack_require__(6);
 var ReactInstrumentation = __webpack_require__(12);
 
-var createMicrosoftUnsafeLocalFunction = __webpack_require__(58);
-var setInnerHTML = __webpack_require__(42);
+var createMicrosoftUnsafeLocalFunction = __webpack_require__(59);
+var setInnerHTML = __webpack_require__(43);
 var setTextContent = __webpack_require__(98);
 
 function getNodeAfter(parentNode, node) {
@@ -5823,7 +5924,7 @@ module.exports = DOMChildrenOperations;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5848,7 +5949,7 @@ var DOMNamespaces = {
 module.exports = DOMNamespaces;
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5866,7 +5967,7 @@ module.exports = DOMNamespaces;
 
 var _prodInvariant = __webpack_require__(4);
 
-var ReactErrorUtils = __webpack_require__(56);
+var ReactErrorUtils = __webpack_require__(57);
 
 var invariant = __webpack_require__(2);
 var warning = __webpack_require__(3);
@@ -6080,7 +6181,7 @@ module.exports = EventPluginUtils;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6144,7 +6245,7 @@ var KeyEscapeUtils = {
 module.exports = KeyEscapeUtils;
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6288,7 +6389,7 @@ module.exports = LinkedValueUtils;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6338,7 +6439,7 @@ module.exports = ReactComponentEnvironment;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6420,7 +6521,7 @@ module.exports = ReactErrorUtils;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6660,7 +6761,7 @@ module.exports = ReactUpdateQueue;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6697,7 +6798,7 @@ var createMicrosoftUnsafeLocalFunction = function (func) {
 module.exports = createMicrosoftUnsafeLocalFunction;
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6752,7 +6853,7 @@ function getEventCharCode(nativeEvent) {
 module.exports = getEventCharCode;
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6800,7 +6901,7 @@ function getEventModifierState(nativeEvent) {
 module.exports = getEventModifierState;
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6840,7 +6941,7 @@ function getEventTarget(nativeEvent) {
 module.exports = getEventTarget;
 
 /***/ }),
-/* 62 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6905,7 +7006,7 @@ function isEventSupported(eventNameSuffix, capture) {
 module.exports = isEventSupported;
 
 /***/ }),
-/* 63 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6952,7 +7053,7 @@ function shouldUpdateReactComponent(prevElement, nextElement) {
 module.exports = shouldUpdateReactComponent;
 
 /***/ }),
-/* 64 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7329,7 +7430,7 @@ module.exports = validateDOMNesting;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 65 */
+/* 66 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7357,7 +7458,7 @@ function warning(message) {
 }
 
 /***/ }),
-/* 66 */
+/* 67 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7494,7 +7595,7 @@ Router.childContextTypes = {
 /* harmony default export */ __webpack_exports__["a"] = (Router);
 
 /***/ }),
-/* 67 */
+/* 68 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7569,7 +7670,7 @@ var matchPath = function matchPath(pathname) {
 /* harmony default export */ __webpack_exports__["a"] = (matchPath);
 
 /***/ }),
-/* 68 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7638,84 +7739,6 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = lowPriorityWarning;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
-/* 69 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = getMessageInfo;
-/* harmony export (immutable) */ __webpack_exports__["b"] = getUserInfo;
-/* harmony export (immutable) */ __webpack_exports__["c"] = wsCreate;
-/* harmony export (immutable) */ __webpack_exports__["d"] = wsMessage;
-/* unused harmony export addFriend */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Consts__ = __webpack_require__(24);
-
-
-function getMessageInfo(id) {
-	return dispatch => {
-		fetch('/api/getmessagedata/', {
-			method: "POST",
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': 'JWT ' + localStorage.getItem('token')
-			},
-			body: JSON.stringify({
-				receiver_id: id
-			})
-		}).then(result => {
-			return result.json();
-		}).then(data => {
-			dispatch({ type: __WEBPACK_IMPORTED_MODULE_0__Consts__["a" /* GET_MESSAGE */], payload: Object.assign({}, data, { oldTo: id }) });
-		});
-	};
-}
-
-function getUserInfo(id) {
-	return dispatch => {
-		fetch('/api/getuserinfo/', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				'Accept': 'application/json'
-			},
-			body: JSON.stringify({
-				id: id
-			})
-		}).then(result => {
-			return result.json();
-		}).then(data => {
-			dispatch({ type: __WEBPACK_IMPORTED_MODULE_0__Consts__["b" /* GET_USER_INFO */], payload: Object.assign({}, data)
-			});
-		});
-	};
-}
-
-function wsCreate() {
-	return dispatch => dispatch({ type: __WEBPACK_IMPORTED_MODULE_0__Consts__["c" /* WS_CONNECT */] });
-}
-
-function wsMessage(message, to) {
-	//TODO: переписать этот кусок, не нужно дергать каждый раз `getid`
-	var outputArray = {};
-	outputArray.type = 'MESSAGE';
-	outputArray.to = to;
-	outputArray.data = { message: message };
-	return dispatch => {
-		dispatch({
-			type: __WEBPACK_IMPORTED_MODULE_0__Consts__["d" /* WS_SEND_MESSAGE */],
-			payload: outputArray
-		});
-	};
-}
-
-function addFriend() {
-	return dispatch => {
-		dispatch({
-			type: __WEBPACK_IMPORTED_MODULE_0__Consts__["e" /* FRIEND_ADD */]
-		});
-	};
-}
 
 /***/ }),
 /* 70 */
@@ -7999,7 +8022,7 @@ var emptyFunction = __webpack_require__(11);
 var invariant = __webpack_require__(2);
 var warning = __webpack_require__(3);
 
-var ReactPropTypesSecret = __webpack_require__(49);
+var ReactPropTypesSecret = __webpack_require__(50);
 var checkPropTypes = __webpack_require__(150);
 
 module.exports = function (isValidElement, throwOnDirectAccess) {
@@ -9237,7 +9260,7 @@ module.exports = ReactDOMComponentFlags;
 
 var _assign = __webpack_require__(5);
 
-var LinkedValueUtils = __webpack_require__(54);
+var LinkedValueUtils = __webpack_require__(55);
 var ReactDOMComponentTree = __webpack_require__(6);
 var ReactUpdates = __webpack_require__(13);
 
@@ -9710,7 +9733,7 @@ var _prodInvariant = __webpack_require__(4);
 var DOMLazyTree = __webpack_require__(26);
 var DOMProperty = __webpack_require__(18);
 var React = __webpack_require__(28);
-var ReactBrowserEventEmitter = __webpack_require__(38);
+var ReactBrowserEventEmitter = __webpack_require__(39);
 var ReactCurrentOwner = __webpack_require__(14);
 var ReactDOMComponentTree = __webpack_require__(6);
 var ReactDOMContainerInfo = __webpack_require__(167);
@@ -9720,14 +9743,14 @@ var ReactInstanceMap = __webpack_require__(34);
 var ReactInstrumentation = __webpack_require__(12);
 var ReactMarkupChecksum = __webpack_require__(189);
 var ReactReconciler = __webpack_require__(27);
-var ReactUpdateQueue = __webpack_require__(57);
+var ReactUpdateQueue = __webpack_require__(58);
 var ReactUpdates = __webpack_require__(13);
 
-var emptyObject = __webpack_require__(36);
+var emptyObject = __webpack_require__(37);
 var instantiateReactComponent = __webpack_require__(96);
 var invariant = __webpack_require__(2);
-var setInnerHTML = __webpack_require__(42);
-var shouldUpdateReactComponent = __webpack_require__(63);
+var setInnerHTML = __webpack_require__(43);
+var shouldUpdateReactComponent = __webpack_require__(64);
 var warning = __webpack_require__(3);
 
 var ATTR_NAME = DOMProperty.ID_ATTRIBUTE_NAME;
@@ -10839,8 +10862,8 @@ module.exports = isTextInputElement;
 
 
 var ExecutionEnvironment = __webpack_require__(7);
-var escapeTextContentForBrowser = __webpack_require__(41);
-var setInnerHTML = __webpack_require__(42);
+var escapeTextContentForBrowser = __webpack_require__(42);
+var setInnerHTML = __webpack_require__(43);
 
 /**
  * Set the textContent property of a node, ensuring that whitespace is preserved
@@ -10902,7 +10925,7 @@ var REACT_ELEMENT_TYPE = __webpack_require__(183);
 
 var getIteratorFn = __webpack_require__(217);
 var invariant = __webpack_require__(2);
-var KeyEscapeUtils = __webpack_require__(53);
+var KeyEscapeUtils = __webpack_require__(54);
 var warning = __webpack_require__(3);
 
 var SEPARATOR = '.';
@@ -11497,8 +11520,8 @@ var storeShape = __WEBPACK_IMPORTED_MODULE_0_prop_types___default.a.shape({
 
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = verifyPlainObject;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_es_isPlainObject__ = __webpack_require__(48);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__warning__ = __webpack_require__(65);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_es_isPlainObject__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__warning__ = __webpack_require__(66);
 
 
 
@@ -11644,7 +11667,7 @@ Link.contextTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__matchPath__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__matchPath__ = __webpack_require__(68);
 var _extends = Object.assign || function (target) {
   for (var i = 1; i < arguments.length; i++) {
     var source = arguments[i];for (var key in source) {
@@ -11817,10 +11840,10 @@ var _prodInvariant = __webpack_require__(29),
 
 var ReactNoopUpdateQueue = __webpack_require__(109);
 
-var canDefineProperty = __webpack_require__(43);
-var emptyObject = __webpack_require__(36);
+var canDefineProperty = __webpack_require__(44);
+var emptyObject = __webpack_require__(37);
 var invariant = __webpack_require__(2);
-var lowPriorityWarning = __webpack_require__(68);
+var lowPriorityWarning = __webpack_require__(69);
 
 /**
  * Base class helpers for the updating state of a component.
@@ -11999,10 +12022,10 @@ var ReactElement = __webpack_require__(22);
 
 var checkReactTypeSpec = __webpack_require__(258);
 
-var canDefineProperty = __webpack_require__(43);
+var canDefineProperty = __webpack_require__(44);
 var getIteratorFn = __webpack_require__(110);
 var warning = __webpack_require__(3);
-var lowPriorityWarning = __webpack_require__(68);
+var lowPriorityWarning = __webpack_require__(69);
 
 function getDeclarationErrorAddendum() {
   if (ReactCurrentOwner.current) {
@@ -12423,7 +12446,7 @@ function compose() {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return ActionTypes; });
 /* harmony export (immutable) */ __webpack_exports__["a"] = createStore;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_es_isPlainObject__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_es_isPlainObject__ = __webpack_require__(49);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_symbol_observable__ = __webpack_require__(268);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_symbol_observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_symbol_observable__);
 
@@ -12800,7 +12823,7 @@ exports['default'] = thunk;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Actions__ = __webpack_require__(69);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Actions__ = __webpack_require__(36);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Consts__ = __webpack_require__(24);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_query_string__ = __webpack_require__(77);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_query_string___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_query_string__);
@@ -12810,8 +12833,13 @@ exports['default'] = thunk;
 
 const socketMiddleware = function () {
 	var socket = null;
+	var doWhileOpen = [];
 
-	const onOpen = (ws, store) => evt => {};
+	const onOpen = (ws, store) => evt => {
+		for (let i = 0; i < doWhileOpen.length; i++) {
+			socket.send(JSON.stringify({ type: doWhileOpen[i].type, to: doWhileOpen[i].payload }));
+		}
+	};
 
 	const onClose = (ws, store) => evt => {
 		// Тут код на отключение
@@ -12821,7 +12849,11 @@ const socketMiddleware = function () {
 		var data = JSON.parse(evt.data);
 		switch (data.type) {
 			case 'RELOAD_MESSAGE':
-				if (Number(__WEBPACK_IMPORTED_MODULE_2_query_string__["parse"](window.location.search).to) == Number(data.to)) __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__Actions__["a" /* getMessageInfo */])(parseInt(data.to))(store.dispatch);
+				if (Number(__WEBPACK_IMPORTED_MODULE_2_query_string__["parse"](window.location.search).to) == Number(data.to)) __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__Actions__["b" /* getMessageInfo */])(parseInt(data.to))(store.dispatch);
+				break;
+			case 'WS_GET_STATUS':
+				console.log('STATUS of USER', data.status);
+				__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__Actions__["f" /* setUserStatus */])(data.to, data.status)(store.dispatch);
 				break;
 		}
 	};
@@ -12841,7 +12873,7 @@ const socketMiddleware = function () {
 				}).then(function (response) {
 					return response.json();
 				}).then(data => {
-					socket = new WebSocket("ws://95.183.10.52:5012", [data.id]);
+					socket = new WebSocket("ws://localhost:5012", [data.id]);
 
 					socket.onmessage = onMessage(socket, store);
 					socket.onclose = onClose(socket, store);
@@ -12872,8 +12904,13 @@ const socketMiddleware = function () {
 				}).then(data => {
 					socket.send(JSON.stringify({ type: 'RELOAD_MESSAGE', to: action.payload.to }));
 					// раньше мы отправляли на обновление всю переписку, теперь мы будем апендить в коде
-					__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__Actions__["a" /* getMessageInfo */])(action.payload.to)(store.dispatch);
+					__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__Actions__["b" /* getMessageInfo */])(action.payload.to)(store.dispatch);
 				});
+				break;
+			case 'WS_GET_STATUS':
+				if (socket != null) socket.send(JSON.stringify({ type: 'WS_GET_STATUS', to: action.payload.to }));else {
+					doWhileOpen.push(action);
+				}
 				break;
 			default:
 				return next(action);
@@ -12902,7 +12939,7 @@ const socketMiddleware = function () {
 
 var _assign = __webpack_require__(5);
 
-var emptyObject = __webpack_require__(36);
+var emptyObject = __webpack_require__(37);
 var _invariant = __webpack_require__(2);
 
 if (process.env.NODE_ENV !== 'production') {
@@ -14496,11 +14533,11 @@ var _invariant = __webpack_require__(31);
 
 var _invariant2 = _interopRequireDefault(_invariant);
 
-var _LocationUtils = __webpack_require__(46);
+var _LocationUtils = __webpack_require__(47);
 
 var _PathUtils = __webpack_require__(30);
 
-var _createTransitionManager = __webpack_require__(47);
+var _createTransitionManager = __webpack_require__(48);
 
 var _createTransitionManager2 = _interopRequireDefault(_createTransitionManager);
 
@@ -14814,11 +14851,11 @@ var _invariant = __webpack_require__(31);
 
 var _invariant2 = _interopRequireDefault(_invariant);
 
-var _LocationUtils = __webpack_require__(46);
+var _LocationUtils = __webpack_require__(47);
 
 var _PathUtils = __webpack_require__(30);
 
-var _createTransitionManager = __webpack_require__(47);
+var _createTransitionManager = __webpack_require__(48);
 
 var _createTransitionManager2 = _interopRequireDefault(_createTransitionManager);
 
@@ -15157,9 +15194,9 @@ var _warning2 = _interopRequireDefault(_warning);
 
 var _PathUtils = __webpack_require__(30);
 
-var _LocationUtils = __webpack_require__(46);
+var _LocationUtils = __webpack_require__(47);
 
-var _createTransitionManager = __webpack_require__(47);
+var _createTransitionManager = __webpack_require__(48);
 
 var _createTransitionManager2 = _interopRequireDefault(_createTransitionManager);
 
@@ -16039,7 +16076,7 @@ function pathToRegexp(path, keys, options) {
 if (process.env.NODE_ENV !== 'production') {
   var invariant = __webpack_require__(2);
   var warning = __webpack_require__(3);
-  var ReactPropTypesSecret = __webpack_require__(49);
+  var ReactPropTypesSecret = __webpack_require__(50);
   var loggedTypeFailures = {};
 }
 
@@ -16106,7 +16143,7 @@ module.exports = checkPropTypes;
 
 var emptyFunction = __webpack_require__(11);
 var invariant = __webpack_require__(2);
-var ReactPropTypesSecret = __webpack_require__(49);
+var ReactPropTypesSecret = __webpack_require__(50);
 
 module.exports = function () {
   function shim(props, propName, componentName, location, propFullName, secret) {
@@ -16891,8 +16928,8 @@ var ReactUpdates = __webpack_require__(13);
 var SyntheticEvent = __webpack_require__(16);
 
 var inputValueTracking = __webpack_require__(95);
-var getEventTarget = __webpack_require__(61);
-var isEventSupported = __webpack_require__(62);
+var getEventTarget = __webpack_require__(62);
+var isEventSupported = __webpack_require__(63);
 var isTextInputElement = __webpack_require__(97);
 
 var eventTypes = {
@@ -17285,7 +17322,7 @@ module.exports = DefaultEventPluginOrder;
 
 var EventPropagators = __webpack_require__(33);
 var ReactDOMComponentTree = __webpack_require__(6);
-var SyntheticMouseEvent = __webpack_require__(39);
+var SyntheticMouseEvent = __webpack_require__(40);
 
 var eventTypes = {
   mouseEnter: {
@@ -17730,8 +17767,8 @@ module.exports = HTMLDOMPropertyConfig;
 var ReactReconciler = __webpack_require__(27);
 
 var instantiateReactComponent = __webpack_require__(96);
-var KeyEscapeUtils = __webpack_require__(53);
-var shouldUpdateReactComponent = __webpack_require__(63);
+var KeyEscapeUtils = __webpack_require__(54);
+var shouldUpdateReactComponent = __webpack_require__(64);
 var traverseAllChildren = __webpack_require__(99);
 var warning = __webpack_require__(3);
 
@@ -17886,7 +17923,7 @@ module.exports = ReactChildReconciler;
 
 
 
-var DOMChildrenOperations = __webpack_require__(50);
+var DOMChildrenOperations = __webpack_require__(51);
 var ReactDOMIDOperations = __webpack_require__(170);
 
 /**
@@ -17923,9 +17960,9 @@ var _prodInvariant = __webpack_require__(4),
     _assign = __webpack_require__(5);
 
 var React = __webpack_require__(28);
-var ReactComponentEnvironment = __webpack_require__(55);
+var ReactComponentEnvironment = __webpack_require__(56);
 var ReactCurrentOwner = __webpack_require__(14);
-var ReactErrorUtils = __webpack_require__(56);
+var ReactErrorUtils = __webpack_require__(57);
 var ReactInstanceMap = __webpack_require__(34);
 var ReactInstrumentation = __webpack_require__(12);
 var ReactNodeTypes = __webpack_require__(88);
@@ -17935,10 +17972,10 @@ if (process.env.NODE_ENV !== 'production') {
   var checkReactTypeSpec = __webpack_require__(212);
 }
 
-var emptyObject = __webpack_require__(36);
+var emptyObject = __webpack_require__(37);
 var invariant = __webpack_require__(2);
-var shallowEqual = __webpack_require__(45);
-var shouldUpdateReactComponent = __webpack_require__(63);
+var shallowEqual = __webpack_require__(46);
+var shouldUpdateReactComponent = __webpack_require__(64);
 var warning = __webpack_require__(3);
 
 var CompositeTypes = {
@@ -18950,12 +18987,12 @@ var _prodInvariant = __webpack_require__(4),
 var AutoFocusUtils = __webpack_require__(153);
 var CSSPropertyOperations = __webpack_require__(155);
 var DOMLazyTree = __webpack_require__(26);
-var DOMNamespaces = __webpack_require__(51);
+var DOMNamespaces = __webpack_require__(52);
 var DOMProperty = __webpack_require__(18);
 var DOMPropertyOperations = __webpack_require__(80);
 var EventPluginHub = __webpack_require__(32);
-var EventPluginRegistry = __webpack_require__(37);
-var ReactBrowserEventEmitter = __webpack_require__(38);
+var EventPluginRegistry = __webpack_require__(38);
+var ReactBrowserEventEmitter = __webpack_require__(39);
 var ReactDOMComponentFlags = __webpack_require__(81);
 var ReactDOMComponentTree = __webpack_require__(6);
 var ReactDOMInput = __webpack_require__(171);
@@ -18967,12 +19004,12 @@ var ReactMultiChild = __webpack_require__(190);
 var ReactServerRenderingTransaction = __webpack_require__(195);
 
 var emptyFunction = __webpack_require__(11);
-var escapeTextContentForBrowser = __webpack_require__(41);
+var escapeTextContentForBrowser = __webpack_require__(42);
 var invariant = __webpack_require__(2);
-var isEventSupported = __webpack_require__(62);
-var shallowEqual = __webpack_require__(45);
+var isEventSupported = __webpack_require__(63);
+var shallowEqual = __webpack_require__(46);
 var inputValueTracking = __webpack_require__(95);
-var validateDOMNesting = __webpack_require__(64);
+var validateDOMNesting = __webpack_require__(65);
 var warning = __webpack_require__(3);
 
 var Flags = ReactDOMComponentFlags;
@@ -19958,7 +19995,7 @@ module.exports = ReactDOMComponent;
 
 
 
-var validateDOMNesting = __webpack_require__(64);
+var validateDOMNesting = __webpack_require__(65);
 
 var DOC_NODE_TYPE = 9;
 
@@ -20086,7 +20123,7 @@ module.exports = ReactDOMFeatureFlags;
 
 
 
-var DOMChildrenOperations = __webpack_require__(50);
+var DOMChildrenOperations = __webpack_require__(51);
 var ReactDOMComponentTree = __webpack_require__(6);
 
 /**
@@ -20128,7 +20165,7 @@ var _prodInvariant = __webpack_require__(4),
     _assign = __webpack_require__(5);
 
 var DOMPropertyOperations = __webpack_require__(80);
-var LinkedValueUtils = __webpack_require__(54);
+var LinkedValueUtils = __webpack_require__(55);
 var ReactDOMComponentTree = __webpack_require__(6);
 var ReactUpdates = __webpack_require__(13);
 
@@ -20913,13 +20950,13 @@ module.exports = ReactDOMSelection;
 var _prodInvariant = __webpack_require__(4),
     _assign = __webpack_require__(5);
 
-var DOMChildrenOperations = __webpack_require__(50);
+var DOMChildrenOperations = __webpack_require__(51);
 var DOMLazyTree = __webpack_require__(26);
 var ReactDOMComponentTree = __webpack_require__(6);
 
-var escapeTextContentForBrowser = __webpack_require__(41);
+var escapeTextContentForBrowser = __webpack_require__(42);
 var invariant = __webpack_require__(2);
-var validateDOMNesting = __webpack_require__(64);
+var validateDOMNesting = __webpack_require__(65);
 
 /**
  * Text nodes violate a couple assumptions that React makes about components:
@@ -21081,7 +21118,7 @@ module.exports = ReactDOMTextComponent;
 var _prodInvariant = __webpack_require__(4),
     _assign = __webpack_require__(5);
 
-var LinkedValueUtils = __webpack_require__(54);
+var LinkedValueUtils = __webpack_require__(55);
 var ReactDOMComponentTree = __webpack_require__(6);
 var ReactUpdates = __webpack_require__(13);
 
@@ -21387,7 +21424,7 @@ module.exports = {
 
 
 var DOMProperty = __webpack_require__(18);
-var EventPluginRegistry = __webpack_require__(37);
+var EventPluginRegistry = __webpack_require__(38);
 var ReactComponentTreeHook = __webpack_require__(10);
 
 var warning = __webpack_require__(3);
@@ -21874,7 +21911,7 @@ module.exports = ReactDebugTool;
 var _assign = __webpack_require__(5);
 
 var ReactUpdates = __webpack_require__(13);
-var Transaction = __webpack_require__(40);
+var Transaction = __webpack_require__(41);
 
 var emptyFunction = __webpack_require__(11);
 
@@ -22105,7 +22142,7 @@ var PooledClass = __webpack_require__(21);
 var ReactDOMComponentTree = __webpack_require__(6);
 var ReactUpdates = __webpack_require__(13);
 
-var getEventTarget = __webpack_require__(61);
+var getEventTarget = __webpack_require__(62);
 var getUnboundedScrollPosition = __webpack_require__(128);
 
 /**
@@ -22298,10 +22335,10 @@ module.exports = ReactHostOperationHistoryHook;
 
 var DOMProperty = __webpack_require__(18);
 var EventPluginHub = __webpack_require__(32);
-var EventPluginUtils = __webpack_require__(52);
-var ReactComponentEnvironment = __webpack_require__(55);
+var EventPluginUtils = __webpack_require__(53);
+var ReactComponentEnvironment = __webpack_require__(56);
 var ReactEmptyComponent = __webpack_require__(83);
-var ReactBrowserEventEmitter = __webpack_require__(38);
+var ReactBrowserEventEmitter = __webpack_require__(39);
 var ReactHostComponent = __webpack_require__(85);
 var ReactUpdates = __webpack_require__(13);
 
@@ -22435,7 +22472,7 @@ module.exports = ReactMarkupChecksum;
 
 var _prodInvariant = __webpack_require__(4);
 
-var ReactComponentEnvironment = __webpack_require__(55);
+var ReactComponentEnvironment = __webpack_require__(56);
 var ReactInstanceMap = __webpack_require__(34);
 var ReactInstrumentation = __webpack_require__(12);
 
@@ -23019,11 +23056,11 @@ var _assign = __webpack_require__(5);
 
 var CallbackQueue = __webpack_require__(79);
 var PooledClass = __webpack_require__(21);
-var ReactBrowserEventEmitter = __webpack_require__(38);
+var ReactBrowserEventEmitter = __webpack_require__(39);
 var ReactInputSelection = __webpack_require__(86);
 var ReactInstrumentation = __webpack_require__(12);
-var Transaction = __webpack_require__(40);
-var ReactUpdateQueue = __webpack_require__(57);
+var Transaction = __webpack_require__(41);
+var ReactUpdateQueue = __webpack_require__(58);
 
 /**
  * Ensures that, when possible, the selection range (currently selected text
@@ -23296,7 +23333,7 @@ module.exports = ReactRef;
 var _assign = __webpack_require__(5);
 
 var PooledClass = __webpack_require__(21);
-var Transaction = __webpack_require__(40);
+var Transaction = __webpack_require__(41);
 var ReactInstrumentation = __webpack_require__(12);
 var ReactServerUpdateQueue = __webpack_require__(196);
 
@@ -23396,7 +23433,7 @@ function _classCallCheck(instance, Constructor) {
   }
 }
 
-var ReactUpdateQueue = __webpack_require__(57);
+var ReactUpdateQueue = __webpack_require__(58);
 
 var warning = __webpack_require__(3);
 
@@ -23867,7 +23904,7 @@ var SyntheticEvent = __webpack_require__(16);
 
 var getActiveElement = __webpack_require__(72);
 var isTextInputElement = __webpack_require__(97);
-var shallowEqual = __webpack_require__(45);
+var shallowEqual = __webpack_require__(46);
 
 var skipSelectionChangeEvent = ExecutionEnvironment.canUseDOM && 'documentMode' in document && document.documentMode <= 11;
 
@@ -24063,7 +24100,7 @@ var SyntheticClipboardEvent = __webpack_require__(202);
 var SyntheticEvent = __webpack_require__(16);
 var SyntheticFocusEvent = __webpack_require__(205);
 var SyntheticKeyboardEvent = __webpack_require__(207);
-var SyntheticMouseEvent = __webpack_require__(39);
+var SyntheticMouseEvent = __webpack_require__(40);
 var SyntheticDragEvent = __webpack_require__(204);
 var SyntheticTouchEvent = __webpack_require__(208);
 var SyntheticTransitionEvent = __webpack_require__(209);
@@ -24071,7 +24108,7 @@ var SyntheticUIEvent = __webpack_require__(35);
 var SyntheticWheelEvent = __webpack_require__(210);
 
 var emptyFunction = __webpack_require__(11);
-var getEventCharCode = __webpack_require__(59);
+var getEventCharCode = __webpack_require__(60);
 var invariant = __webpack_require__(2);
 
 /**
@@ -24412,7 +24449,7 @@ module.exports = SyntheticCompositionEvent;
 
 
 
-var SyntheticMouseEvent = __webpack_require__(39);
+var SyntheticMouseEvent = __webpack_require__(40);
 
 /**
  * @interface DragEvent
@@ -24538,9 +24575,9 @@ module.exports = SyntheticInputEvent;
 
 var SyntheticUIEvent = __webpack_require__(35);
 
-var getEventCharCode = __webpack_require__(59);
+var getEventCharCode = __webpack_require__(60);
 var getEventKey = __webpack_require__(216);
-var getEventModifierState = __webpack_require__(60);
+var getEventModifierState = __webpack_require__(61);
 
 /**
  * @interface KeyboardEvent
@@ -24627,7 +24664,7 @@ module.exports = SyntheticKeyboardEvent;
 
 var SyntheticUIEvent = __webpack_require__(35);
 
-var getEventModifierState = __webpack_require__(60);
+var getEventModifierState = __webpack_require__(61);
 
 /**
  * @interface TouchEvent
@@ -24719,7 +24756,7 @@ module.exports = SyntheticTransitionEvent;
 
 
 
-var SyntheticMouseEvent = __webpack_require__(39);
+var SyntheticMouseEvent = __webpack_require__(40);
 
 /**
  * @interface WheelEvent
@@ -25069,7 +25106,7 @@ module.exports = findDOMNode;
 
 
 
-var KeyEscapeUtils = __webpack_require__(53);
+var KeyEscapeUtils = __webpack_require__(54);
 var traverseAllChildren = __webpack_require__(99);
 var warning = __webpack_require__(3);
 
@@ -25150,7 +25187,7 @@ module.exports = flattenChildren;
 
 
 
-var getEventCharCode = __webpack_require__(59);
+var getEventCharCode = __webpack_require__(60);
 
 /**
  * Normalization of deprecated HTML5 `key` values
@@ -25498,7 +25535,7 @@ module.exports = getVendorPrefixedEventName;
 
 
 
-var escapeTextContentForBrowser = __webpack_require__(41);
+var escapeTextContentForBrowser = __webpack_require__(42);
 
 /**
  * Escapes attribute value to prevent scripting attacks.
@@ -25544,7 +25581,7 @@ module.exports = ReactMount.renderSubtreeIntoContainer;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_PropTypes__ = __webpack_require__(102);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_warning__ = __webpack_require__(65);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_warning__ = __webpack_require__(66);
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -26000,7 +26037,7 @@ function finalPropsSelectorFactory(dispatch, _ref2) {
 
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = verifySubselectors;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_warning__ = __webpack_require__(65);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_warning__ = __webpack_require__(66);
 
 
 function verify(selector, methodName, displayName) {
@@ -26558,7 +26595,7 @@ NavLink.defaultProps = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_history_createMemoryHistory__ = __webpack_require__(138);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_history_createMemoryHistory___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_history_createMemoryHistory__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Router__ = __webpack_require__(66);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Router__ = __webpack_require__(67);
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -26824,7 +26861,7 @@ Redirect.contextTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_history_PathUtils__ = __webpack_require__(30);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_history_PathUtils___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_history_PathUtils__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Router__ = __webpack_require__(66);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Router__ = __webpack_require__(67);
 var _extends = Object.assign || function (target) {
   for (var i = 1; i < arguments.length; i++) {
     var source = arguments[i];for (var key in source) {
@@ -27020,7 +27057,7 @@ StaticRouter.childContextTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_warning__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_warning__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__matchPath__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__matchPath__ = __webpack_require__(68);
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -28309,7 +28346,7 @@ function bindActionCreators(actionCreators, dispatch) {
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/* harmony export (immutable) */ __webpack_exports__["a"] = combineReducers;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__createStore__ = __webpack_require__(112);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash_es_isPlainObject__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash_es_isPlainObject__ = __webpack_require__(49);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_warning__ = __webpack_require__(113);
 
 
@@ -37139,7 +37176,7 @@ class UnlogginedMenu extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_redux__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_redux__ = __webpack_require__(25);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__MessageHandler__ = __webpack_require__(282);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Redux_Actions__ = __webpack_require__(69);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Redux_Actions__ = __webpack_require__(36);
 
 
 
@@ -37154,7 +37191,7 @@ class MessageBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
     this.props.getMessage(this.props.to);
     this.props.getUserInfo(this.props.to);
-    this.props.wsCreate();
+    this.props.wsGetStatus();
 
     console.log(this.props);
     this.state = {
@@ -37351,9 +37388,9 @@ function messageStore(state) {
 
 function matchDispatchToProps(dispatch) {
   return {
-    getMessage: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["a" /* getMessageInfo */], dispatch),
-    getUserInfo: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["b" /* getUserInfo */], dispatch),
-    wsCreate: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["c" /* wsCreate */], dispatch),
+    getMessage: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["b" /* getMessageInfo */], dispatch),
+    getUserInfo: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["c" /* getUserInfo */], dispatch),
+    wsCreate: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["a" /* wsCreate */], dispatch),
     wsMessage: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["d" /* wsMessage */], dispatch)
   };
 }
@@ -38870,7 +38907,7 @@ class SettingsBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router_dom__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_redux__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_redux__ = __webpack_require__(25);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Redux_Actions__ = __webpack_require__(69);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Redux_Actions__ = __webpack_require__(36);
 
 
 
@@ -38880,6 +38917,7 @@ class SettingsBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 class UserPageBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 	constructor(props) {
 		super(props);
+		this.props.wsGetStatus(this.props.id);
 
 		// this.props.getUserInfo(this.props.id);			
 
@@ -38891,6 +38929,7 @@ class UserPageBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 			hometown: '',
 			user_foto: '',
 			workplace: ''
+
 			//debug-mod only
 			//console.log('ID', this.props.id);;
 		};
@@ -38928,35 +38967,31 @@ class UserPageBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 	}
 
 	componentWillMount() {
-
-		//первоначальная версия для вывода даты
-		var months = ['янваврь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'];
-
-		//определяем месяц
-		var month = Number(this.props.user.birthDate.substr(5, 2)) - 1;
-		//определяем день
-		var day = Number(this.props.user.birthDate.substr(8));
-		//определяем год
-		var year = Number(this.props.user.birthDate.substr(0, 4));
-		//выводим дату
-		var date = day + ' ' + months[month] + ' ' + year;
-
-		//Меняю заголовок на имя пользователя
-		document.title = this.props.user.name + ' ' + this.props.user.surname;
-
-		this.setState({
-			id: this.props.id,
-			name: this.props.user.name,
-			surname: this.props.user.surname,
-			birthDate: date,
-			hometown: this.props.user.hometown,
-			user_foto: this.props.user.user_foto,
-			workplace: this.props.user.workplace
-		});
-	}
-
-	componentWillMount() {
 		this.props.getUserInfo(this.props.id);
+
+		/*
+  //первоначальная версия для вывода даты
+  var months = ['янваврь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'];
+  	//определяем месяц
+  var month = Number(this.props.user.birthDate.substr(5,2)) -1;
+  //определяем день
+  var day = Number(this.props.user.birthDate.substr(8));
+  //определяем год
+  var year = Number(this.props.user.birthDate.substr(0,4));
+  //выводим дату
+  var date = day + ' ' + months[month] + ' ' + year;
+  	//Меняю заголовок на имя пользователя
+  document.title = this.props.user.name + ' ' + this.props.user.surname;
+  	this.setState({
+  	id: this.props.id,
+  	name : this.props.user.name,
+  	surname : this.props.user.surname,
+  	birthDate : date,
+  	hometown : this.props.user.hometown,
+  	user_foto : this.props.user.user_foto,
+  	workplace : this.props.user.workplace,
+  });
+  */
 	}
 
 	checkFriendsStatus(Page) {
@@ -39084,6 +39119,7 @@ class UserPageBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 	}
 
 	render() {
+		console.log(this.props);
 		var outputURl = "/msg?to=" + this.state.id;
 		var UserButton;var Page = this;
 
@@ -39239,7 +39275,8 @@ function mapToStateProps(state) {
 
 function matchDispatchToProps(dispatch) {
 	return {
-		getUserInfo: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["b" /* getUserInfo */], dispatch)
+		getUserInfo: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["c" /* getUserInfo */], dispatch),
+		wsGetStatus: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["e" /* wsGetStatus */], dispatch)
 	};
 }
 /* harmony default export */ __webpack_exports__["a"] = (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3_react_redux__["b" /* connect */])(mapToStateProps, matchDispatchToProps)(UserPageBody));
@@ -39506,7 +39543,7 @@ class Quest extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Components_Header___ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Components_Menu__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Components_BiographyBody___ = __webpack_require__(275);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Components_SettingsMenu___ = __webpack_require__(44);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Components_SettingsMenu___ = __webpack_require__(45);
 
 
 
@@ -39564,7 +39601,7 @@ class Biography extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Components_Header___ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Components_Menu__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Components_FamilyBody___ = __webpack_require__(276);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Components_SettingsMenu___ = __webpack_require__(44);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Components_SettingsMenu___ = __webpack_require__(45);
 
 
 
@@ -39622,7 +39659,7 @@ class Family extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Components_Header___ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Components_Menu__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Components_IdeologyBody___ = __webpack_require__(277);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Components_SettingsMenu___ = __webpack_require__(44);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Components_SettingsMenu___ = __webpack_require__(45);
 
 
 
@@ -39680,7 +39717,7 @@ class Ideology extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Components_Header___ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Components_Menu___ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Components_SettingsBody___ = __webpack_require__(287);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Components_SettingsMenu___ = __webpack_require__(44);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Components_SettingsMenu___ = __webpack_require__(45);
 
 
 
@@ -39932,6 +39969,10 @@ function dsReducer(state = null, action) {
 			//отправляем обработанные данные
 			return Object.assign({}, state, action.payload);
 			break;
+		case 'SET_USER_STATUS':
+			console.log(action);
+			return Object.assign({}, state.users, { 'id': action.payload.id, 'status': action.payload.status });
+			break;
 	}
 	return state;
 }
@@ -39993,9 +40034,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_redux__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_redux_thunk__ = __webpack_require__(116);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_redux_thunk___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_redux_thunk__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Pages__ = __webpack_require__(117);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Redux__ = __webpack_require__(118);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Redux_wsMiddleware__ = __webpack_require__(119);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Redux_Actions__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Pages__ = __webpack_require__(117);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Redux__ = __webpack_require__(118);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Redux_wsMiddleware__ = __webpack_require__(119);
+
 
 
 
@@ -40009,15 +40052,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 console.log('Token ', localStorage.getItem('token'));
 
 //Redux
-const middleware = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3_redux__["a" /* applyMiddleware */])(__WEBPACK_IMPORTED_MODULE_4_redux_thunk___default.a, __WEBPACK_IMPORTED_MODULE_7__Redux_wsMiddleware__["a" /* default */]);
-const store = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3_redux__["b" /* createStore */])(__WEBPACK_IMPORTED_MODULE_6__Redux__["a" /* default */], middleware);
+const middleware = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3_redux__["a" /* applyMiddleware */])(__WEBPACK_IMPORTED_MODULE_4_redux_thunk___default.a, __WEBPACK_IMPORTED_MODULE_8__Redux_wsMiddleware__["a" /* default */]);
+const store = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3_redux__["b" /* createStore */])(__WEBPACK_IMPORTED_MODULE_7__Redux__["a" /* default */], middleware);
+
+// Подключение к веб сокетам
+store.dispatch(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__Redux_Actions__["a" /* wsCreate */])());
 
 //Подгрузка модулей
 
 __WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 	__WEBPACK_IMPORTED_MODULE_2_react_redux__["a" /* Provider */],
 	{ store: store },
-	__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__Pages__["a" /* App */], null)
+	__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__Pages__["a" /* App */], null)
 ), document.getElementById('site'));
 
 /***/ })

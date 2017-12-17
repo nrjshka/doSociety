@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import MessageHandler from '../MessageHandler'
-import {getMessageInfo, wsCreate, wsMessage, getUserInfo} from '../../../Redux/Actions'
+import {getMessageInfo, wsCreate, wsMessage, getUserInfo,} from '../../../Redux/Actions'
 
 class MessageBody extends Component{
   constructor(props){
@@ -12,7 +12,7 @@ class MessageBody extends Component{
     
     this.props.getMessage(this.props.to);
     this.props.getUserInfo(this.props.to);
-    this.props.wsCreate();
+    this.props.wsGetStatus();
 
     console.log(this.props);
     this.state = {
@@ -120,7 +120,7 @@ function matchDispatchToProps(dispatch){
 	    getMessage: bindActionCreators(getMessageInfo, dispatch),
 	    getUserInfo: bindActionCreators(getUserInfo, dispatch),
 	    wsCreate: bindActionCreators(wsCreate, dispatch),
-	    wsMessage: bindActionCreators(wsMessage, dispatch)  
+      wsMessage: bindActionCreators(wsMessage, dispatch),  
   };
 }
 

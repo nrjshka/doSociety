@@ -70,3 +70,24 @@ export function addFriend(){
 				})
 			}
 		}
+
+export function wsGetStatus(id){
+		return (dispatch) => {
+			dispatch({
+				type : 'WS_GET_STATUS',
+				payload: id, 
+			})			
+		}
+}
+
+export function setUserStatus(id, status){
+		return (dispatch) => {
+			dispatch({
+				type: "SET_USER_STATUS",
+				payload: {
+						'id' : id,
+						'status' : status,
+					}
+			})
+		}
+}

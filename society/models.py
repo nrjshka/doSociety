@@ -83,7 +83,7 @@ class User(AbstractBaseUser):
 	#vk id
 	vk_id = models.CharField(max_length = 100)
 	#Список групп вк
-	vk_groups = models.ManyToManyField(vkGroup, related_name = "vk_groups")
+	vk_groups = models.ManyToManyField(vkGroup, db_index = True, related_name = "vk_groups")
 
 	objects = UserManager()
 

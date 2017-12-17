@@ -1,12 +1,16 @@
-import {getMessageInfo} from '../Actions';
+import {getMessageInfo, setUserStatus} from '../Actions';
 import {GET_MESSAGE, WS_CONNECT, WS_DISCONNECT, WS_SEND_MESSAGE} from "../Consts"
 import * as queryString from 'query-string'
 
 
 const socketMiddleware = (function(){
 	var socket = null;
+	var doWhileOpen = [];
 
 	const onOpen = (ws, store) => evt => {
+		for (let i = 0; i < doWhileOpen.length; i++){
+			socket.send(JSON.stringify({type: doWhileOpen[i].type, to: doWhileOpen[i].payload}));
+		}
 	}
 
 	const onClose = (ws, store) => evt => {
@@ -19,6 +23,10 @@ const socketMiddleware = (function(){
 			case 'RELOAD_MESSAGE':
 					if (Number(queryString.parse(window.location.search).to) == Number(data.to))
 						getMessageInfo(parseInt(data.to))(store.dispatch);
+				break;
+			case 'WS_GET_STATUS':
+					console.log('STATUS of USER', data.status)
+					setUserStatus(data.to, data.status)(store.dispatch);
 				break;
 		}
 	}
@@ -38,7 +46,7 @@ const socketMiddleware = (function(){
 				})
 				.then(function(response){ return response.json()})
 				.then( (data) => {
-			        socket = new WebSocket("ws://95.183.10.52:5012", [data.id]);
+			        socket = new WebSocket("ws://localhost:5012", [data.id]);
 			        
 			        socket.onmessage = onMessage(socket, store);
 			        socket.onclose = onClose(socket, store);
@@ -73,6 +81,13 @@ const socketMiddleware = (function(){
 				    	getMessageInfo(action.payload.to)(store.dispatch);
 				    })
 		      break;
+		    case 'WS_GET_STATUS':
+			    	if (socket != null)
+			    		socket.send(JSON.stringify({type: 'WS_GET_STATUS', to: action.payload.to}));
+		    		else {
+		    			doWhileOpen.push(action);
+		    		}
+		    	break;
 		    default:
 		    	return next(action);				 
 		}
