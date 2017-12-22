@@ -19,6 +19,7 @@ class BiographyBody extends Component{
         sex: '',
         birthtown: '',
         maritalstatus: '',
+        showBirthDate: '',
         something: '',
       } 
     }
@@ -51,6 +52,7 @@ class BiographyBody extends Component{
         sex: newProps.user.sex,
         birthtown: newProps.user.birthtown,
         maritalstatus: newProps.user.maritalstatus,
+        showBirthDate: newProps.user.showBirthDate,
       });
     }
 
@@ -78,6 +80,7 @@ class BiographyBody extends Component{
         sex: this.props.user.sex,
         birthtown: this.props.user.birthtown,
         maritalstatus: this.props.user.maritalstatus,
+        showBirthDate: this.props.user.showBirthDate,
       });
     }
 
@@ -135,6 +138,7 @@ class BiographyBody extends Component{
               sex: document.getElementsByName('sex')[0].value,
               birthtown: Obirthtown,
               maritalstatus: document.getElementsByName('maritalstatus')[0].value,
+              showBirthDate: document.getElementsByName('showD')[0].value,
             })
       })
       .then((response)=>{return response.json();})
@@ -154,8 +158,10 @@ class BiographyBody extends Component{
         var userBirthDate = this.state.birthDate.split(' ');
         var arrayDay = []; var arrayPol = [];
         var arrayMonth = []; var arrayPolValue =['Не указан','Мужской','Женский'];
+        var arrayShowDate =[]; var arrayShowDateValue=['Показывать дату рождения',
+                                                      'Показывать только месяц и день',
+                                                      'Не показывать дату рождения'];
         var arrayYear = [];  var arrayStatus =[];
-        var arrayTYears = [];
         var arrayStatusValue = ['Не указано','Не замужем/не женат','Замужем/женат',
                               'Встречаюсь','Гражданский брак','Всё сложно',
                               'Всё просто','В активном поиске']; 
@@ -194,16 +200,20 @@ class BiographyBody extends Component{
           }
         }
 
+        for (var i = 0; i < 3; i++) {
+          if (i != this.state.showBirthDate) {
+            arrayShowDate.push(<option value={i}>{arrayShowDateValue[i]}</option>)
+          } else {
+            arrayShowDate.push(<option selected="selected" value={i}>{arrayShowDateValue[i]}</option>)
+          }
+        }
+
         for (var i = 0; i < 8; i++) {
           if (i != this.state.maritalstatus) {
             arrayStatus.push(<option value={i}>{arrayStatusValue[i]}</option>)
           } else {
             arrayStatus.push(<option selected="selected" value={i}>{arrayStatusValue[i]}</option>)
           }
-        }
-
-        for (var i = 1900; i < 2004; i++) {
-          arrayTYears.push(<option value={i}>{i}</option>)
         }
 
         return(
@@ -270,10 +280,8 @@ class BiographyBody extends Component{
                     </div>
                   </div>
                   <div className="col-lg-8 col-md-8 col-sm-7 col-xs-12 col-lg-offset-4 col-md-offset-4 col-sm-offset-5">
-                    <select className="contentTuning__input contentTuning__oldParameter">
-                      <option defaultValue="selected" value="">Показывать дату рождения</option>
-                      <option value="">Показывать только месяц и день</option>
-                      <option value="">Не показывать дату рождения</option>
+                    <select className="contentTuning__input contentTuning__oldParameter" name="showD">
+                      {arrayShowDate}
                     </select>
                     <div className="contentTuning__delimiter"></div>
                     <div className="contentTuning__delimiter"></div>
@@ -299,182 +307,6 @@ class BiographyBody extends Component{
                     <div className="contentTuning__delimiter"></div>
                   </div>
                   <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div className="contentTuning__new">
-                      <div className="contentTuning__infinity">&infin;</div>
-                    </div>
-                    <div className="contentTuning__tit">Общее и среднее образование</div>
-                    <div className="contentTuning__new">
-                      <div className="contentTuning__infinity">&infin;</div>
-                    </div>
-                    <div className="contentTuning__school">
-                      <div className="col-lg-4 col-md-4 col-sm-5 col-xs-4 contentTuning__parameter">Страна</div>
-                      <div className="col-lg-8 col-md-8 col-sm-7 col-xs-8">
-                        <input className="contentTuning__input contentTuning__oldParameter" placeholder=""></input>
-                        <div className="contentTuning__delimiter"></div>
-                        <div className="contentTuning__delimiter"></div>
-                      </div>
-                      <div className="col-lg-4 col-md-4 col-sm-5 col-xs-4 contentTuning__parameter">Город</div>
-                      <div className="col-lg-8 col-md-8 col-sm-7 col-xs-8">
-                        <input className="contentTuning__input contentTuning__oldParameter" placeholder=""></input>
-                        <div className="contentTuning__delimiter"></div>
-                        <div className="contentTuning__delimiter"></div>
-                      </div>
-                      <div className="col-lg-4 col-md-4 col-sm-5 col-xs-4 contentTuning__parameter">Школа№</div>
-                      <div className="col-lg-8 col-md-8 col-sm-7 col-xs-8">
-                        <input className="contentTuning__input contentTuning__oldParameter" placeholder=""></input>
-                        <div className="contentTuning__delimiter"></div>
-                        <div className="contentTuning__delimiter"></div>
-                      </div>
-                      <div className="col-lg-4 col-md-4 col-sm-5 col-xs-4 contentTuning__parameter">Год поступления</div>
-                      <div className="col-lg-8 col-md-8 col-sm-7 col-xs-8">
-                        <select className="contentTuning__input contentTuning__oldParameter">
-                          {arrayTYears}
-                        </select>
-                        <div className="contentTuning__delimiter"></div>
-                        <div className="contentTuning__delimiter"></div>
-                      </div>
-                      <div className="col-lg-4 col-md-4 col-sm-5 col-xs-4 contentTuning__parameter">Год окончания</div>
-                      <div className="col-lg-8 col-md-8 col-sm-7 col-xs-8">
-                        <select className="contentTuning__input contentTuning__oldParameter">
-                          {arrayTYears}
-                        </select>
-                        <div className="contentTuning__delimiter"></div>
-                        <div className="contentTuning__delimiter"></div>
-                      </div>
-                      <div className="col-lg-4 col-md-4 col-sm-5 col-xs-4 contentTuning__parameter">Год выпуска</div>
-                      <div className="col-lg-8 col-md-8 col-sm-7 col-xs-8">
-                        <select className="contentTuning__input contentTuning__oldParameter">
-                          {arrayTYears}
-                        </select>
-                        <div className="contentTuning__delimiter"></div>
-                        <div className="contentTuning__delimiter"></div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <button className="contentTuning__button center-block" name="buttonSchool">Добавить школу</button>
-                  </div>
-                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div className="contentTuning__new">
-                      <div className="contentTuning__infinity">&infin;</div>
-                    </div>
-                    <div className="contentTuning__tit">Средне-специальное и высшее образование. Аспирантура.</div>
-                    <div className="contentTuning__new">
-                      <div className="contentTuning__infinity">&infin;        </div>
-                    </div>
-                    <div className="contentTuning__institute">
-                      <div className="col-lg-4 col-md-4 col-sm-5 col-xs-4 contentTuning__parameter">Страна</div>
-                      <div className="col-lg-8 col-md-8 col-sm-7 col-xs-8">
-                        <input className="contentTuning__input contentTuning__oldParameter" placeholder=""></input>
-                        <div className="contentTuning__delimiter"></div>
-                        <div className="contentTuning__delimiter"></div>
-                      </div>
-                      <div className="col-lg-4 col-md-4 col-sm-5 col-xs-4 contentTuning__parameter">Город</div>
-                      <div className="col-lg-8 col-md-8 col-sm-7 col-xs-8">
-                        <input className="contentTuning__input contentTuning__oldParameter" placeholder=""></input>
-                        <div className="contentTuning__delimiter"></div>
-                        <div className="contentTuning__delimiter"></div>
-                      </div>
-                      <div className="col-lg-4 col-md-4 col-sm-5 col-xs-4 contentTuning__parameter">Название учебного заведения</div>
-                      <div className="col-lg-8 col-md-8 col-sm-7 col-xs-8">
-                        <input className="contentTuning__input contentTuning__oldParameter" placeholder=""></input>
-                        <div className="contentTuning__delimiter"></div>
-                        <div className="contentTuning__delimiter"></div>
-                      </div>
-                      <div className="col-lg-4 col-md-4 col-sm-5 col-xs-4 contentTuning__parameter">Факультет</div>
-                      <div className="col-lg-8 col-md-8 col-sm-7 col-xs-8">
-                        <input className="contentTuning__input contentTuning__oldParameter" placeholder=""></input>
-                        <div className="contentTuning__delimiter"></div>
-                        <div className="contentTuning__delimiter"></div>
-                      </div>
-                      <div className="col-lg-4 col-md-4 col-sm-5 col-xs-4 contentTuning__parameter">Кафедра</div>
-                      <div className="col-lg-8 col-md-8 col-sm-7 col-xs-8">
-                        <input className="contentTuning__input contentTuning__oldParameter" placeholder=""></input>
-                        <div className="contentTuning__delimiter"></div>
-                        <div className="contentTuning__delimiter"></div>
-                      </div>
-                      <div className="col-lg-4 col-md-4 col-sm-5 col-xs-4 contentTuning__parameter">Форма обучения</div>
-                      <div className="col-lg-8 col-md-8 col-sm-7 col-xs-8">
-                        <select className="contentTuning__input contentTuning__oldParameter">
-                          <option defaultValue="selected" value="">Очная</option>
-                          <option value="2002">Очно-заочная</option>
-                          <option value="2001">Заочная</option>
-                          <option value="2000">Дистанционная</option>
-                          <option value="1999">Экстернат</option>
-                        </select>
-                        <div className="contentTuning__delimiter"></div>
-                        <div className="contentTuning__delimiter"></div>
-                      </div>
-                      <div className="col-lg-4 col-md-4 col-sm-5 col-xs-4 contentTuning__parameter">Статус</div>
-                      <div className="col-lg-8 col-md-8 col-sm-7 col-xs-8">
-                        <input className="contentTuning__input contentTuning__oldParameter" placeholder=""></input>
-                        <div className="contentTuning__delimiter"></div>
-                        <div className="contentTuning__delimiter"></div>
-                      </div>
-                      <div className="col-lg-4 col-md-4 col-sm-5 col-xs-4 contentTuning__parameter">Год поступления</div>
-                      <div className="col-lg-8 col-md-8 col-sm-7 col-xs-8">
-                        <select className="contentTuning__input contentTuning__oldParameter">
-                          {arrayTYears}
-                        </select>
-                        <div className="contentTuning__delimiter"></div>
-                        <div className="contentTuning__delimiter"></div>
-                      </div>
-                      <div className="col-lg-4 col-md-4 col-sm-5 col-xs-4 contentTuning__parameter">Год окончания</div>
-                      <div className="col-lg-8 col-md-8 col-sm-7 col-xs-8">
-                        <select className="contentTuning__input contentTuning__oldParameter">
-                          {arrayTYears}
-                        </select>
-                        <div className="contentTuning__delimiter"></div>
-                        <div className="contentTuning__delimiter"></div>
-                      </div>
-                      <div className="col-lg-4 col-md-4 col-sm-5 col-xs-4 contentTuning__parameter">Год выпуска</div>
-                      <div className="col-lg-8 col-md-8 col-sm-7 col-xs-8">
-                        <select className="contentTuning__input contentTuning__oldParameter">
-                          {arrayTYears}
-                        </select>
-                        <div className="contentTuning__delimiter"></div>
-                        <div className="contentTuning__delimiter"></div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <button className="contentTuning__button center-block" name="buttonInstitute">Добавить учебное заведение</button>
-                  </div>
-                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div className="contentTuning__new">
-                      <div className="contentTuning__infinity">&infin;</div>
-                    </div>
-                    <div className="contentTuning__tit">Военная служба</div>
-                    <div className="contentTuning__new">
-                      <div className="contentTuning__infinity">&infin;</div>
-                    </div>
-                    <div className="contentTuning__army">
-                      <div className="col-lg-4 col-md-4 col-sm-5 col-xs-4 contentTuning__parameter">Военская часть</div>
-                      <div className="col-lg-8 col-md-8 col-sm-7 col-xs-8">
-                        <input className="contentTuning__input contentTuning__oldParameter" placeholder=""></input>
-                        <div className="contentTuning__delimiter"></div>
-                        <div className="contentTuning__delimiter"></div>
-                      </div>
-                      <div className="col-lg-4 col-md-4 col-sm-5 col-xs-4 contentTuning__parameter">Год начала службы</div>
-                      <div className="col-lg-8 col-md-8 col-sm-7 col-xs-8">
-                        <select className="contentTuning__input contentTuning__oldParameter">
-                          {arrayTYears}
-                        </select>
-                        <div className="contentTuning__delimiter"></div>
-                        <div className="contentTuning__delimiter"></div>
-                      </div>
-                      <div className="col-lg-4 col-md-4 col-sm-5 col-xs-4 contentTuning__parameter">Год окончания службы</div>
-                      <div className="col-lg-8 col-md-8 col-sm-7 col-xs-8">
-                        <select className="contentTuning__input contentTuning__oldParameter">
-                          {arrayTYears}
-                        </select>
-                        <div className="contentTuning__delimiter"></div>
-                        <div className="contentTuning__delimiter"></div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <button className="contentTuning__button center-block" name="buttonArmy">Добавить место службы</button>
                     <div className="contentTuning__new">
                       <div className="contentTuning__infinity">&infin;      </div>
                     </div>

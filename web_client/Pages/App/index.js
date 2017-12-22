@@ -9,6 +9,7 @@ import NotFound from '../404'
 import UserPage from '../UserPage'
 import Linker  from '../Linker'
 import Message from '../Message'
+import Music from '../Music'
 import Quest from '../Quest'
 import FriendsLinker from '../FriendsLinker'
 
@@ -29,6 +30,7 @@ class App extends Component {
 					    <Route path="/friends" component={FriendsLinker} />
 					    <Route path="/id:id" component={UserPage} />
 						<Route path="/msg" component={Message} />
+						<Route path='/music' component={Music} />
 					    <Route path="/quest" component={Quest} />
 					    <Route path="/settings" component={Linker} />
 					    <Route path="*" component={NotFound} />

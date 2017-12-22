@@ -87,10 +87,9 @@ class InFriendsBody extends Component{
 		})
 		.then( (result) => { return result.json()})
 		.then( (data) => {
-			/*Можно вставить анимацию исчезновения подписчика из списка заявок*/
-			if (data['status'] ==='2'){
-				--Page.state.listOfIncoming.length 
-			}
+				var blockId = '_'+ButtId;
+				var FriendsBlock = document.getElementById(blockId);
+				FriendsBlock.style.display = 'none'
 		})
 	}
 
@@ -109,7 +108,9 @@ class InFriendsBody extends Component{
 		})
 		.then( (result) => { return result.json()})
 		.then ( (data) => {
-			/*Больше анимации*/
+				var blockId = '_'+ButtId;
+				var FriendsBlock = document.getElementById(blockId);
+				FriendsBlock.style.display = 'none'
 		})
 	}
 
@@ -139,12 +140,15 @@ class InFriendsBody extends Component{
 		if (illusionList !== undefined) {
 			for (var i = 0; i < illusionList.length; i++) {
 				var IdUrl ='/id'+illusionList[i].id;
-				friendBlock.push(<div className="contentDialog__avatar"><img src={illusionList[i].photo}/></div>);
-				friendBlock.push(<Link to={IdUrl}>{illusionList[i].name} {illusionList[i].surname}</Link>);
-				friendBlock.push(<br />);
-				friendBlock.push(<button className="contentProfile__button" id={illusionList[i].id} onClick={(event) => {this.acceptingRequest(Page,event.target.id)}}>Принять заявку</button>);
-				friendBlock.push(<button className="contentProfile__button" id={illusionList[i].id} onClick={(event) => {this.cancellationOfRequest(Page,event.target.id)}}>Не принимать заявку</button>);
-				friendBlock.push(<br />);
+				var blockId = '_'+illusionList[i].id;
+				friendBlock.push(<div key={i} id={blockId}>
+									<div className="contentDialog__avatar"><img src={illusionList[i].photo}/></div>
+									<Link to={IdUrl}>{illusionList[i].name} {illusionList[i].surname}</Link>
+									<br />
+									<button className="contentProfile__button" id={illusionList[i].id} onClick={(event) => {this.acceptingRequest(Page,event.target.id)}}>Принять заявку</button>
+									<button className="contentProfile__button" id={illusionList[i].id} onClick={(event) => {this.cancellationOfRequest(Page,event.target.id)}}>Не принимать заявку</button>
+									<br />	
+								</div>);
 			}
 		};
 

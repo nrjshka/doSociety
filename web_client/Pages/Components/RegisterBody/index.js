@@ -100,7 +100,6 @@ class RegisterBody extends Component{
                                     var password = document.getElementById('password').value;
                                     var fname = document.getElementsByName('fname')[0].value || this.props.vk.first_name;
                                     var sname = document.getElementsByName('sname')[0].value || this.props.vk.last_name;
-                                    alert(this.props.vk.user_id);
 
                                     if (this.checkPassword()){
                                 		  document.getElementById('errorNewPassword').style.display = 'none';

@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_framework_jwt',
     'vkGroups',
+    'quote',
 ]
 
 REST_FRAMEWORK = {

@@ -30,6 +30,7 @@ class UserInfoSerializer(serializers.ModelSerializer):
         	'sex',
         	'birthtown',
         	'maritalstatus',
+        	'showBirthDate',
         	'politicalBeliefs',
         	'religiousBeliefs',
         	'citations',

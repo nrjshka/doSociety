@@ -8,7 +8,7 @@ class UserPageBody extends Component{
 	constructor(props){
 		super(props);
 		
-		// this.props.getUserInfo(this.props.id);			
+		//this.props.getUserInfo(this.props.id);			
 		
 		this.state = {
 			id: this.props.id,
@@ -18,9 +18,12 @@ class UserPageBody extends Component{
 			hometown : '',
 			user_foto : '',
 			workplace : '',
+			showBirthDate: '',
 			listOfIncoming: [],
 			maritalstatus: '',
 			politicalBeliefs: '',
+			citations: '',
+			arrays: [],
 		}
 		//debug-mod only
 		//console.log('ID', this.props.id);;
@@ -33,15 +36,24 @@ class UserPageBody extends Component{
 
 		//первоначальная версия для вывода даты
 		var months = ['янваврь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'];
+		
+		switch(newProps.user.showBirthDate){
+			case '0':
+					var month = Number(newProps.user.birthDate.substr(5,2)) -1;
+					var day = Number(newProps.user.birthDate.substr(8));
+					var year = Number(newProps.user.birthDate.substr(0,4));		
+					var date = day + ' ' + months[month] + ' ' + year;
+				break;
+			case '1':
+					var month = Number(newProps.user.birthDate.substr(5,2)) -1;
+					var day = Number(newProps.user.birthDate.substr(8));
+					var date = day + ' ' + months[month];
+				break;
+			case '2':
+					var date = 'Скрыт';
 
-		//определяем месяц
-		var month = Number(newProps.user.birthDate.substr(5,2)) -1;
-		//определяем день
-		var day = Number(newProps.user.birthDate.substr(8));
-		//определяем год
-		var year = Number(newProps.user.birthDate.substr(0,4));
-		//выводим дату
-		var date = day + ' ' + months[month] + ' ' + year;
+				break;
+		}
 
 		//Меняю заголовок на имя пользователя
 		document.title = newProps.user.name + ' ' + newProps.user.surname;
@@ -57,44 +69,38 @@ class UserPageBody extends Component{
 			listOfIncoming : newProps.user.listOfIncoming,
 			maritalstatus : newProps.user.maritalstatus,
 			politicalBeliefs : newProps.user.politicalBeliefs,
+			citations: newProps.user.citations,
 		});
 	}
 
 	componentWillMount(){
-
+	
 			//первоначальная версия для вывода даты
 			var months = ['янваврь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'];
 
-			//определяем месяц
-			var month = Number(this.props.user.birthDate.substr(5,2)) -1;
-			//определяем день
-			var day = Number(this.props.user.birthDate.substr(8));
-			//определяем год
-			var year = Number(this.props.user.birthDate.substr(0,4));
-			//выводим дату
-			var date = day + ' ' + months[month] + ' ' + year;
+			switch(this.props.user.showBirthDate){
+			case '0':
+					var month = Number(this.props.user.birthDate.substr(5,2)) -1;
+					var day = Number(this.props.user.birthDate.substr(8));
+					var year = Number(this.props.user.birthDate.substr(0,4));		
+					var date = day + ' ' + months[month] + ' ' + year;
+				break;
+			case '1':
+					var month = Number(this.props.user.birthDate.substr(5,2)) -1;
+					var day = Number(this.props.user.birthDate.substr(8));
+					var date = day + ' ' + months[month];
+				break;
+			case '2':
+					var date = 'Скрыт';
+
+				break;
+			}
 
 			//Меняю заголовок на имя пользователя
 			document.title = this.props.user.name + ' ' + this.props.user.surname;
 
-			this.setState({
-				id: this.props.id,
-				name : this.props.user.name,
-				surname : this.props.user.surname,
-				birthDate : date,
-				hometown : this.props.user.hometown,
-				user_foto : this.props.user.user_foto,
-				workplace : this.props.user.workplace,
-				listOfIncoming : this.props.user.listOfIncoming,
-				maritalstatus : this.props.user.maritalstatus,
-				politicalBeliefs: this.props.user.politicalBeliefs,
-			});
+			this.props.getUserInfo(this.props.id)
 		}
-
-
-	componentWillMount(){
-		this.props.getUserInfo(this.props.id)
-	}
 
 	checkFriendsStatus(Page){
 		/*Проверка статуса в котором находятся пользователь между собой, где:
@@ -324,6 +330,44 @@ class UserPageBody extends Component{
 		})
 	}
 
+	showExtraInfo(){
+		var Info = document.getElementById('extraInfo');
+		var showButt = document.getElementById('buttonShowInfo');
+		var hideButt = document.getElementById('buttonHiseInfo');
+		
+		Info.style.display = 'inherit'
+		showButt.style.display = 'none'
+		hideButt.style.display = 'inherit'
+	}
+
+	hideExtraInfo(){
+		var Info = document.getElementById('extraInfo');
+		var showButt = document.getElementById('buttonShowInfo');
+		var hideButt = document.getElementById('buttonHiseInfo');
+		
+		Info.style.display = 'none'
+		showButt.style.display = 'inherit'
+		hideButt.style.display = 'none'
+	}
+
+	showQuoteInfo(Page){
+		fetch('/api/showallcitation',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': 'JWT ' + localStorage.getItem('token'),
+            },
+            body:JSON.stringify({
+					showquote: Page.state.id,
+			})
+        })
+        .then((response)=>{return response.json();})
+        .then((data) =>{
+        	Page.state.arrays.pop();
+        	Page.state.arrays.push(data['citations']);
+        });	
+	}
 
 	render(){
 		var outputURl = "/msg?to=" + this.state.id; 
@@ -337,8 +381,21 @@ class UserPageBody extends Component{
 									'Социалистические','Умеренные','Либеральные','Консервативные',
 									'Ультраконсервативные','Либертарианские','Другие'];
 
-		this.checkFriendsStatus(Page);
+		var arrayCitation=[];
 
+		this.showQuoteInfo(Page);
+		let quoteTexT = Page.state.arrays.pop();
+		
+		if (quoteTexT != undefined) {
+			for (var i = 0; i < this.state.citations.length; i++) {
+				arrayCitation.push(
+						<div key={i}>{quoteTexT[i]}</div>
+					);
+			}
+		}
+
+		this.checkFriendsStatus(Page);
+	
   		if ((localStorage.getItem('id') != this.props.id) && (localStorage.getItem('token'))){
 			UserButton = 
 			<div>
@@ -386,10 +443,20 @@ class UserPageBody extends Component{
 	                    <div className="col-lg-3 col-md-3 col-sm-3 col-xs-4 contentProfile__parameter">Семейное положение: </div>
 	                    <div className="col-lg-9 col-md-9 col-sm-9 col-xs-8 contentProfile__value">{arrayStatusValue[this.state.maritalstatus]}</div>
 	                  </div>
-	                  <div className="row contentProfile__info">
-	                    <div className="col-lg-3 col-md-3 col-sm-3 col-xs-4 contentProfile__parameter">Политические убеждения: </div>
-	                    <div className="col-lg-9 col-md-9 col-sm-9 col-xs-8 contentProfile__value">{arrayPoliticalValue[this.state.politicalBeliefs]}</div>
+	                  <div id="extraInfo" style={{'display': 'none'}}>
+	                  	<div className="row contentProfile__info">
+	                    	<div className="col-lg-3 col-md-3 col-sm-3 col-xs-4 contentProfile__parameter">Политические убеждения: </div>
+	                    	<div className="col-lg-9 col-md-9 col-sm-9 col-xs-8 contentProfile__value">{arrayPoliticalValue[this.state.politicalBeliefs]}</div>
+	                  	</div>
+	                  	<div className="row contentProfile__info">
+	                    	<div className="col-lg-3 col-md-3 col-sm-3 col-xs-4 contentProfile__parameter">Любимые цитаты: </div>
+	                    	<div className="col-lg-9 col-md-9 col-sm-9 col-xs-8 contentProfile__value">{arrayCitation}</div>
+	                  	</div>
 	                  </div>
+	                	<div>
+	                		<button className="contentProfile__button" style={{'display': 'inherit','marginLeft': '20%'}} id="buttonShowInfo" onClick={(event)=>{this.showExtraInfo()}}>SHOW</button>
+	    					<button className="contentProfile__button" style={{'display': 'none','marginLeft': '20%'}} id="buttonHiseInfo" onClick={(event)=>{this.hideExtraInfo()}}>HIDE</button>
+	                	</div>
 	                </div>
 	              </div>
 	            </div>

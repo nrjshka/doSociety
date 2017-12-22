@@ -102,32 +102,36 @@ class FriendsBody extends Component{
 		})
 		.then( (result) => { return result.json()})
 		.then ( (data) => {
+				var blockId = '_'+ButtId;
+				var FriendsBlock = document.getElementById(blockId);
+				FriendsBlock.style.display = 'none'
 		})
 	}
 
 	render(){
-		/*{(() => {
-          		return (
-          		<div>hi</div>
-          	)	
-          })()}*/
+		/*{(() => {return (<div>hi</div>)})()}*/
 		let Page = this;
 		var illusionObject = [];
 		this.getFriendInfo(Page,illusionObject);
 		let illusionList = Page.state.friend.pop(); 
-		var friendBlock =[];	
+		var friendBlock =[]; 	
+
 		if (illusionList !== undefined) {
 			for (var i = 0; i < illusionList.length; i++) {
 				var Url = '/msg?to='+illusionList[i].id;
 				var IdUrl ='/id'+illusionList[i].id;
-				friendBlock.push(<div className="contentDialog__avatar"><img src={illusionList[i].photo}/></div>);
-				friendBlock.push(<Link to={IdUrl}>{illusionList[i].name} {illusionList[i].surname}</Link>);
-				friendBlock.push(<br />);
-				friendBlock.push(<Link to={Url}><button className="contentProfile__button">Написать сообщение</button></Link>);
-				friendBlock.push(<button className="contentProfile__button" id={illusionList[i].id} onClick={(event) => {this.deleteFriend(Page,event.target.id)}}>Удалить из друзей</button>);
-				friendBlock.push(<br />);
+				var blockId = '_'+illusionList[i].id;
+				friendBlock.push(<div key={i} id={blockId}>
+									<div className="contentDialog__avatar"><img src={illusionList[i].photo}/></div>
+									<Link to={IdUrl}>{illusionList[i].name} {illusionList[i].surname}</Link>
+									<br />
+									<Link to={Url}><button className="contentProfile__button">Написать сообщение</button></Link>
+									<button className="contentProfile__button" id={illusionList[i].id} onClick={(event) => {this.deleteFriend(Page,event.target.id)}}>Удалить из друзей</button>
+									<br />	
+								</div>);
 			}
 		};
+
 		return(
 			<div className="col-lg-8 col-md-8 col-sm-9 col-xs-12 content">
 				<div className="contentTuning container-fluid">

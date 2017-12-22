@@ -13,6 +13,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.hashers import check_password
 from message.models import Message
 from vkGroups.models import vkGroup 
+from quote.models import Quote
 import threading
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -433,6 +434,7 @@ class CheckFriends(APIView):
 		'1'- Заявка в друзья отправлена owner'ом
 		'2'- Друзья
 		'3'- Заявка в друзья отправлена sub'ом
+		'4'- TODO: 
 	'''
 	permission_classes = (IsAuthenticated,)
 	renderer_classes = (JSONRenderer,)
@@ -473,9 +475,81 @@ class SaveBiography(APIView):
 			option.sex = request.data['sex']
 			option.birthtown = request.data['birthtown']
 			option.maritalstatus = request.data['maritalstatus']
+			option.showBirthDate = request.data['showBirthDate']
 
 			option.save()
 			
+			return Response({'status': True})
+		else:
+			return HttpResponseBadRequest()
+
+class AddCitation(APIView):
+	permission_classes = ()
+	renderer_classes = (JSONRenderer,)
+
+	def post(self, request, format =None):
+		if request.data['id']:
+		
+			option = User.objects.get(username = request.user.username)
+			
+			if request.data['citation'] != '':
+				text = Quote()
+				text.citation = request.data['citation']
+				text.save()
+				option.citations.add(text)
+
+			option.save()
+
+			return Response({'status': True})
+		else:
+			return HttpResponseBadRequest()
+
+class ShowCitation(APIView):
+	permission_classes = ()
+	renderer_classes = (JSONRenderer,)
+
+	def post(self,request, format =None):
+		option = User.objects.get(username = request.user.username)
+		i = 0
+		mass = []
+		for i in range(0,len(option.citations.all())):
+			text = option.citations.all()[i].citation
+			mass.append(text)
+			text = ''
+		return Response({'citations': mass})
+
+class ShowAllCitation(APIView):
+	permission_classes = ()
+	renderer_classes = (JSONRenderer,)
+
+	def post(self,request, format =None):
+		if request.data['showquote']:
+		
+			option = User.objects.get(id = request.data['showquote'])
+			i = 0
+			mass = []
+			for i in range(0,len(option.citations.all())):
+				text = option.citations.all()[i].citation
+				mass.append(text)
+				text = ''
+			return Response({'citations': mass})
+		else:
+			return HttpResponseBadRequest()
+
+class DeleteCitation(APIView):
+	permission_classes = ()
+	renderer_classes = (JSONRenderer,)
+
+	def post(self, request, format =None):
+		if request.data['id']:
+			
+			option = User.objects.get(username = request.user.username)
+			
+			text = int(request.data['num'])
+			option.citations.remove(text)
+
+			option.save()
+
 			return Response({'status': True})
 		else:
 			return HttpResponseBadRequest()
