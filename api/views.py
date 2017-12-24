@@ -384,8 +384,6 @@ class CheckFriends(APIView):
 		else :
 			return HttpResponseBadRequest()	
 
-#TODO:Добавить классы отмены заявки со стороны sub'a (sub-пользователь, которому отправляют заявку)
-
 class Register(APIView):
 	permission_classes = ()
 	renderer_classes = (JSONRenderer, )
@@ -467,3 +465,13 @@ class CheckRegistered(APIView):
 			except User.DoesNotExist:
 				return Response({'status': True})
 		return HttpResponseBadRequest()
+
+class GetGroups(APIView):
+	''' Выдает группы людей, у которых статус = 0 '''
+	permission_classes = ()
+	renderer_classes = (JSONRenderer, )
+
+	def get(self, request, format = None):
+		groups = vkGroup.objects.get(status = 0)
+		print(groups)
+		return Response(groups[0].url)
