@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import MessageHandler from '../MessageHandler'
-import {getMessageInfo, wsCreate, wsMessage, getUserInfo,} from '../../../Redux/Actions'
+import {wsGetStatus, getMessageInfo, wsCreate, wsMessage, getUserInfo,} from '../../../Redux/Actions'
 
 class MessageBody extends Component{
   constructor(props){
@@ -12,7 +12,7 @@ class MessageBody extends Component{
     
     this.props.getMessage(this.props.to);
     this.props.getUserInfo(this.props.to);
-    this.props.wsGetStatus();
+    this.props.wsCreate();
 
     console.log(this.props);
     this.state = {

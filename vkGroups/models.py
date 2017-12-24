@@ -10,7 +10,7 @@ class vkGroup(models.Model):
 		0 = Not initialized
 		1 = initialize 
 	'''	
-	status = models.IntegerField(max_length = 10, default = 0)
+	status = models.IntegerField(default = 0)
 	description = models.CharField(max_length = 500,default = "")
 
 	def str(self):

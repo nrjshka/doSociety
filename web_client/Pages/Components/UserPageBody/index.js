@@ -76,14 +76,6 @@ class UserPageBody extends Component{
 	}
 
 	componentWillMount(){
-<<<<<<< HEAD
-			this.props.getUserInfo(this.props.id);
-			
-			/*
-=======
-	
->>>>>>> 6924c150b7b1ed00496aae361aba547e57f1f82e
-			//первоначальная версия для вывода даты
 			var months = ['янваврь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'];
 
 			switch(this.props.user.showBirthDate){
@@ -107,7 +99,6 @@ class UserPageBody extends Component{
 			//Меняю заголовок на имя пользователя
 			document.title = this.props.user.name + ' ' + this.props.user.surname;
 
-<<<<<<< HEAD
 			this.setState({
 				id: this.props.id,
 				name : this.props.user.name,
@@ -117,10 +108,8 @@ class UserPageBody extends Component{
 				user_foto : this.props.user.user_foto,
 				workplace : this.props.user.workplace,
 			});
-			*/
-=======
+
 			this.props.getUserInfo(this.props.id)
->>>>>>> 6924c150b7b1ed00496aae361aba547e57f1f82e
 		}
 
 	checkFriendsStatus(Page){

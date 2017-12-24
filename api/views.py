@@ -47,6 +47,8 @@ class GetUserInfo(APIView):
 	def post(self, request, formant = None):
 		#определяем есть ли такой человек, если нет, то выдаем ошибку
 		try:
+			print("ff")
+			print(User.objects.all());
 			user = User.objects.get(id = request.data['id'])
 			#возвращаем сериализованные данные
 			return Response(UserInfoSerializer(user).data)
@@ -458,8 +460,6 @@ class CheckFriends(APIView):
 		else :
 			return HttpResponseBadRequest()
 
-<<<<<<< HEAD
-=======
 class SaveBiography(APIView):
 	permission_classes = ()
 	renderer_classes = (JSONRenderer,)
@@ -574,7 +574,6 @@ class SaveIdeology(APIView):
 		else:
 			return HttpResponseBadRequest()
 
->>>>>>> 6924c150b7b1ed00496aae361aba547e57f1f82e
 class Register(APIView):
 	permission_classes = ()
 	renderer_classes = (JSONRenderer, )
