@@ -3,6 +3,7 @@ import {DS_REGISTRATION} from "../Consts"
 export function dsRegistration(props){
 	return (dispatch) => {
 		console.log(props);
+		alert();
 		fetch('/api/register/',{
 		    method: "POST",
 		    headers : {

@@ -31,6 +31,7 @@ class RegisterBody extends Component{
     }
 
     render(){
+        console.log(this.props.vk);
         return(
             <div className="container">
                 <div className="row">

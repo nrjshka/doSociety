@@ -49,7 +49,7 @@ class LogginedMenu extends Component{
               <li><img src="static/img/nav/5_nav.png" /><Link to="/quest">Случайный собеседник</Link></li>
             </ul>
             <ul>
-              <li><img src="static/img/nav/6_nav.png" /><a href="#">Музыка</a></li>
+              <li><img src="static/img/nav/6_nav.png" /><Link to="/music">Музыка</Link></li>
             </ul>
             <ul>
               <li><img src="static/img/nav/7_nav.png" /><Link to="/settings">Настройки</Link></li>

@@ -60,7 +60,6 @@ const socketMiddleware = (function(){
 		        }
 		      break;
 		    case WS_SEND_MESSAGE:
-		    		console.log('MESSAGE', action.payload);
 		    	    fetch('/api/addmessage/',{
 				    	method: 'POST',
 				    	headers : {

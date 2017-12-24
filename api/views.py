@@ -13,6 +13,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.hashers import check_password
 from message.models import Message
 from vkGroups.models import vkGroup 
+from quote.models import Quote
 import threading
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -52,7 +53,7 @@ class GetUserInfo(APIView):
 		except User.DoesNotExist:
 			#если не нашли человека, то отправляем ошибку
 			return HttpResponseBadRequest()
-
+			
 class GetUserSettings(APIView):
 	''' отправляет настройки пользователю в ответ на его токен '''
 
@@ -279,6 +280,7 @@ class RequestToFriend(APIView):
 			
 				owner.save()
 				sub.save()
+				
 				return Response({'status': '1'})
 			else :
 				return HttpResponseBadRequest()
@@ -313,6 +315,52 @@ class AddFriend(APIView):
 
 		else :
 			return HttpResponseBadRequest()
+
+class GetFriendsInfo(APIView):
+	'''Достает информацию о списке друзей'''
+	permission_classes = (IsAuthenticated,)
+	renderer_classes = (JSONRenderer,)
+
+	def post(self, request, format = None):
+		owner = User.objects.get(username = request.user.username)
+		i = 0
+		mass = []
+		for i in range(0,len(owner.listOfFriends.all())):
+			sub = owner.listOfFriends.all()[i]
+			mass.append({'id': sub.id, 'name': sub.name, 'surname': sub.surname, 'photo': sub.user_foto})
+
+		return Response({'friend': mass})
+
+class GetInFriendsInfo(APIView):
+	'''Достает информацию о списке входящих заявок'''
+	permission_classes = (IsAuthenticated,)
+	renderer_classes = (JSONRenderer,)
+
+	def post(self, request, format = None):
+		owner = User.objects.get(username = request.user.username)
+		i = 0
+		mass = []
+		for i in range(0,len(owner.listOfIncoming.all())):
+			sub = owner.listOfIncoming.all()[i]
+			mass.append({'id': sub.id, 'name': sub.name, 'surname': sub.surname, 'photo': sub.user_foto})
+
+		return Response({'infriend': mass})
+
+class GetOutFriendsInfo(APIView):
+	'''Достает информацию о списке входящих заявок'''
+	permission_classes = (IsAuthenticated,)
+	renderer_classes = (JSONRenderer,)
+
+	def post(self, request, format = None):
+		owner = User.objects.get(username = request.user.username)
+		i = 0
+		mass = []
+		for i in range(0,len(owner.listOfOutcoming.all())):
+			sub = owner.listOfOutcoming.all()[i]
+			mass.append({'id': sub.id, 'name': sub.name, 'surname': sub.surname, 'photo': sub.user_foto})
+
+		return Response({'outfriend': mass})
+
 
 class DeleteFriend(APIView):
 	'''Удаление друга из списка друзей'''
@@ -358,12 +406,35 @@ class CancellationOfRequest(APIView):
 		else :
 			return HttpResponseBadRequest()
 
+class CancellationOfAdding(APIView):
+	'''Отмена заявки со стороны sub'а '''
+	permission_classes = (IsAuthenticated,)
+	renderer_classes = (JSONRenderer,)
+
+	def post(self, request, format = None):
+		if request.data['cancelAdd']:
+			owner = User.objects.get(username = request.user.username)
+			sub = User.objects.get(id = request.data['cancelAdd'])
+
+			if (sub in owner.listOfIncoming.all()) and (owner in sub.listOfOutcoming.all()):
+				owner.listOfIncoming.remove(sub)
+				sub.listOfOutcoming.remove(owner)
+
+				owner.save()
+				sub.save()
+				return Response({'status': '0'})
+			else :
+				return HttpResponseBadRequest()
+		else :
+			return HttpResponseBadRequest()
 
 class CheckFriends(APIView):
 	'''Проверка состояния в котором пользователи находятся друг с другом, где:
 		'0'- Просто не друзья
-		'1'- Заявка в друзья отправлена
+		'1'- Заявка в друзья отправлена owner'ом
 		'2'- Друзья
+		'3'- Заявка в друзья отправлена sub'ом
+		'4'- TODO: 
 	'''
 	permission_classes = (IsAuthenticated,)
 	renderer_classes = (JSONRenderer,)
@@ -374,16 +445,136 @@ class CheckFriends(APIView):
 			owner = User.objects.get(username = request.user.username)
 			sub =  User.objects.get(id = request.data['checkFriends'])
 			
-			if sub in owner.listOfOutcoming.all():
-				return Response({'status': '1'})
+			if owner in sub.listOfOutcoming.all():
+				return Response({'status': '3'})
 			else:
-				if sub in owner.listOfFriends.all():
-					return Response({'status': '2'})
-				else: 
-					return Response({'status': '0'})	
+				if sub in owner.listOfOutcoming.all():
+					return Response({'status': '1'})
+				else:
+					if sub in owner.listOfFriends.all():
+						return Response({'status': '2'})
+					else: 
+						return Response({'status': '0'})	
 		else :
-			return HttpResponseBadRequest()	
+			return HttpResponseBadRequest()
 
+<<<<<<< HEAD
+=======
+class SaveBiography(APIView):
+	permission_classes = ()
+	renderer_classes = (JSONRenderer,)
+
+	def post(self, request, format =None):
+		if request.data['id']:
+			
+			option = User.objects.get(username = request.user.username)
+			
+			option.name = request.data['name']
+			option.surname = request.data['surname']
+			option.birthDate = request.data['birthDate']
+			option.hometown = request.data['hometown']
+			option.maidenName = request.data['maidenName']
+			option.sex = request.data['sex']
+			option.birthtown = request.data['birthtown']
+			option.maritalstatus = request.data['maritalstatus']
+			option.showBirthDate = request.data['showBirthDate']
+
+			option.save()
+			
+			return Response({'status': True})
+		else:
+			return HttpResponseBadRequest()
+
+class AddCitation(APIView):
+	permission_classes = ()
+	renderer_classes = (JSONRenderer,)
+
+	def post(self, request, format =None):
+		if request.data['id']:
+		
+			option = User.objects.get(username = request.user.username)
+			
+			if request.data['citation'] != '':
+				text = Quote()
+				text.citation = request.data['citation']
+				text.save()
+				option.citations.add(text)
+
+			option.save()
+
+			return Response({'status': True})
+		else:
+			return HttpResponseBadRequest()
+
+class ShowCitation(APIView):
+	permission_classes = ()
+	renderer_classes = (JSONRenderer,)
+
+	def post(self,request, format =None):
+		option = User.objects.get(username = request.user.username)
+		i = 0
+		mass = []
+		for i in range(0,len(option.citations.all())):
+			text = option.citations.all()[i].citation
+			mass.append(text)
+			text = ''
+		return Response({'citations': mass})
+
+class ShowAllCitation(APIView):
+	permission_classes = ()
+	renderer_classes = (JSONRenderer,)
+
+	def post(self,request, format =None):
+		if request.data['showquote']:
+		
+			option = User.objects.get(id = request.data['showquote'])
+			i = 0
+			mass = []
+			for i in range(0,len(option.citations.all())):
+				text = option.citations.all()[i].citation
+				mass.append(text)
+				text = ''
+			return Response({'citations': mass})
+		else:
+			return HttpResponseBadRequest()
+
+class DeleteCitation(APIView):
+	permission_classes = ()
+	renderer_classes = (JSONRenderer,)
+
+	def post(self, request, format =None):
+		if request.data['id']:
+			
+			option = User.objects.get(username = request.user.username)
+			
+			text = int(request.data['num'])
+			option.citations.remove(text)
+
+			option.save()
+
+			return Response({'status': True})
+		else:
+			return HttpResponseBadRequest()
+
+class SaveIdeology(APIView):
+	permission_classes = ()
+	renderer_classes = (JSONRenderer,)
+
+	def post(self, request, format =None):
+		if request.data['id']:
+			
+			option = User.objects.get(username = request.user.username)
+
+			option.religiousBeliefs = request.data['religiousBeliefs']
+			option.politicalBeliefs = request.data['politicalBeliefs']
+
+			option.save()
+
+			return Response({'status': True})
+		else:
+			return HttpResponseBadRequest()
+
+>>>>>>> 6924c150b7b1ed00496aae361aba547e57f1f82e
 class Register(APIView):
 	permission_classes = ()
 	renderer_classes = (JSONRenderer, )
