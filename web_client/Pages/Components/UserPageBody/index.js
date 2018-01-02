@@ -2,11 +2,12 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import {getUserInfo} from '../../../Redux/Actions'
+import {getUserInfo, wsGetStatus} from '../../../Redux/Actions'
 
 class UserPageBody extends Component{
 	constructor(props){
 		super(props);
+		this.props.wsGetStatus(this.props.id);
 		
 		//this.props.getUserInfo(this.props.id);			
 		
@@ -25,6 +26,7 @@ class UserPageBody extends Component{
 			citations: '',
 			arrays: [],
 		}
+
 		//debug-mod only
 		//console.log('ID', this.props.id);;
 	}
@@ -74,8 +76,6 @@ class UserPageBody extends Component{
 	}
 
 	componentWillMount(){
-	
-			//первоначальная версия для вывода даты
 			var months = ['янваврь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'];
 
 			switch(this.props.user.showBirthDate){
@@ -98,6 +98,16 @@ class UserPageBody extends Component{
 
 			//Меняю заголовок на имя пользователя
 			document.title = this.props.user.name + ' ' + this.props.user.surname;
+
+			this.setState({
+				id: this.props.id,
+				name : this.props.user.name,
+				surname : this.props.user.surname,
+				birthDate : date,
+				hometown : this.props.user.hometown,
+				user_foto : this.props.user.user_foto,
+				workplace : this.props.user.workplace,
+			});
 
 			this.props.getUserInfo(this.props.id)
 		}
@@ -371,6 +381,7 @@ class UserPageBody extends Component{
 	}
 
 	render(){
+		console.log(this.props);
 		var outputURl = "/msg?to=" + this.state.id; 
 		var UserButton; var Page = this;
 
@@ -483,6 +494,7 @@ function mapToStateProps(state){
 function matchDispatchToProps(dispatch){
 	return {
 	    getUserInfo: bindActionCreators(getUserInfo, dispatch),
+	    wsGetStatus: bindActionCreators(wsGetStatus, dispatch),  
 	};
 }
 export default connect(mapToStateProps, matchDispatchToProps)(UserPageBody)

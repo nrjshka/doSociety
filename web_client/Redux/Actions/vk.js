@@ -7,7 +7,8 @@ export function vkLogin(){
 					if (r.session){
 	            		var data = r.session;
 			            var user = r.session.user;
-
+						
+						console.log(data, user, data.mid);
 			            fetch('/api/check-register/', {
 					        method: "POST",
 					        headers : {
@@ -18,7 +19,7 @@ export function vkLogin(){
 					        }
 					      )
 					    })
-					    .then( (result) => {return result.json()})
+					    .then( (result) => {console.log(result); return result.json()})
 					    .then( (data) => {
 					    	if (data['status']){
 						    	// отправляем метод на обработку, если человек не зарегистрирован

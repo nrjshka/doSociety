@@ -6,6 +6,10 @@ export default function dsReducer(state = null, action){
 				//отправляем обработанные данные
 				return Object.assign({}, state, action.payload)
 			break;
+		case 'SET_USER_STATUS':
+				console.log(action)
+				return Object.assign({}, state.users, {'id' : action.payload.id, 'status': action.payload.status})
+			break;
 	}
 	return state;
 }

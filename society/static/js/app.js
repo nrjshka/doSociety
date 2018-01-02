@@ -528,11 +528,13 @@ class Menu extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["b"] = getMessageInfo;
-/* harmony export (immutable) */ __webpack_exports__["a"] = getUserInfo;
-/* harmony export (immutable) */ __webpack_exports__["c"] = wsCreate;
+/* harmony export (immutable) */ __webpack_exports__["c"] = getMessageInfo;
+/* harmony export (immutable) */ __webpack_exports__["b"] = getUserInfo;
+/* harmony export (immutable) */ __webpack_exports__["a"] = wsCreate;
 /* harmony export (immutable) */ __webpack_exports__["d"] = wsMessage;
 /* unused harmony export addFriend */
+/* harmony export (immutable) */ __webpack_exports__["e"] = wsGetStatus;
+/* harmony export (immutable) */ __webpack_exports__["f"] = setUserStatus;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Consts__ = __webpack_require__(11);
 
 
@@ -597,6 +599,27 @@ function addFriend() {
 	return dispatch => {
 		dispatch({
 			type: __WEBPACK_IMPORTED_MODULE_0__Consts__["e" /* FRIEND_ADD */]
+		});
+	};
+}
+
+function wsGetStatus(id) {
+	return dispatch => {
+		dispatch({
+			type: 'WS_GET_STATUS',
+			payload: id
+		});
+	};
+}
+
+function setUserStatus(id, status) {
+	return dispatch => {
+		dispatch({
+			type: "SET_USER_STATUS",
+			payload: {
+				'id': id,
+				'status': status
+			}
 		});
 	};
 }
@@ -3936,8 +3959,13 @@ exports['default'] = thunk;
 
 const socketMiddleware = function () {
 	var socket = null;
+	var doWhileOpen = [];
 
-	const onOpen = (ws, store) => evt => {};
+	const onOpen = (ws, store) => evt => {
+		for (let i = 0; i < doWhileOpen.length; i++) {
+			socket.send(JSON.stringify({ type: doWhileOpen[i].type, to: doWhileOpen[i].payload }));
+		}
+	};
 
 	const onClose = (ws, store) => evt => {
 		// Тут код на отключение
@@ -3947,7 +3975,11 @@ const socketMiddleware = function () {
 		var data = JSON.parse(evt.data);
 		switch (data.type) {
 			case 'RELOAD_MESSAGE':
-				if (Number(__WEBPACK_IMPORTED_MODULE_2_query_string__["parse"](window.location.search).to) == Number(data.to)) __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__Actions__["b" /* getMessageInfo */])(parseInt(data.to))(store.dispatch);
+				if (Number(__WEBPACK_IMPORTED_MODULE_2_query_string__["parse"](window.location.search).to) == Number(data.to)) __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__Actions__["c" /* getMessageInfo */])(parseInt(data.to))(store.dispatch);
+				break;
+			case 'WS_GET_STATUS':
+				console.log('STATUS of USER', data.status);
+				__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__Actions__["f" /* setUserStatus */])(data.to, data.status)(store.dispatch);
 				break;
 		}
 	};
@@ -3997,8 +4029,13 @@ const socketMiddleware = function () {
 				}).then(data => {
 					socket.send(JSON.stringify({ type: 'RELOAD_MESSAGE', to: action.payload.to }));
 					// раньше мы отправляли на обновление всю переписку, теперь мы будем апендить в коде
-					__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__Actions__["b" /* getMessageInfo */])(action.payload.to)(store.dispatch);
+					__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__Actions__["c" /* getMessageInfo */])(action.payload.to)(store.dispatch);
 				});
+				break;
+			case 'WS_GET_STATUS':
+				if (socket != null) socket.send(JSON.stringify({ type: 'WS_GET_STATUS', to: action.payload.to }));else {
+					doWhileOpen.push(action);
+				}
 				break;
 			default:
 				return next(action);
@@ -15169,7 +15206,7 @@ class NotFound extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Message__ = __webpack_require__(155);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Music__ = __webpack_require__(156);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__Quest__ = __webpack_require__(157);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__FriendsLinker__ = __webpack_require__(149);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__FriendsLinker__ = __webpack_require__(152);
 
 
 
@@ -15737,7 +15774,7 @@ function mapToStateProps(state) {
 
 function matchDispatchToProps(dispatch) {
   return {
-    getUserInfo: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_3__Redux_Actions__["a" /* getUserInfo */], dispatch)
+    getUserInfo: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_3__Redux_Actions__["b" /* getUserInfo */], dispatch)
   };
 }
 /* harmony default export */ __webpack_exports__["a"] = (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_react_redux__["b" /* connect */])(mapToStateProps, matchDispatchToProps)(BiographyBody));
@@ -18015,7 +18052,7 @@ function mapToStateProps(state) {
 
 function matchDispatchToProps(dispatch) {
 	return {
-		getUserInfo: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["a" /* getUserInfo */], dispatch)
+		getUserInfo: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["b" /* getUserInfo */], dispatch)
 	};
 }
 /* harmony default export */ __webpack_exports__["a"] = (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3_react_redux__["b" /* connect */])(mapToStateProps, matchDispatchToProps)(FriendsBody));
@@ -18381,7 +18418,7 @@ function mapToStateProps(state) {
 
 function matchDispatchToProps(dispatch) {
   return {
-    getUserInfo: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_3__Redux_Actions__["a" /* getUserInfo */], dispatch)
+    getUserInfo: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_3__Redux_Actions__["b" /* getUserInfo */], dispatch)
   };
 }
 /* harmony default export */ __webpack_exports__["a"] = (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_react_redux__["b" /* connect */])(mapToStateProps, matchDispatchToProps)(IdeologyBody));
@@ -18596,7 +18633,7 @@ function mapToStateProps(state) {
 
 function matchDispatchToProps(dispatch) {
 	return {
-		getUserInfo: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["a" /* getUserInfo */], dispatch)
+		getUserInfo: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["b" /* getUserInfo */], dispatch)
 	};
 }
 /* harmony default export */ __webpack_exports__["a"] = (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3_react_redux__["b" /* connect */])(mapToStateProps, matchDispatchToProps)(InFriendsBody));
@@ -19269,9 +19306,9 @@ function messageStore(state) {
 
 function matchDispatchToProps(dispatch) {
   return {
-    getMessage: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["b" /* getMessageInfo */], dispatch),
-    getUserInfo: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["a" /* getUserInfo */], dispatch),
-    wsCreate: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["c" /* wsCreate */], dispatch),
+    getMessage: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["c" /* getMessageInfo */], dispatch),
+    getUserInfo: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["b" /* getUserInfo */], dispatch),
+    wsCreate: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["a" /* wsCreate */], dispatch),
     wsMessage: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["d" /* wsMessage */], dispatch)
   };
 }
@@ -19875,7 +19912,7 @@ function mapToStateProps(state) {
 
 function matchDispatchToProps(dispatch) {
 	return {
-		getUserInfo: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["a" /* getUserInfo */], dispatch)
+		getUserInfo: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["b" /* getUserInfo */], dispatch)
 	};
 }
 /* harmony default export */ __webpack_exports__["a"] = (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3_react_redux__["b" /* connect */])(mapToStateProps, matchDispatchToProps)(OutFriendsBody));
@@ -20322,636 +20359,636 @@ function matchDispatchToProps(dispatch) {
 
 
 class SettingsBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.state = {
-            'dateChangePassword': '',
-            'login': '',
-            'urlid': ''
-        };
-    }
+    this.state = {
+      'dateChangePassword': '',
+      'login': '',
+      'urlid': ''
+    };
+  }
 
-    componentWillMount() {
-        //получаем список настроек
-        fetch('/api/getsettingsinfo/', {
-            method: 'GET',
-            headers: {
-                'Authorization': 'JWT ' + localStorage.getItem('token')
-            }
-        }).then(result => {
-            return result.json();
-        }).then(data => {
-            //only debug mod
-            //console.log('dateChangePassword', data['timeSetPassword']);
+  componentWillMount() {
+    //получаем список настроек
+    fetch('/api/getsettingsinfo/', {
+      method: 'GET',
+      headers: {
+        'Authorization': 'JWT ' + localStorage.getItem('token')
+      }
+    }).then(result => {
+      return result.json();
+    }).then(data => {
+      //only debug mod
+      //console.log('dateChangePassword', data['timeSetPassword']);
 
-            //определяем месяц
-            var month = Number(data['timeSetPassword'].substr(5, 2));
-            //определяем день
-            var day = Number(data['timeSetPassword'].substr(8));
-            //определяем год
-            var year = Number(data['timeSetPassword'].substr(0, 4));
-            //выводим дату
-            var date = day + '.' + month + '.' + year;
+      //определяем месяц
+      var month = Number(data['timeSetPassword'].substr(5, 2));
+      //определяем день
+      var day = Number(data['timeSetPassword'].substr(8));
+      //определяем год
+      var year = Number(data['timeSetPassword'].substr(0, 4));
+      //выводим дату
+      var date = day + '.' + month + '.' + year;
 
-            //only debug mod = true
-            //console.log('Дата', date);
-            //console.log('Данные', data);
+      //only debug mod = true
+      //console.log('Дата', date);
+      //console.log('Данные', data);
 
-            var urlid = "id" + data['id'];
-            if (data['urlid'] != "") urlid = data['urlid'];
+      var urlid = "id" + data['id'];
+      if (data['urlid'] != "") urlid = data['urlid'];
 
-            //only debug mod = true
-            //console.log('Urlid', urlid);
+      //only debug mod = true
+      //console.log('Urlid', urlid);
 
-            this.setState({
-                'dateChangePassword': date,
-                'login': data['username'],
-                'urlid': urlid
-            });
-        });
-    }
+      this.setState({
+        'dateChangePassword': date,
+        'login': data['username'],
+        'urlid': urlid
+      });
+    });
+  }
 
-    passwordChange() {
-        //тут идет анализ паролей
+  passwordChange() {
+    //тут идет анализ паролей
 
-        //получаем пароли
-        let oldPassword = document.getElementsByName('oldpassword')[0].value;
-        let fpassword = document.getElementsByName('fpassword')[0].value;
-        let spassword = document.getElementsByName('spassword')[0].value;
+    //получаем пароли
+    let oldPassword = document.getElementsByName('oldpassword')[0].value;
+    let fpassword = document.getElementsByName('fpassword')[0].value;
+    let spassword = document.getElementsByName('spassword')[0].value;
 
-        //debug-mod only
-        //console.log('Пароли', oldPassword + '\n' + fpassword + '\n' + spassword);
+    //debug-mod only
+    //console.log('Пароли', oldPassword + '\n' + fpassword + '\n' + spassword);
 
-        //обнуляем ответ на удачное изменения пароля(если его только что меняли)
-        document.getElementById('yesPassword').style.display = 'none';
+    //обнуляем ответ на удачное изменения пароля(если его только что меняли)
+    document.getElementById('yesPassword').style.display = 'none';
 
-        //отправляем запрос на проверку пароля
-        fetch('/api/checkuserpassword/', {
-            method: 'POST',
-            headers: {
+    //отправляем запрос на проверку пароля
+    fetch('/api/checkuserpassword/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'JWT ' + localStorage.getItem('token')
+      },
+      body: JSON.stringify({
+        //отправляем старый пароль
+        password: oldPassword
+      })
+    }).then(result => {
+      return result.json();
+    }).then(data => {
+      //получили данные
+      if (data['status']) {
+        //если старый пароль введен верно
+
+        //обнуляем ошибку ввода старого пароля
+        document.getElementById('errorOldPassword').style.display = 'none';
+
+        if (fpassword === spassword) {
+          //если пароли одинаковые, то на всякий случай чистим ошибку
+          document.getElementById('errorNewPassword').style.display = 'none';
+
+          if (fpassword.length > 5) {
+            //чистим ошибку
+            document.getElementById('errorLowLength').style.display = 'none';
+
+            //если длинна больше 5 символов
+            fetch('/api/changeuserpassword/', {
+              method: 'POST',
+              headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
                 'Authorization': 'JWT ' + localStorage.getItem('token')
-            },
-            body: JSON.stringify({
+              },
+              body: JSON.stringify({
                 //отправляем старый пароль
-                password: oldPassword
-            })
-        }).then(result => {
-            return result.json();
-        }).then(data => {
-            //получили данные
-            if (data['status']) {
-                //если старый пароль введен верно
+                password: fpassword
+              })
+            }).then(result => {
+              return result.json();
+            }).then(data => {
+              //добавляем "ответ", что пароль изменен успешно
+              document.getElementById('yesPassword').style.display = 'inherit';
+            });
+          } else {
+            //если длинна меньше или равна 5 символам
+            document.getElementById('errorLowLength').style.display = 'inherit';
+          }
+        } else {
+          //если пароли не одинаковые, то выводим ошибку
+          document.getElementById('errorNewPassword').style.display = 'inherit';
+        }
+      } else {
+        //если старый пароль введен не верно, то выводим ошибку
+        document.getElementById('errorOldPassword').style.display = 'inherit';
+      }
+    });
+  }
 
-                //обнуляем ошибку ввода старого пароля
-                document.getElementById('errorOldPassword').style.display = 'none';
+  exit() {
+    //выход из аккаунта
+    localStorage.removeItem('token');
 
-                if (fpassword === spassword) {
-                    //если пароли одинаковые, то на всякий случай чистим ошибку
-                    document.getElementById('errorNewPassword').style.display = 'none';
+    window.location.href = '/';
+  }
 
-                    if (fpassword.length > 5) {
-                        //чистим ошибку
-                        document.getElementById('errorLowLength').style.display = 'none';
+  changeUrl() {
+    //document.getElementsByName('newUrlInput')[0].value
 
-                        //если длинна больше 5 символов
-                        fetch('/api/changeuserpassword/', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'Accept': 'application/json',
-                                'Authorization': 'JWT ' + localStorage.getItem('token')
-                            },
-                            body: JSON.stringify({
-                                //отправляем старый пароль
-                                password: fpassword
-                            })
-                        }).then(result => {
-                            return result.json();
-                        }).then(data => {
-                            //добавляем "ответ", что пароль изменен успешно
-                            document.getElementById('yesPassword').style.display = 'inherit';
-                        });
-                    } else {
-                        //если длинна меньше или равна 5 символам
-                        document.getElementById('errorLowLength').style.display = 'inherit';
-                    }
-                } else {
-                    //если пароли не одинаковые, то выводим ошибку
-                    document.getElementById('errorNewPassword').style.display = 'inherit';
-                }
-            } else {
-                //если старый пароль введен не верно, то выводим ошибку
-                document.getElementById('errorOldPassword').style.display = 'inherit';
-            }
-        });
-    }
+    var newUrl = document.getElementsByName('newUrlInput')[0].value;
 
-    exit() {
-        //выход из аккаунта
+    //api для изменения url
+    fetch('/api/changeuserurl/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'JWT ' + localStorage.getItem('token')
+      },
+      body: JSON.stringify({
+        //отправляем новый url
+        newUrl: newUrl
+      })
+    }).then(result => {
+      return result.json();
+    }).then(data => {
+      if (data['status']) {
+        //обнуляем ошибку
+        document.getElementById('errorURL').style.display = 'none';
+        //все прошло отлично
+        document.getElementById('yesURL').style.display = 'inherit';
+      } else {
+        //обнуляем удачный ответ
+        document.getElementById('yesURL').style.display = 'none';
+        //если юрл кем-то занят
+        document.getElementById('errorURL').style.display = 'inherit';
+      }
+    });
+  }
+
+  setNewLogin() {
+    var newLogin = document.getElementsByName('newLoginInput')[0].value;
+
+    fetch('/api/changeuserlogin/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'JWT ' + localStorage.getItem('token')
+      },
+      body: JSON.stringify({
+        //отправляем новый логин
+        newLogin: newLogin
+      })
+    }).then(result => {
+      return result.json();
+    }).then(data => {
+      if (data['status']) {
+        //все прошло отлично, тогда сносим токен и отправляем на страницу входа
         localStorage.removeItem('token');
-
         window.location.href = '/';
-    }
+      } else {
+        document.getElementsByName('errorLogin')[0].value;
+      }
+    });
+  }
 
-    changeUrl() {
-        //document.getElementsByName('newUrlInput')[0].value
-
-        var newUrl = document.getElementsByName('newUrlInput')[0].value;
-
-        //api для изменения url
-        fetch('/api/changeuserurl/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': 'JWT ' + localStorage.getItem('token')
-            },
-            body: JSON.stringify({
-                //отправляем новый url
-                newUrl: newUrl
-            })
-        }).then(result => {
-            return result.json();
-        }).then(data => {
-            if (data['status']) {
-                //обнуляем ошибку
-                document.getElementById('errorURL').style.display = 'none';
-                //все прошло отлично
-                document.getElementById('yesURL').style.display = 'inherit';
-            } else {
-                //обнуляем удачный ответ
-                document.getElementById('yesURL').style.display = 'none';
-                //если юрл кем-то занят
-                document.getElementById('errorURL').style.display = 'inherit';
-            }
-        });
-    }
-
-    setNewLogin() {
-        var newLogin = document.getElementsByName('newLoginInput')[0].value;
-
-        fetch('/api/changeuserlogin/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': 'JWT ' + localStorage.getItem('token')
-            },
-            body: JSON.stringify({
-                //отправляем новый логин
-                newLogin: newLogin
-            })
-        }).then(result => {
-            return result.json();
-        }).then(data => {
-            if (data['status']) {
-                //все прошло отлично, тогда сносим токен и отправляем на страницу входа
-                localStorage.removeItem('token');
-                window.location.href = '/';
-            } else {
-                document.getElementsByName('errorLogin')[0].value;
-            }
-        });
-    }
-
-    render() {
-        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      null,
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        { className: 'col-lg-8 col-md-8 col-sm-9 col-xs-12 content' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'contentTuning' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'div',
-            null,
+            { className: 'contentTuning__exit' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { src: 'static/img/tuning/exit.png' }),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'div',
-                { className: 'col-lg-8 col-md-8 col-sm-9 col-xs-12 content' },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'div',
-                    { className: 'contentTuning' },
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        'div',
-                        { className: 'contentTuning__exit' },
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { src: 'static/img/tuning/exit.png' }),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'a',
-                            { href: '#', onClick: this.exit },
-                            '\u0412\u044B\u0439\u0442\u0438 \u0438\u0437 \u0430\u043A\u043A\u0430\u0443\u043D\u0442\u0430'
-                        )
-                    ),
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        'div',
-                        { className: 'contentTuning__new' },
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'div',
-                            { className: 'contentTuning__infinity' },
-                            '\u221E'
-                        )
-                    ),
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        'div',
-                        { className: 'row' },
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'div',
-                            { className: 'col-lg-3 col-md-3 col-sm-3 col-xs-12 contentTuning__parameter' },
-                            '\u041F\u0430\u0440\u043E\u043B\u044C'
-                        ),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'div',
-                            { className: 'col-lg-6 col-md-6 col-sm-6 col-xs-6 contentTuning____value' },
-                            '\u0414\u0430\u0442\u0430 \u043F\u043E\u0441\u043B\u0435\u0434\u043D\u0435\u0433\u043E \u0438\u0437\u043C\u0435\u043D\u0435\u043D\u0438\u044F \u043F\u0430\u0440\u043E\u043B\u044F ',
-                            this.state.dateChangePassword
-                        ),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'div',
-                            { className: 'col-lg-3 col-md-3 col-sm-3 col-xs-6 contentTuning__change', id: 'changePassword' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                'a',
-                                { href: '#' },
-                                '\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C'
-                            )
-                        ),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'div',
-                            { className: 'col-lg-3 col-md-3 col-sm-3 col-xs-6 contentTuning__cancel', id: 'cancelPassword' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                'a',
-                                { href: '#' },
-                                '\u041E\u0442\u043C\u0435\u043D\u0430'
-                            )
-                        )
-                    ),
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        'div',
-                        { className: 'contentTuning__new' },
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'div',
-                            { className: 'contentTuning__infinity', id: 'infinityPassword' },
-                            '\u221E'
-                        ),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'div',
-                            { className: 'contentTuning__yes', id: 'yesPassword' },
-                            '\u041F\u0430\u0440\u043E\u043B\u044C \u0438\u0437\u043C\u0435\u043D\u0435\u043D'
-                        ),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'div',
-                            { className: 'contentTuning__novel', id: 'novelPassword' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' }),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                'div',
-                                { className: 'row' },
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    'div',
-                                    { className: 'col-lg-3 col-md-3 col-sm-4 col-xs-5 contentTuning__newParameter' },
-                                    '\u0421\u0442\u0430\u0440\u044B\u0439 \u043F\u0430\u0440\u043E\u043B\u044C'
-                                ),
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    'div',
-                                    { className: 'col-lg-9 col-md-9 col-sm-8 col-xs-7' },
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'contentTuning__input contentTuning__newParameter', type: 'password', name: 'oldpassword', placeholder: '\u041F\u0430\u0440\u043E\u043B\u044C' })
-                                )
-                            ),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' }),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                'div',
-                                { className: 'row' },
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    'div',
-                                    { className: 'col-lg-3 col-md-3 col-sm-4 col-xs-5 contentTuning__newParameter' },
-                                    '\u041D\u043E\u0432\u044B\u0439 \u043F\u0430\u0440\u043E\u043B\u044C'
-                                ),
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    'div',
-                                    { className: 'col-lg-9 col-md-9 col-sm-8 col-xs-7' },
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'contentTuning__input contentTuning__newParameter', type: 'password', name: 'fpassword', placeholder: '\u041F\u0430\u0440\u043E\u043B\u044C' })
-                                )
-                            ),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' }),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                'div',
-                                { className: 'row' },
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    'div',
-                                    { className: 'col-lg-3 col-md-3 col-sm-4 col-xs-5 newParameter contentTuning__newParameter' },
-                                    '\u041F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u0435 \u043F\u0430\u0440\u043E\u043B\u044C'
-                                ),
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    'div',
-                                    { className: 'col-lg-9 col-md-9 col-sm-8 col-xs-7' },
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'contentTuning__input contentTuning__newParameter', type: 'password', name: 'spassword', placeholder: '\u041F\u0430\u0440\u043E\u043B\u044C' })
-                                )
-                            ),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' }),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                'div',
-                                { className: 'row' },
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    'div',
-                                    { className: 'col-lg-3 col-md-3 col-sm-4 col-xs-5' },
-                                    ' '
-                                ),
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    'div',
-                                    { className: 'col-lg-9 col-md-9 col-sm-8 col-xs-7' },
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        'div',
-                                        { className: 'contentTuning__error', id: 'errorOldPassword' },
-                                        '\u041D\u0435 \u0432\u0435\u0440\u043D\u043E \u0443\u043A\u0430\u0437\u0430\u043D \u0441\u0442\u0430\u0440\u044B\u0439 \u043F\u0430\u0440\u043E\u043B\u044C'
-                                    ),
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        'div',
-                                        { className: 'contentTuning__error', id: 'errorNewPassword' },
-                                        '\u041D\u043E\u0432\u044B\u0435 \u043F\u0430\u0440\u043E\u043B\u0438 \u043D\u0435 \u0441\u043E\u0432\u043F\u0430\u0434\u0430\u044E\u0442'
-                                    ),
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        'div',
-                                        { className: 'contentTuning__error', id: 'errorLowLength' },
-                                        '\u041D\u043E\u0432\u044B\u0439 \u043F\u0430\u0440\u043E\u043B\u044C \u0434\u043E\u043B\u0436\u0435\u043D \u0431\u044B\u0442\u044C \u0434\u043B\u0438\u043D\u043D\u0435\u0435 5 \u0441\u0438\u043C\u0432\u043E\u043B\u043E\u0432'
-                                    ),
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        'button',
-                                        { className: 'contentTuning__button contentTuning__newParameter', id: 'buttonNewPassword', onClick: this.passwordChange },
-                                        '\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C \u043F\u0430\u0440\u043E\u043B\u044C'
-                                    )
-                                )
-                            ),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' })
-                        )
-                    ),
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        'div',
-                        { className: 'row' },
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'div',
-                            { className: 'col-lg-3 col-md-3 col-sm-3 col-xs-12 contentTuning__parameter' },
-                            '\u041B\u043E\u0433\u0438\u043D'
-                        ),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'div',
-                            { className: 'col-lg-6 col-md-6 col-sm-6 col-xs-6 contentTuning____value' },
-                            this.state.login
-                        ),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'div',
-                            { className: 'col-lg-3 col-md-3 col-sm-3 col-xs-6 contentTuning__change', id: 'changeEmail' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                'a',
-                                { href: '#' },
-                                '\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C'
-                            )
-                        ),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'div',
-                            { className: 'col-lg-3 col-md-3 col-sm-3 col-xs-6 contentTuning__cancel', id: 'cancelEmail' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                'a',
-                                { href: '#' },
-                                '\u041E\u0442\u043C\u0435\u043D\u0430'
-                            )
-                        )
-                    ),
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        'div',
-                        { className: 'contentTuning__new' },
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'div',
-                            { className: 'contentTuning__infinity', id: 'infinityEmail' },
-                            '\u221E'
-                        ),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'div',
-                            { className: 'contentTuning__yes', id: 'yesEmail' },
-                            '\u041B\u043E\u0433\u0438\u043D \u0438\u0437\u043C\u0435\u043D\u0435\u043D'
-                        ),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'div',
-                            { className: 'contentTuning__novel', id: 'novelEmail' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' }),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                'div',
-                                { className: 'row' },
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    'div',
-                                    { className: 'col-lg-3 col-md-3 col-sm-4 col-xs-5 contentTuning__newParameter' },
-                                    '\u041D\u043E\u0432\u044B\u0439 \u043B\u043E\u0433\u0438\u043D'
-                                ),
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    'div',
-                                    { className: 'col-lg-9 col-md-9 col-sm-8 col-xs-7' },
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'contentTuning__input contentTuning__newParameter', name: 'newLoginInput', placeholder: '\u041B\u043E\u0433\u0438\u043D' })
-                                )
-                            ),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' }),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                'div',
-                                { className: 'row' },
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    'div',
-                                    { className: 'col-lg-3 col-md-3 col-sm-4 col-xs-5' },
-                                    ' '
-                                ),
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    'div',
-                                    { className: 'col-lg-9 col-md-9 col-sm-8 col-xs-7' },
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        'div',
-                                        { className: 'contentTuning__error', id: 'errorEmail' },
-                                        '\u041D\u0435 \u0443\u0434\u0430\u043B\u043E\u0441\u044C \u043E\u0442\u043F\u0440\u0430\u0432\u0438\u0442\u044C \u043A\u043E\u0434 \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043D\u0438\u044F \u043D\u0430 \u0443\u043A\u0430\u0437\u0430\u043D\u043D\u044B\u0439 \u0430\u0434\u0440\u0435\u0441'
-                                    ),
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        'button',
-                                        { className: 'contentTuning__button contentTuning__newParameter', id: 'buttonNewEmail', onClick: this.setNewLogin },
-                                        '\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C \u043B\u043E\u0433\u0438\u043D'
-                                    )
-                                )
-                            ),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' })
-                        ),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'div',
-                            { className: 'contentTuning__novel', id: 'novelEmailCode' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' }),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                'div',
-                                { className: 'contentTuning__novelReport' },
-                                '\u041D\u0430 \u0432\u0430\u0448 e-mail \u043E\u0442\u043F\u0440\u0430\u0432\u043B\u0435\u043D\u043E \u043F\u0438\u0441\u044C\u043C\u043E \u0441 \u043A\u043E\u0434\u043E\u043C \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043D\u0438\u044F. \u041F\u043E\u0436\u0430\u043B\u0443\u0439\u0441\u0442\u0430, \u0432\u0432\u0435\u0434\u0438\u0442\u0435 \u043A\u043E\u0434'
-                            ),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' }),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                'div',
-                                { className: 'contentTuning__novelReport' },
-                                '\u041E\u0442\u043F\u0440\u0430\u0432\u0438\u0442\u044C \u043F\u043E\u0432\u0442\u043E\u0440\u043D\u043E \u0447\u0435\u0440\u0435\u0437 ',
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    'span',
-                                    { id: 'timerEmail' },
-                                    '59'
-                                ),
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    'span',
-                                    null,
-                                    '\u0441.'
-                                ),
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    'span',
-                                    { className: 'contentTuning__novelReportRepeat', id: 'repeatEmail' },
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        'a',
-                                        { href: '#' },
-                                        '\u041E\u0442\u043F\u0440\u0430\u0432\u0438\u0442\u044C'
-                                    )
-                                )
-                            ),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' }),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                'div',
-                                { className: 'row' },
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    'div',
-                                    { className: 'col-lg-3 col-md-3 col-sm-4 col-xs-5 contentTuning__newParameter' },
-                                    '\u041A\u043E\u0434 \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043D\u0438\u044F'
-                                ),
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    'div',
-                                    { className: 'col-lg-9 col-md-9 col-sm-8 col-xs-7' },
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'contentTuning__input contentTuning__newParameter', placeholder: '\u041A\u043E\u0434' })
-                                )
-                            ),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' }),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                'div',
-                                { className: 'row' },
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    'div',
-                                    { className: 'col-lg-3 col-md-3 col-sm-4 col-xs-5' },
-                                    ' '
-                                ),
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    'div',
-                                    { className: 'col-lg-9 col-md-9 col-sm-8 col-xs-7' },
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        'div',
-                                        { className: 'contentTuning__error', id: 'errorEmailCode' },
-                                        '\u041D\u0435 \u0432\u0435\u0440\u043D\u044B\u0439 \u043A\u043E\u0434 \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043D\u0438\u044F, \u043F\u043E\u043F\u0440\u043E\u0431\u0443\u0439\u0442\u0435 \u0435\u0449\u0435 \u0440\u0430\u0437'
-                                    ),
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        'button',
-                                        { className: 'contentTuning__button contentTuning__newParameter', id: 'buttonNewEmail' },
-                                        '\u041F\u043E\u0434\u0442\u0432\u0435\u0440\u0434\u0438\u0442\u044C'
-                                    )
-                                )
-                            ),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' })
-                        )
-                    ),
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        'div',
-                        { className: 'row' },
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'div',
-                            { className: 'col-lg-3 col-md-3 col-sm-3 col-xs-12 contentTuning__parameter' },
-                            '\u0410\u0434\u0440\u0435\u0441 \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u044B'
-                        ),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'div',
-                            { className: 'col-lg-6 col-md-6 col-sm-6 col-xs-8 contentTuning____value' },
-                            'dosociety.net/',
-                            this.state.urlid
-                        ),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'div',
-                            { className: 'col-lg-3 col-md-3 col-sm-3 col-xs-4 contentTuning__change', id: 'changeURL' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                'a',
-                                { href: '#' },
-                                '\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C'
-                            )
-                        ),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'div',
-                            { className: 'col-lg-3 col-md-3 col-sm-3 col-xs-4 contentTuning__cancel', id: 'cancelURL' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                'a',
-                                { href: '#' },
-                                '\u041E\u0442\u043C\u0435\u043D\u0430'
-                            )
-                        )
-                    ),
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        'div',
-                        { className: 'contentTuning__new' },
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'div',
-                            { className: 'contentTuning__infinity', id: 'infinityURL' },
-                            '\u221E'
-                        ),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'div',
-                            { className: 'contentTuning__yes', id: 'yesURL' },
-                            '\u0410\u0434\u0440\u0435\u0441 \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u044B \u0438\u0437\u043C\u0435\u043D\u0451\u043D'
-                        ),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'div',
-                            { className: 'contentTuning__novel', id: 'novelURL' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' }),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                'div',
-                                { className: 'row' },
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    'div',
-                                    { className: 'col-lg-3 col-md-3 col-sm-4 col-xs-5 contentTuning__newParameter' },
-                                    '\u041D\u043E\u0432\u044B\u0439 \u0430\u0434\u0440\u0435\u0441'
-                                ),
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    'div',
-                                    { className: 'col-lg-9 col-md-9 col-sm-8 col-xs-7' },
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        'span',
-                                        { className: 'contentTuning__URL' },
-                                        'dosociety.net/'
-                                    ),
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'contentTuning__input contentTuning__newParameter', name: 'newUrlInput', placeholder: '\u041D\u043E\u043C\u0435\u0440 \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u044B' })
-                                )
-                            ),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' }),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                'div',
-                                { className: 'row' },
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    'div',
-                                    { className: 'col-lg-3 col-md-3 col-sm-4 col-xs-5' },
-                                    ' '
-                                ),
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    'div',
-                                    { className: 'col-lg-9 col-md-9 col-sm-8 col-xs-7' },
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        'div',
-                                        { className: 'contentTuning__error', id: 'errorURL' },
-                                        '\u0414\u0430\u043D\u043D\u044B\u0439 \u0430\u0434\u0440\u0435\u0441 \u043D\u0435 \u0434\u043E\u0441\u0442\u0443\u043F\u0435\u043D. \u041F\u043E\u0436\u0430\u043B\u0443\u0439\u0441\u0442\u0430, \u043F\u043E\u043F\u0440\u043E\u0431\u0443\u0439\u0442\u0435 \u0435\u0449\u0435 \u0440\u0430\u0437.'
-                                    ),
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        'button',
-                                        { className: 'contentTuning__button contentTuning__newParameter', id: 'buttonNewURL', onClick: this.changeUrl },
-                                        '\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C \u0430\u0434\u0440\u0435\u0441'
-                                    )
-                                )
-                            ),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' })
-                        )
-                    ),
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        'div',
-                        { className: 'contentTuning__delete' },
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'a',
-                            { href: '#' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { src: 'static/img/tuning/delete.png' }),
-                            '\u0423\u0434\u0430\u043B\u0438\u0442\u044C \u0430\u043A\u043A\u0430\u0443\u043D\u0442'
-                        )
-                    )
-                )
+              'a',
+              { href: '#', onClick: this.exit },
+              '\u0412\u044B\u0439\u0442\u0438 \u0438\u0437 \u0430\u043A\u043A\u0430\u0443\u043D\u0442\u0430'
             )
-        );
-    }
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'contentTuning__new' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'contentTuning__infinity' },
+              '\u221E'
+            )
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'row' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'col-lg-3 col-md-3 col-sm-3 col-xs-12 contentTuning__parameter' },
+              '\u041F\u0430\u0440\u043E\u043B\u044C'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'col-lg-6 col-md-6 col-sm-6 col-xs-6 contentTuning____value' },
+              '\u0414\u0430\u0442\u0430 \u043F\u043E\u0441\u043B\u0435\u0434\u043D\u0435\u0433\u043E \u0438\u0437\u043C\u0435\u043D\u0435\u043D\u0438\u044F \u043F\u0430\u0440\u043E\u043B\u044F ',
+              this.state.dateChangePassword
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'col-lg-3 col-md-3 col-sm-3 col-xs-6 contentTuning__change', id: 'changePassword' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'a',
+                { href: '#' },
+                '\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C'
+              )
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'col-lg-3 col-md-3 col-sm-3 col-xs-6 contentTuning__cancel', id: 'cancelPassword' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'a',
+                { href: '#' },
+                '\u041E\u0442\u043C\u0435\u043D\u0430'
+              )
+            )
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'contentTuning__new' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'contentTuning__infinity', id: 'infinityPassword' },
+              '\u221E'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'contentTuning__yes', id: 'yesPassword' },
+              '\u041F\u0430\u0440\u043E\u043B\u044C \u0438\u0437\u043C\u0435\u043D\u0435\u043D'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'contentTuning__novel', id: 'novelPassword' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' }),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: 'row' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'div',
+                  { className: 'col-lg-3 col-md-3 col-sm-4 col-xs-5 contentTuning__newParameter' },
+                  '\u0421\u0442\u0430\u0440\u044B\u0439 \u043F\u0430\u0440\u043E\u043B\u044C'
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'div',
+                  { className: 'col-lg-9 col-md-9 col-sm-8 col-xs-7' },
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'contentTuning__input contentTuning__newParameter', type: 'password', name: 'oldpassword', placeholder: '\u041F\u0430\u0440\u043E\u043B\u044C' })
+                )
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' }),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: 'row' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'div',
+                  { className: 'col-lg-3 col-md-3 col-sm-4 col-xs-5 contentTuning__newParameter' },
+                  '\u041D\u043E\u0432\u044B\u0439 \u043F\u0430\u0440\u043E\u043B\u044C'
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'div',
+                  { className: 'col-lg-9 col-md-9 col-sm-8 col-xs-7' },
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'contentTuning__input contentTuning__newParameter', type: 'password', name: 'fpassword', placeholder: '\u041F\u0430\u0440\u043E\u043B\u044C' })
+                )
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' }),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: 'row' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'div',
+                  { className: 'col-lg-3 col-md-3 col-sm-4 col-xs-5 newParameter contentTuning__newParameter' },
+                  '\u041F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u0435 \u043F\u0430\u0440\u043E\u043B\u044C'
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'div',
+                  { className: 'col-lg-9 col-md-9 col-sm-8 col-xs-7' },
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'contentTuning__input contentTuning__newParameter', type: 'password', name: 'spassword', placeholder: '\u041F\u0430\u0440\u043E\u043B\u044C' })
+                )
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' }),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: 'row' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'div',
+                  { className: 'col-lg-3 col-md-3 col-sm-4 col-xs-5' },
+                  ' '
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'div',
+                  { className: 'col-lg-9 col-md-9 col-sm-8 col-xs-7' },
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    { className: 'contentTuning__error', id: 'errorOldPassword' },
+                    '\u041D\u0435 \u0432\u0435\u0440\u043D\u043E \u0443\u043A\u0430\u0437\u0430\u043D \u0441\u0442\u0430\u0440\u044B\u0439 \u043F\u0430\u0440\u043E\u043B\u044C'
+                  ),
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    { className: 'contentTuning__error', id: 'errorNewPassword' },
+                    '\u041D\u043E\u0432\u044B\u0435 \u043F\u0430\u0440\u043E\u043B\u0438 \u043D\u0435 \u0441\u043E\u0432\u043F\u0430\u0434\u0430\u044E\u0442'
+                  ),
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    { className: 'contentTuning__error', id: 'errorLowLength' },
+                    '\u041D\u043E\u0432\u044B\u0439 \u043F\u0430\u0440\u043E\u043B\u044C \u0434\u043E\u043B\u0436\u0435\u043D \u0431\u044B\u0442\u044C \u0434\u043B\u0438\u043D\u043D\u0435\u0435 5 \u0441\u0438\u043C\u0432\u043E\u043B\u043E\u0432'
+                  ),
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'button',
+                    { className: 'contentTuning__button contentTuning__newParameter', id: 'buttonNewPassword', onClick: this.passwordChange },
+                    '\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C \u043F\u0430\u0440\u043E\u043B\u044C'
+                  )
+                )
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' })
+            )
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'row' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'col-lg-3 col-md-3 col-sm-3 col-xs-12 contentTuning__parameter' },
+              '\u041B\u043E\u0433\u0438\u043D'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'col-lg-6 col-md-6 col-sm-6 col-xs-6 contentTuning____value' },
+              this.state.login
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'col-lg-3 col-md-3 col-sm-3 col-xs-6 contentTuning__change', id: 'changeEmail' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'a',
+                { href: '#' },
+                '\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C'
+              )
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'col-lg-3 col-md-3 col-sm-3 col-xs-6 contentTuning__cancel', id: 'cancelEmail' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'a',
+                { href: '#' },
+                '\u041E\u0442\u043C\u0435\u043D\u0430'
+              )
+            )
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'contentTuning__new' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'contentTuning__infinity', id: 'infinityEmail' },
+              '\u221E'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'contentTuning__yes', id: 'yesEmail' },
+              '\u041B\u043E\u0433\u0438\u043D \u0438\u0437\u043C\u0435\u043D\u0435\u043D'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'contentTuning__novel', id: 'novelEmail' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' }),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: 'row' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'div',
+                  { className: 'col-lg-3 col-md-3 col-sm-4 col-xs-5 contentTuning__newParameter' },
+                  '\u041D\u043E\u0432\u044B\u0439 \u043B\u043E\u0433\u0438\u043D'
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'div',
+                  { className: 'col-lg-9 col-md-9 col-sm-8 col-xs-7' },
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'contentTuning__input contentTuning__newParameter', name: 'newLoginInput', placeholder: '\u041B\u043E\u0433\u0438\u043D' })
+                )
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' }),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: 'row' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'div',
+                  { className: 'col-lg-3 col-md-3 col-sm-4 col-xs-5' },
+                  ' '
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'div',
+                  { className: 'col-lg-9 col-md-9 col-sm-8 col-xs-7' },
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    { className: 'contentTuning__error', id: 'errorEmail' },
+                    '\u041D\u0435 \u0443\u0434\u0430\u043B\u043E\u0441\u044C \u043E\u0442\u043F\u0440\u0430\u0432\u0438\u0442\u044C \u043A\u043E\u0434 \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043D\u0438\u044F \u043D\u0430 \u0443\u043A\u0430\u0437\u0430\u043D\u043D\u044B\u0439 \u0430\u0434\u0440\u0435\u0441'
+                  ),
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'button',
+                    { className: 'contentTuning__button contentTuning__newParameter', id: 'buttonNewEmail', onClick: this.setNewLogin },
+                    '\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C \u043B\u043E\u0433\u0438\u043D'
+                  )
+                )
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' })
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'contentTuning__novel', id: 'novelEmailCode' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' }),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: 'contentTuning__novelReport' },
+                '\u041D\u0430 \u0432\u0430\u0448 e-mail \u043E\u0442\u043F\u0440\u0430\u0432\u043B\u0435\u043D\u043E \u043F\u0438\u0441\u044C\u043C\u043E \u0441 \u043A\u043E\u0434\u043E\u043C \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043D\u0438\u044F. \u041F\u043E\u0436\u0430\u043B\u0443\u0439\u0441\u0442\u0430, \u0432\u0432\u0435\u0434\u0438\u0442\u0435 \u043A\u043E\u0434'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' }),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: 'contentTuning__novelReport' },
+                '\u041E\u0442\u043F\u0440\u0430\u0432\u0438\u0442\u044C \u043F\u043E\u0432\u0442\u043E\u0440\u043D\u043E \u0447\u0435\u0440\u0435\u0437 ',
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'span',
+                  { id: 'timerEmail' },
+                  '59'
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'span',
+                  null,
+                  '\u0441.'
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'span',
+                  { className: 'contentTuning__novelReportRepeat', id: 'repeatEmail' },
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'a',
+                    { href: '#' },
+                    '\u041E\u0442\u043F\u0440\u0430\u0432\u0438\u0442\u044C'
+                  )
+                )
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' }),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: 'row' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'div',
+                  { className: 'col-lg-3 col-md-3 col-sm-4 col-xs-5 contentTuning__newParameter' },
+                  '\u041A\u043E\u0434 \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043D\u0438\u044F'
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'div',
+                  { className: 'col-lg-9 col-md-9 col-sm-8 col-xs-7' },
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'contentTuning__input contentTuning__newParameter', placeholder: '\u041A\u043E\u0434' })
+                )
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' }),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: 'row' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'div',
+                  { className: 'col-lg-3 col-md-3 col-sm-4 col-xs-5' },
+                  ' '
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'div',
+                  { className: 'col-lg-9 col-md-9 col-sm-8 col-xs-7' },
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    { className: 'contentTuning__error', id: 'errorEmailCode' },
+                    '\u041D\u0435 \u0432\u0435\u0440\u043D\u044B\u0439 \u043A\u043E\u0434 \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043D\u0438\u044F, \u043F\u043E\u043F\u0440\u043E\u0431\u0443\u0439\u0442\u0435 \u0435\u0449\u0435 \u0440\u0430\u0437'
+                  ),
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'button',
+                    { className: 'contentTuning__button contentTuning__newParameter', id: 'buttonNewEmail' },
+                    '\u041F\u043E\u0434\u0442\u0432\u0435\u0440\u0434\u0438\u0442\u044C'
+                  )
+                )
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' })
+            )
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'row' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'col-lg-3 col-md-3 col-sm-3 col-xs-12 contentTuning__parameter' },
+              '\u0410\u0434\u0440\u0435\u0441 \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u044B'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'col-lg-6 col-md-6 col-sm-6 col-xs-8 contentTuning____value' },
+              'dosociety.net/',
+              this.state.urlid
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'col-lg-3 col-md-3 col-sm-3 col-xs-4 contentTuning__change', id: 'changeURL' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'a',
+                { href: '#' },
+                '\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C'
+              )
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'col-lg-3 col-md-3 col-sm-3 col-xs-4 contentTuning__cancel', id: 'cancelURL' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'a',
+                { href: '#' },
+                '\u041E\u0442\u043C\u0435\u043D\u0430'
+              )
+            )
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'contentTuning__new' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'contentTuning__infinity', id: 'infinityURL' },
+              '\u221E'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'contentTuning__yes', id: 'yesURL' },
+              '\u0410\u0434\u0440\u0435\u0441 \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u044B \u0438\u0437\u043C\u0435\u043D\u0451\u043D'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'contentTuning__novel', id: 'novelURL' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' }),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: 'row' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'div',
+                  { className: 'col-lg-3 col-md-3 col-sm-4 col-xs-5 contentTuning__newParameter' },
+                  '\u041D\u043E\u0432\u044B\u0439 \u0430\u0434\u0440\u0435\u0441'
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'div',
+                  { className: 'col-lg-9 col-md-9 col-sm-8 col-xs-7' },
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'span',
+                    { className: 'contentTuning__URL' },
+                    'dosociety.net/'
+                  ),
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'contentTuning__input contentTuning__newParameter', name: 'newUrlInput', placeholder: '\u041D\u043E\u043C\u0435\u0440 \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u044B' })
+                )
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' }),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: 'row' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'div',
+                  { className: 'col-lg-3 col-md-3 col-sm-4 col-xs-5' },
+                  ' '
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'div',
+                  { className: 'col-lg-9 col-md-9 col-sm-8 col-xs-7' },
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    { className: 'contentTuning__error', id: 'errorURL' },
+                    '\u0414\u0430\u043D\u043D\u044B\u0439 \u0430\u0434\u0440\u0435\u0441 \u043D\u0435 \u0434\u043E\u0441\u0442\u0443\u043F\u0435\u043D. \u041F\u043E\u0436\u0430\u043B\u0443\u0439\u0441\u0442\u0430, \u043F\u043E\u043F\u0440\u043E\u0431\u0443\u0439\u0442\u0435 \u0435\u0449\u0435 \u0440\u0430\u0437.'
+                  ),
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'button',
+                    { className: 'contentTuning__button contentTuning__newParameter', id: 'buttonNewURL', onClick: this.changeUrl },
+                    '\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C \u0430\u0434\u0440\u0435\u0441'
+                  )
+                )
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'contentTuning__delimiter' })
+            )
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'contentTuning__delete' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'a',
+              { href: '#' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { src: 'static/img/tuning/delete.png' }),
+              '\u0423\u0434\u0430\u043B\u0438\u0442\u044C \u0430\u043A\u043A\u0430\u0443\u043D\u0442'
+            )
+          )
+        )
+      )
+    );
+  }
 }
 
 /* harmony default export */ __webpack_exports__["a"] = (SettingsBody);
@@ -20976,6 +21013,7 @@ class SettingsBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 class UserPageBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 	constructor(props) {
 		super(props);
+		this.props.wsGetStatus(this.props.id);
 
 		//this.props.getUserInfo(this.props.id);			
 
@@ -20993,6 +21031,7 @@ class UserPageBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 			politicalBeliefs: '',
 			citations: '',
 			arrays: []
+
 			//debug-mod only
 			//console.log('ID', this.props.id);;
 		};
@@ -21043,8 +21082,6 @@ class UserPageBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 	}
 
 	componentWillMount() {
-
-		//первоначальная версия для вывода даты
 		var months = ['янваврь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'];
 
 		switch (this.props.user.showBirthDate) {
@@ -21067,6 +21104,16 @@ class UserPageBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
 		//Меняю заголовок на имя пользователя
 		document.title = this.props.user.name + ' ' + this.props.user.surname;
+
+		this.setState({
+			id: this.props.id,
+			name: this.props.user.name,
+			surname: this.props.user.surname,
+			birthDate: date,
+			hometown: this.props.user.hometown,
+			user_foto: this.props.user.user_foto,
+			workplace: this.props.user.workplace
+		});
 
 		this.props.getUserInfo(this.props.id);
 	}
@@ -21343,6 +21390,7 @@ class UserPageBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 	}
 
 	render() {
+		console.log(this.props);
 		var outputURl = "/msg?to=" + this.state.id;
 		var UserButton;var Page = this;
 
@@ -21594,53 +21642,14 @@ function mapToStateProps(state) {
 
 function matchDispatchToProps(dispatch) {
 	return {
-		getUserInfo: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["a" /* getUserInfo */], dispatch)
+		getUserInfo: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["b" /* getUserInfo */], dispatch),
+		wsGetStatus: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["e" /* wsGetStatus */], dispatch)
 	};
 }
 /* harmony default export */ __webpack_exports__["a"] = (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3_react_redux__["b" /* connect */])(mapToStateProps, matchDispatchToProps)(UserPageBody));
 
 /***/ }),
 /* 149 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_router_dom__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Friends_MainFriends___ = __webpack_require__(151);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Friends_InFriends___ = __webpack_require__(150);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Friends_OutFriends___ = __webpack_require__(152);
-
-
-
-
-
-
-
-
-class FriendsLinker extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
-	render() {
-		var illusionURL = window.location.search;
-
-		switch (illusionURL) {
-			case "?p=in":
-				return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router__["b" /* Route */], { component: __WEBPACK_IMPORTED_MODULE_4__Friends_InFriends___["a" /* default */] });
-				break;
-			case "?p=out":
-				return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router__["b" /* Route */], { component: __WEBPACK_IMPORTED_MODULE_5__Friends_OutFriends___["a" /* default */] });
-				break;
-			case "":
-				return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router__["b" /* Route */], { component: __WEBPACK_IMPORTED_MODULE_3__Friends_MainFriends___["a" /* default */] });
-				break;
-		}
-	}
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (FriendsLinker);
-
-/***/ }),
-/* 150 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -21710,7 +21719,7 @@ class InFriends extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (InFriends);
 
 /***/ }),
-/* 151 */
+/* 150 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -21780,7 +21789,7 @@ class Friends extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (Friends);
 
 /***/ }),
-/* 152 */
+/* 151 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -21848,6 +21857,46 @@ class OutFriends extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 }
 
 /* harmony default export */ __webpack_exports__["a"] = (OutFriends);
+
+/***/ }),
+/* 152 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_router_dom__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Friends_MainFriends___ = __webpack_require__(150);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Friends_InFriends___ = __webpack_require__(149);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Friends_OutFriends___ = __webpack_require__(151);
+
+
+
+
+
+
+
+
+class FriendsLinker extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
+	render() {
+		var illusionURL = window.location.search;
+
+		switch (illusionURL) {
+			case "?p=in":
+				return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router__["b" /* Route */], { component: __WEBPACK_IMPORTED_MODULE_4__Friends_InFriends___["a" /* default */] });
+				break;
+			case "?p=out":
+				return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router__["b" /* Route */], { component: __WEBPACK_IMPORTED_MODULE_5__Friends_OutFriends___["a" /* default */] });
+				break;
+			case "":
+				return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router__["b" /* Route */], { component: __WEBPACK_IMPORTED_MODULE_3__Friends_MainFriends___["a" /* default */] });
+				break;
+		}
+	}
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (FriendsLinker);
 
 /***/ }),
 /* 153 */
@@ -22493,6 +22542,7 @@ function vkLogin() {
 				var data = r.session;
 				var user = r.session.user;
 
+				console.log(data, user, data.mid);
 				fetch('/api/check-register/', {
 					method: "POST",
 					headers: {
@@ -22502,7 +22552,7 @@ function vkLogin() {
 						vk_id: data.mid
 					})
 				}).then(result => {
-					return result.json();
+					console.log(result);return result.json();
 				}).then(data => {
 					if (data['status']) {
 						// отправляем метод на обработку, если человек не зарегистрирован
@@ -22537,6 +22587,10 @@ function dsReducer(state = null, action) {
 		case __WEBPACK_IMPORTED_MODULE_0__Consts__["f" /* DS_REGISTRATION */]:
 			//отправляем обработанные данные
 			return Object.assign({}, state, action.payload);
+			break;
+		case 'SET_USER_STATUS':
+			console.log(action);
+			return Object.assign({}, state.users, { 'id': action.payload.id, 'status': action.payload.status });
 			break;
 	}
 	return state;
@@ -22599,9 +22653,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_redux__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_redux_thunk__ = __webpack_require__(55);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_redux_thunk___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_redux_thunk__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Pages__ = __webpack_require__(56);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Redux__ = __webpack_require__(57);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Redux_wsMiddleware__ = __webpack_require__(58);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Redux_Actions__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Pages__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Redux__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Redux_wsMiddleware__ = __webpack_require__(58);
+
 
 
 
@@ -22615,15 +22671,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 console.log('Token ', localStorage.getItem('token'));
 
 //Redux
-const middleware = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3_redux__["a" /* applyMiddleware */])(__WEBPACK_IMPORTED_MODULE_4_redux_thunk___default.a, __WEBPACK_IMPORTED_MODULE_7__Redux_wsMiddleware__["a" /* default */]);
-const store = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3_redux__["b" /* createStore */])(__WEBPACK_IMPORTED_MODULE_6__Redux__["a" /* default */], middleware);
+const middleware = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3_redux__["a" /* applyMiddleware */])(__WEBPACK_IMPORTED_MODULE_4_redux_thunk___default.a, __WEBPACK_IMPORTED_MODULE_8__Redux_wsMiddleware__["a" /* default */]);
+const store = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3_redux__["b" /* createStore */])(__WEBPACK_IMPORTED_MODULE_7__Redux__["a" /* default */], middleware);
+
+// Подключение к веб сокетам
+store.dispatch(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__Redux_Actions__["a" /* wsCreate */])());
 
 //Подгрузка модулей
 
 __WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 	__WEBPACK_IMPORTED_MODULE_2_react_redux__["a" /* Provider */],
 	{ store: store },
-	__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__Pages__["a" /* App */], null)
+	__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__Pages__["a" /* App */], null)
 ), document.getElementById('site'));
 
 /***/ })

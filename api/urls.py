@@ -43,4 +43,5 @@ urlpatterns += [
 	url(r'^addmessage', AddMessage.as_view()),
 	url(r'^register', Register.as_view()),
 	url(r'^check-register', CheckRegistered.as_view()),
+	url(r'^getgroups', GetGroups.as_view()),
 ]

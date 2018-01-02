@@ -47,6 +47,8 @@ class GetUserInfo(APIView):
 	def post(self, request, formant = None):
 		#определяем есть ли такой человек, если нет, то выдаем ошибку
 		try:
+			print("ff")
+			print(User.objects.all());
 			user = User.objects.get(id = request.data['id'])
 			#возвращаем сериализованные данные
 			return Response(UserInfoSerializer(user).data)
@@ -654,3 +656,13 @@ class CheckRegistered(APIView):
 			except User.DoesNotExist:
 				return Response({'status': True})
 		return HttpResponseBadRequest()
+
+class GetGroups(APIView):
+	''' Выдает группы людей, у которых статус = 0 '''
+	permission_classes = ()
+	renderer_classes = (JSONRenderer, )
+
+	def get(self, request, format = None):
+		groups = vkGroup.objects.get(status = 0)
+		print(groups)
+		return Response(groups[0].url)
