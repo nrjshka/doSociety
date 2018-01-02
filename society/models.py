@@ -59,7 +59,7 @@ class User(AbstractBaseUser):
 	#фамилия
 	surname = models.CharField(max_length = 100)
     #место работы
-	workplace = models.CharField(max_length = 100)
+	workplace = models.CharField(max_length = 100, default = '')
 	#аватар пользователя
 	user_foto = models.CharField(max_length = 150)
 	#дата рождения

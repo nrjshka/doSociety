@@ -16,6 +16,7 @@ class BiographyBody extends Component{
         birthDate : '',
         hometown : '',
         maidenName: '',
+        workplace: '',
         sex: '',
         birthtown: '',
         maritalstatus: '',
@@ -49,6 +50,7 @@ class BiographyBody extends Component{
         surname: newProps.user.surname,
         birthDate: date,
         hometown : newProps.user.hometown,
+        workplace: newProps.user.workplace,
         sex: newProps.user.sex,
         birthtown: newProps.user.birthtown,
         maritalstatus: newProps.user.maritalstatus,
@@ -77,6 +79,7 @@ class BiographyBody extends Component{
         surname: this.props.user.surname,
         birthDate: date,
         hometown : this.props.user.hometown,
+        workplace: this.props.user.workplace,
         sex: this.props.user.sex,
         birthtown: this.props.user.birthtown,
         maritalstatus: this.props.user.maritalstatus,
@@ -137,6 +140,7 @@ class BiographyBody extends Component{
               maidenName: OmaidenName,
               sex: document.getElementsByName('sex')[0].value,
               birthtown: Obirthtown,
+              workplace: document.getElementsByName('workplace')[0].value,
               maritalstatus: document.getElementsByName('maritalstatus')[0].value,
               showBirthDate: document.getElementsByName('showD')[0].value,
             })
@@ -283,6 +287,12 @@ class BiographyBody extends Component{
                     <select className="contentTuning__input contentTuning__oldParameter" name="showD">
                       {arrayShowDate}
                     </select>
+                    <div className="contentTuning__delimiter"></div>
+                    <div className="contentTuning__delimiter"></div>
+                  </div>
+                  <div className="col-lg-4 col-md-4 col-sm-5 col-xs-4 contentTuning__parameter">Место работы</div>
+                  <div className="col-lg-8 col-md-8 col-sm-7 col-xs-8">
+                    <input className="contentTuning__input contentTuning__oldParameter" name="workplace" placeholder={this.state.workplace}></input>
                     <div className="contentTuning__delimiter"></div>
                     <div className="contentTuning__delimiter"></div>
                   </div>

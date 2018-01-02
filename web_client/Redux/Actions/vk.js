@@ -4,7 +4,6 @@ export function vkLogin(){
 			return (dispatch) => {
 				VK.Auth.login( (r) =>{
 					//only debug mod = true
-					console.log(r);
 					if (r.session){
 	            		var data = r.session;
 			            var user = r.session.user;

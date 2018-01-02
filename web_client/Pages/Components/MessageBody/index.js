@@ -14,7 +14,7 @@ class MessageBody extends Component{
     this.props.getUserInfo(this.props.to);
     this.props.wsCreate();
 
-    console.log(this.props);
+    //console.log(this.props);
     this.state = {
       id: this.props.to,
       name : '',

@@ -364,8 +364,9 @@ class UserPageBody extends Component{
         })
         .then((response)=>{return response.json();})
         .then((data) =>{
-        	Page.state.arrays.pop();
-        	Page.state.arrays.push(data['citations']);
+        	for (var i = 0; i < data['citations'].length; i++) {
+        		Page.state.arrays.push(<div key = {i}>{data['citations'][i]}</div>)
+        	}
         });	
 	}
 
@@ -381,18 +382,9 @@ class UserPageBody extends Component{
 									'Социалистические','Умеренные','Либеральные','Консервативные',
 									'Ультраконсервативные','Либертарианские','Другие'];
 
-		var arrayCitation=[];
+		var arrayCitation=[]; var CitationBlock = ''; var WorkplaceBlock = '';
 
 		this.showQuoteInfo(Page);
-		let quoteTexT = Page.state.arrays.pop();
-		
-		if (quoteTexT != undefined) {
-			for (var i = 0; i < this.state.citations.length; i++) {
-				arrayCitation.push(
-						<div key={i}>{quoteTexT[i]}</div>
-					);
-			}
-		}
 
 		this.checkFriendsStatus(Page);
 	
@@ -408,6 +400,24 @@ class UserPageBody extends Component{
 	    		<button className="contentProfile__button" id="buttonAcceptRequest" onClick={(event) => {this.acceptingRequest(Page)}}>Принять заявку</button>
 				<button className="contentProfile__button" id="buttonCancellRequest" onClick={(event) => {this.cancellatingOfRequest(Page)}}>Не принимать заявку</button>
 	    	</div>	
+	    }
+
+	    if (this.state.citations.length != 0) {
+	    	CitationBlock = 
+	    		<div className="row contentProfile__info">
+	               	<div className="col-lg-3 col-md-3 col-sm-3 col-xs-4 contentProfile__parameter">Любимые цитаты: </div>
+	                <div className="col-lg-9 col-md-9 col-sm-9 col-xs-8 contentProfile__value">{Page.state.arrays}</div>
+	            </div>
+	    } else {
+	    	CitationBlock = <div></div>
+	    }
+
+	    if (this.state.workplace != 'None' || this.state.workplace != '') {
+	    	WorkplaceBlock =
+	        	<div className="row contentProfile__info">
+	            	<div className="col-lg-3 col-md-3 col-sm-3 col-xs-4 contentProfile__parameter">Место работы: </div>
+	                <div className="col-lg-9 col-md-9 col-sm-9 col-xs-8 contentProfile__value">{this.state.workplace}</div>
+	            </div>
 	    }
 	     
 		return(
@@ -435,10 +445,7 @@ class UserPageBody extends Component{
 	                    <div className="col-lg-3 col-md-3 col-sm-3 col-xs-4 contentProfile__parameter">Город:</div>
 	                    <div className="col-lg-9 col-md-9 col-sm-9 col-xs-8 contentProfile__value">{this.state.hometown}</div>
 	                  </div>
-	                  <div className="row contentProfile__info">
-	                    <div className="col-lg-3 col-md-3 col-sm-3 col-xs-4 contentProfile__parameter">Место работы: </div>
-	                    <div className="col-lg-9 col-md-9 col-sm-9 col-xs-8 contentProfile__value">{this.state.workplace}</div>
-	                  </div>
+	                  {WorkplaceBlock}
 	                  <div className="row contentProfile__info">
 	                    <div className="col-lg-3 col-md-3 col-sm-3 col-xs-4 contentProfile__parameter">Семейное положение: </div>
 	                    <div className="col-lg-9 col-md-9 col-sm-9 col-xs-8 contentProfile__value">{arrayStatusValue[this.state.maritalstatus]}</div>
@@ -448,10 +455,7 @@ class UserPageBody extends Component{
 	                    	<div className="col-lg-3 col-md-3 col-sm-3 col-xs-4 contentProfile__parameter">Политические убеждения: </div>
 	                    	<div className="col-lg-9 col-md-9 col-sm-9 col-xs-8 contentProfile__value">{arrayPoliticalValue[this.state.politicalBeliefs]}</div>
 	                  	</div>
-	                  	<div className="row contentProfile__info">
-	                    	<div className="col-lg-3 col-md-3 col-sm-3 col-xs-4 contentProfile__parameter">Любимые цитаты: </div>
-	                    	<div className="col-lg-9 col-md-9 col-sm-9 col-xs-8 contentProfile__value">{arrayCitation}</div>
-	                  	</div>
+	                  	{CitationBlock}
 	                  </div>
 	                	<div>
 	                		<button className="contentProfile__button" style={{'display': 'inherit','marginLeft': '20%'}} id="buttonShowInfo" onClick={(event)=>{this.showExtraInfo()}}>SHOW</button>
