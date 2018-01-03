@@ -3999,8 +3999,8 @@ const socketMiddleware = function () {
 				}).then(function (response) {
 					return response.json();
 				}).then(data => {
-					if (data.id) socket = new WebSocket("ws://95.183.10.52:5012", [data.id]);else {
-						socket = new WebSocket("ws://95.183.10.52:5012", [0]);
+					if (data.id) socket = new WebSocket("wss://0.0.0.0:5012", [data.id]);else {
+						socket = new WebSocket("wss://0.0.0.0:5012", [0]);
 					}
 					socket.onmessage = onMessage(socket, store);
 					socket.onclose = onClose(socket, store);
