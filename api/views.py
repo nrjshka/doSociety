@@ -513,12 +513,12 @@ class ShowCitation(APIView):
 
 	def post(self,request, format =None):
 		option = User.objects.get(username = request.user.username)
-		i = 0
 		mass = []
 		for i in range(0,len(option.citations.all())):
 			text = option.citations.all()[i].citation
 			mass.append(text)
 			text = ''
+
 		return Response({'citations': mass})
 
 class ShowAllCitation(APIView):

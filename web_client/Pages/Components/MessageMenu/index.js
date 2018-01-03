@@ -8,16 +8,8 @@ class MessageMenu extends Component{
 	 constructor(props){
     super(props);
 
-    this.state = {
+    this.state = {  
       id: this.props.id,
-      name: '',
-      surname: '',
-      birthDate: '',
-      hometown: '',
-      user_foro: '',
-      workplace: '',
-      listOfFriends: '',
-      something: '',
       friend: [],
     }
   }
@@ -27,48 +19,10 @@ class MessageMenu extends Component{
       newProps.getUserInfo(newProps.id);      
     }
 
-    document.title = 'Друзья';
-
     this.setState({
       id: this.props.id,
-      name : newProps.user.name,
-      surname : newProps.user.surname,
-      birthDate : '',
-      hometown : newProps.user.hometown,
-      user_foto : newProps.user.user_foto,
-      workplace : newProps.user.workplace,
       listOfFriends : newProps.user.listOfFriends,
     });
-  }
-
-  componentWillMount(){
-    document.title = 'Друзья';
-
-    this.setState({
-      id: this.props.id,
-      name: this.props.user.name,
-      surname: this.props.user.surname,
-      birthDate: '',
-      hometown : this.props.user.hometown,
-      user_foto: this.props.user.user_foto,
-      workplace: this.props.user.workplace,
-      listOfFriends: this.props.user.listOfFriends,
-    }); 
-  }
-
-  componentWillMount(){
-    fetch('/api/getid/', {
-            method: 'GET',
-              headers : {
-                'Authorization' : 'JWT ' + localStorage.getItem('token'),
-            },
-          })
-      .then((response) => {
-          return response.json();
-      })
-      .then((data) => {
-          this.props.getUserInfo(data['id']);
-      });
   }
 
   getFriendInfo(Page){

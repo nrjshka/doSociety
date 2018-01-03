@@ -7,7 +7,7 @@ from django.contrib.auth.models import (
 )
 
 from vkGroups.models import vkGroup
-
+from quote.models import Quote
 #
 
 class UserManager(BaseUserManager):
@@ -85,6 +85,30 @@ class User(AbstractBaseUser):
 	#Список групп вк
 	vk_groups = models.ManyToManyField(vkGroup, db_index = True, related_name = "vk_groups")
 
+	
+	#Девичья фамилия
+	maidenName = models.CharField(max_length = 100, default = "")
+	#Пол
+	sex = models.CharField(max_length = 10, default = "1")
+	#Родной город
+	birthtown = models.CharField(max_length = 100, default = "")
+	#Семейное положение
+	maritalstatus = models.CharField(max_length = 10, default = "1")
+	#Режим отображения даты рождения
+	showBirthDate = models.CharField(max_length = 10, default ="0")
+	
+	#Конец того, что касается БИОГРАФИИ
+
+	#Начало того, что касается МИРОВОЗЗРЕНИЯ
+
+	#Политические убеждения
+	politicalBeliefs = models.CharField(max_length = 10, default = '0')
+	#Религиозные убеждения
+	religiousBeliefs = models.CharField(max_length = 10, default = '0')
+	#Список цитат
+	citations = models.ManyToManyField(Quote, related_name='citations')
+	
+	#Конец того, что касается МИРОВОЗЗРЕНИЯ
 	objects = UserManager()
 
 	USERNAME_FIELD = 'username'
