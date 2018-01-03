@@ -473,6 +473,7 @@ class SaveBiography(APIView):
 			option.surname = request.data['surname']
 			option.birthDate = request.data['birthDate']
 			option.hometown = request.data['hometown']
+			option.workplace = request.data['workplace']
 			option.maidenName = request.data['maidenName']
 			option.sex = request.data['sex']
 			option.birthtown = request.data['birthtown']

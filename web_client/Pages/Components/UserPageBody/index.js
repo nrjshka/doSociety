@@ -372,12 +372,22 @@ class UserPageBody extends Component {
 			body: JSON.stringify({
 				showquote: Page.state.id,
 			})
+<<<<<<< HEAD
 		})
 			.then((response) => { return response.json(); })
 			.then((data) => {
 				Page.state.arrays.pop();
 				Page.state.arrays.push(data['citations']);
 			});
+=======
+        })
+        .then((response)=>{return response.json();})
+        .then((data) =>{
+        	for (var i = 0; i < data['citations'].length; i++) {
+        		Page.state.arrays.push(<div key = {i}>{data['citations'][i]}</div>)
+        	}
+        });	
+>>>>>>> dab8275581d2948d63f12c226891ede7896876e1
 	}
 
 	render() {
@@ -393,6 +403,7 @@ class UserPageBody extends Component {
 			'Социалистические', 'Умеренные', 'Либеральные', 'Консервативные',
 			'Ультраконсервативные', 'Либертарианские', 'Другие'];
 
+<<<<<<< HEAD
 		var arrayCitation = [];
 
 		this.showQuoteInfo(Page);
@@ -489,6 +500,97 @@ class UserPageBody extends Component {
 					</aside>
 				</div>
 			</div>
+=======
+		var arrayCitation=[]; var CitationBlock = ''; var WorkplaceBlock = '';
+
+		this.showQuoteInfo(Page);
+
+		this.checkFriendsStatus(Page);
+	
+  		if ((localStorage.getItem('id') != this.props.id) && (localStorage.getItem('token'))){
+			UserButton = 
+			<div>
+				<Link to={outputURl}>
+	                <button className="contentProfile__button" id="buttonMessage">Написать сообщение</button>
+		        </Link>  
+				<button className="contentProfile__button" id="buttonAddFriend" onClick={ (event) => {this.requestToFriend(Page)}}> Добавить в друзья</button>
+				<button className="contentProfile__button" id="buttonDelFriend" onClick={(event) => {this.deleteFriend(Page)}}>Удалить из друзей</button>
+	    		<button className="contentProfile__button" id="buttonRequestFriend" onClick={(event) => {this.cancellationOfRequest(Page)}}>Заявка отправлена</button>
+	    		<button className="contentProfile__button" id="buttonAcceptRequest" onClick={(event) => {this.acceptingRequest(Page)}}>Принять заявку</button>
+				<button className="contentProfile__button" id="buttonCancellRequest" onClick={(event) => {this.cancellatingOfRequest(Page)}}>Не принимать заявку</button>
+	    	</div>	
+	    }
+
+	    if (this.state.citations.length != 0) {
+	    	CitationBlock = 
+	    		<div className="row contentProfile__info">
+	               	<div className="col-lg-3 col-md-3 col-sm-3 col-xs-4 contentProfile__parameter">Любимые цитаты: </div>
+	                <div className="col-lg-9 col-md-9 col-sm-9 col-xs-8 contentProfile__value">{Page.state.arrays}</div>
+	            </div>
+	    } else {
+	    	CitationBlock = <div></div>
+	    }
+
+	    if (this.state.workplace != 'None' || this.state.workplace != '') {
+	    	WorkplaceBlock =
+	        	<div className="row contentProfile__info">
+	            	<div className="col-lg-3 col-md-3 col-sm-3 col-xs-4 contentProfile__parameter">Место работы: </div>
+	                <div className="col-lg-9 col-md-9 col-sm-9 col-xs-8 contentProfile__value">{this.state.workplace}</div>
+	            </div>
+	    }
+	     
+		return(
+			<div>
+	          <div className="col-lg-8 col-md-8 col-sm-9 col-xs-12 content">
+	            <div className="contentProfile">
+	              <div className="row">
+	                <div className="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+	                  <div className="contentProfile__avatarCover">
+	                    <div className="contentProfile__avatar"><img src={this.state.user_foto} />
+	                      <div className="contentProfile__newFoto">&uarr; Обновить фото</div>
+	                    </div>
+	                    <div className="contentProfile__newFotoHide">&times;</div>
+	                  </div>
+	                  <div className="contentProfile__status">Online</div>
+	                  	{UserButton}
+	                </div>
+	                <div className="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+	                  <div className="contentProfile__name">{this.state.name} {this.state.surname}</div>
+	                  <div className="row contentProfile__info">
+	                    <div className="col-lg-3 col-md-3 col-sm-3 col-xs-4 contentProfile__parameter">День рождения:</div>
+	                    <div className="col-lg-9 col-md-9 col-sm-9 col-xs-8 contentProfile__value">{this.state.birthDate}</div>
+	                  </div>
+	                  <div className="row contentProfile__info">
+	                    <div className="col-lg-3 col-md-3 col-sm-3 col-xs-4 contentProfile__parameter">Город:</div>
+	                    <div className="col-lg-9 col-md-9 col-sm-9 col-xs-8 contentProfile__value">{this.state.hometown}</div>
+	                  </div>
+	                  {WorkplaceBlock}
+	                  <div className="row contentProfile__info">
+	                    <div className="col-lg-3 col-md-3 col-sm-3 col-xs-4 contentProfile__parameter">Семейное положение: </div>
+	                    <div className="col-lg-9 col-md-9 col-sm-9 col-xs-8 contentProfile__value">{arrayStatusValue[this.state.maritalstatus]}</div>
+	                  </div>
+	                  <div id="extraInfo" style={{'display': 'none'}}>
+	                  	<div className="row contentProfile__info">
+	                    	<div className="col-lg-3 col-md-3 col-sm-3 col-xs-4 contentProfile__parameter">Политические убеждения: </div>
+	                    	<div className="col-lg-9 col-md-9 col-sm-9 col-xs-8 contentProfile__value">{arrayPoliticalValue[this.state.politicalBeliefs]}</div>
+	                  	</div>
+	                  	{CitationBlock}
+	                  </div>
+	                	<div>
+	                		<button className="contentProfile__button" style={{'display': 'inherit','marginLeft': '20%'}} id="buttonShowInfo" onClick={(event)=>{this.showExtraInfo()}}>SHOW</button>
+	    					<button className="contentProfile__button" style={{'display': 'none','marginLeft': '20%'}} id="buttonHiseInfo" onClick={(event)=>{this.hideExtraInfo()}}>HIDE</button>
+	                	</div>
+	                </div>
+	              </div>
+	            </div>
+	          </div>
+
+	          <div className="col-lg-2 col-md-2 hidden-sm hidden-xs hidden-smNo">
+	            <aside className="sidebar">
+	            </aside>
+	          </div>
+          </div>
+>>>>>>> dab8275581d2948d63f12c226891ede7896876e1
 		);
 	}
 }

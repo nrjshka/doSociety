@@ -53,7 +53,6 @@ export function wsMessage(message, to){
 		outputArray.type = 'MESSAGE';
 		outputArray.to = to;
 		outputArray.data = {message: message};
-		alert(message);
 		return (dispatch) => {
 			dispatch(
 				{	

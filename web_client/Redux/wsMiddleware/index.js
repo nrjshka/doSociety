@@ -46,12 +46,17 @@ const socketMiddleware = (function(){
 				})
 				.then(function(response){ return response.json()})
 				.then( (data) => {
+<<<<<<< HEAD
 					if (data.id)
 			        	socket = new WebSocket("ws://localhost:5012", [data.id]);
 			        else {
 						socket = new WebSocket("ws://localhost:5012", [0]);
 					}
 
+=======
+			        socket = new WebSocket("ws://95.138.10.52:5012", [data.id]);
+			        
+>>>>>>> dab8275581d2948d63f12c226891ede7896876e1
 			        socket.onmessage = onMessage(socket, store);
 			        socket.onclose = onClose(socket, store);
 			        socket.onopen = onOpen(socket, store);
