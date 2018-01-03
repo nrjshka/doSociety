@@ -46,8 +46,12 @@ const socketMiddleware = (function(){
 				})
 				.then(function(response){ return response.json()})
 				.then( (data) => {
-			        socket = new WebSocket("ws://localhost:5012", [data.id]);
-			        
+					if (data.id)
+			        	socket = new WebSocket("ws://localhost:5012", [data.id]);
+			        else {
+						socket = new WebSocket("ws://localhost:5012", [0]);
+					}
+
 			        socket.onmessage = onMessage(socket, store);
 			        socket.onclose = onClose(socket, store);
 			        socket.onopen = onOpen(socket, store);

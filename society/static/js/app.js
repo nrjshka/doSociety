@@ -4000,7 +4000,9 @@ const socketMiddleware = function () {
 				}).then(function (response) {
 					return response.json();
 				}).then(data => {
-					socket = new WebSocket("ws://localhost:5012", [data.id]);
+					if (data.id) socket = new WebSocket("ws://localhost:5012", [data.id]);else {
+						socket = new WebSocket("ws://localhost:5012", [0]);
+					}
 
 					socket.onmessage = onMessage(socket, store);
 					socket.onclose = onClose(socket, store);
@@ -19997,7 +19999,7 @@ class QuestBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
             ),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'button',
-              { className: 'contentQuest__buttonQuest' },
+              { className: 'contentQuest__buttonQuest_get' },
               '\u0412\u044B\u0431\u0440\u0430\u0442\u044C \u0441\u043E\u0431\u0435\u0441\u0435\u0434\u043D\u0438\u043A\u0430'
             ),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -21106,7 +21108,8 @@ class UserPageBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 			listOfIncoming: newProps.user.listOfIncoming,
 			maritalstatus: newProps.user.maritalstatus,
 			politicalBeliefs: newProps.user.politicalBeliefs,
-			citations: newProps.user.citations
+			citations: newProps.user.citations,
+			status: status
 		});
 	}
 
@@ -21490,6 +21493,15 @@ class UserPageBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 			);
 		}
 
+		let status = "";
+		if (this.props.users != null) {
+			if (this.props.users['status']) {
+				status = "Online";
+			} else {
+				status = "Offline";
+			}
+		}
+
 		return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 			'div',
 			null,
@@ -21527,7 +21539,7 @@ class UserPageBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 								'div',
 								{ className: 'contentProfile__status' },
-								'Online'
+								status
 							),
 							UserButton
 						),
@@ -21661,7 +21673,8 @@ class UserPageBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 }
 function mapToStateProps(state) {
 	return {
-		user: state.message
+		user: state.message,
+		users: state.doSociety
 	};
 }
 
@@ -22610,14 +22623,13 @@ function vkLogin() {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Consts__ = __webpack_require__(11);
 
 
-function dsReducer(state = null, action) {
+function dsReducer(state = { users: null }, action) {
 	switch (action.type) {
 		case __WEBPACK_IMPORTED_MODULE_0__Consts__["f" /* DS_REGISTRATION */]:
 			//отправляем обработанные данные
 			return Object.assign({}, state, action.payload);
 			break;
 		case 'SET_USER_STATUS':
-			console.log(action);
 			return Object.assign({}, state.users, { 'id': action.payload.id, 'status': action.payload.status });
 			break;
 	}

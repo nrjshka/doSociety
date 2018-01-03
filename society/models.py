@@ -7,7 +7,6 @@ from django.contrib.auth.models import (
 )
 
 from vkGroups.models import vkGroup
-from quote.models import Quote
 
 #
 
@@ -50,6 +49,7 @@ class UserManager(BaseUserManager):
 
 		return user
 
+
 class User(AbstractBaseUser):
 	#логин юзера
 	username = models.CharField(max_length = 100, unique=True)
@@ -75,41 +75,15 @@ class User(AbstractBaseUser):
 	#это админ?
 	is_admin = models.BooleanField(default=False)
 	#список исходящих заявок в друзья
-	listOfIncoming = models.ManyToManyField('self', symmetrical = False, related_name = "+")
+	listOfIncoming = models.ManyToManyField("self", related_name = "listOfIncoming")
 	#список входящих заявок в друзья
-	listOfOutcoming = models.ManyToManyField('self', symmetrical = False, related_name = "+")
+	listOfOutcoming = models.ManyToManyField("self" , related_name = "listOfOutcoming")
 	#список друзей
 	listOfFriends = models.ManyToManyField("self" , related_name = "listOfFriends")
 	#vk id
 	vk_id = models.CharField(max_length = 100)
 	#Список групп вк
 	vk_groups = models.ManyToManyField(vkGroup, db_index = True, related_name = "vk_groups")
-
-	#Начало того, что касается БИОГРАФИИ
-
-	#Девичья фамилия
-	maidenName = models.CharField(max_length = 100, default = "")
-	#Пол
-	sex = models.CharField(max_length = 10, default = "1")
-	#Родной город
-	birthtown = models.CharField(max_length = 100, default = "")
-	#Семейное положение
-	maritalstatus = models.CharField(max_length = 10, default = "1")
-	#Режим отображения даты рождения
-	showBirthDate = models.CharField(max_length = 10, default ="0")
-	
-	#Конец того, что касается БИОГРАФИИ
-
-	#Начало того, что касается МИРОВОЗЗРЕНИЯ
-
-	#Политические убеждения
-	politicalBeliefs = models.CharField(max_length = 10, default = '0')
-	#Религиозные убеждения
-	religiousBeliefs = models.CharField(max_length = 10, default = '0')
-	#Список цитат
-	citations = models.ManyToManyField(Quote, related_name='citations')
-	
-	#Конец того, что касается МИРОВОЗЗРЕНИЯ
 
 	objects = UserManager()
 
@@ -122,7 +96,7 @@ class User(AbstractBaseUser):
 
 	def get_short_name(self):
 		return '{} {}'.format(self.name, self.surname)
-
+		
 	def setHometown(self, hometown):
 		if hometown == 0:
 			self.hometown = 'Moscow'
