@@ -16,7 +16,7 @@ const middleware = applyMiddleware(thunk, wsMiddleware);
 const store = createStore(Reducers, middleware);
 
 // Подключение к веб сокетам
-store.dispatch(wsCreate());
+//store.dispatch(wsCreate());
 
 //Подгрузка модулей
 

@@ -528,9 +528,9 @@ class Menu extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["c"] = getMessageInfo;
-/* harmony export (immutable) */ __webpack_exports__["b"] = getUserInfo;
-/* harmony export (immutable) */ __webpack_exports__["a"] = wsCreate;
+/* harmony export (immutable) */ __webpack_exports__["b"] = getMessageInfo;
+/* harmony export (immutable) */ __webpack_exports__["a"] = getUserInfo;
+/* harmony export (immutable) */ __webpack_exports__["c"] = wsCreate;
 /* harmony export (immutable) */ __webpack_exports__["d"] = wsMessage;
 /* unused harmony export addFriend */
 /* harmony export (immutable) */ __webpack_exports__["e"] = wsGetStatus;
@@ -3975,7 +3975,7 @@ const socketMiddleware = function () {
 		var data = JSON.parse(evt.data);
 		switch (data.type) {
 			case 'RELOAD_MESSAGE':
-				if (Number(__WEBPACK_IMPORTED_MODULE_2_query_string__["parse"](window.location.search).to) == Number(data.to)) __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__Actions__["c" /* getMessageInfo */])(parseInt(data.to))(store.dispatch);
+				if (Number(__WEBPACK_IMPORTED_MODULE_2_query_string__["parse"](window.location.search).to) == Number(data.to)) __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__Actions__["b" /* getMessageInfo */])(parseInt(data.to))(store.dispatch);
 				break;
 			case 'WS_GET_STATUS':
 				console.log('STATUS of USER', data.status);
@@ -4030,7 +4030,7 @@ const socketMiddleware = function () {
 				}).then(data => {
 					socket.send(JSON.stringify({ type: 'RELOAD_MESSAGE', to: action.payload.to }));
 					// раньше мы отправляли на обновление всю переписку, теперь мы будем апендить в коде
-					__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__Actions__["c" /* getMessageInfo */])(action.payload.to)(store.dispatch);
+					__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__Actions__["b" /* getMessageInfo */])(action.payload.to)(store.dispatch);
 				});
 				break;
 			case 'WS_GET_STATUS':
@@ -15775,7 +15775,7 @@ function mapToStateProps(state) {
 
 function matchDispatchToProps(dispatch) {
   return {
-    getUserInfo: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_3__Redux_Actions__["b" /* getUserInfo */], dispatch)
+    getUserInfo: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_3__Redux_Actions__["a" /* getUserInfo */], dispatch)
   };
 }
 /* harmony default export */ __webpack_exports__["a"] = (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_react_redux__["b" /* connect */])(mapToStateProps, matchDispatchToProps)(BiographyBody));
@@ -18053,7 +18053,7 @@ function mapToStateProps(state) {
 
 function matchDispatchToProps(dispatch) {
 	return {
-		getUserInfo: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["b" /* getUserInfo */], dispatch)
+		getUserInfo: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["a" /* getUserInfo */], dispatch)
 	};
 }
 /* harmony default export */ __webpack_exports__["a"] = (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3_react_redux__["b" /* connect */])(mapToStateProps, matchDispatchToProps)(FriendsBody));
@@ -18419,7 +18419,7 @@ function mapToStateProps(state) {
 
 function matchDispatchToProps(dispatch) {
   return {
-    getUserInfo: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_3__Redux_Actions__["b" /* getUserInfo */], dispatch)
+    getUserInfo: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_3__Redux_Actions__["a" /* getUserInfo */], dispatch)
   };
 }
 /* harmony default export */ __webpack_exports__["a"] = (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_react_redux__["b" /* connect */])(mapToStateProps, matchDispatchToProps)(IdeologyBody));
@@ -18634,7 +18634,7 @@ function mapToStateProps(state) {
 
 function matchDispatchToProps(dispatch) {
 	return {
-		getUserInfo: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["b" /* getUserInfo */], dispatch)
+		getUserInfo: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["a" /* getUserInfo */], dispatch)
 	};
 }
 /* harmony default export */ __webpack_exports__["a"] = (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3_react_redux__["b" /* connect */])(mapToStateProps, matchDispatchToProps)(InFriendsBody));
@@ -19309,9 +19309,9 @@ function messageStore(state) {
 
 function matchDispatchToProps(dispatch) {
   return {
-    getMessage: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["c" /* getMessageInfo */], dispatch),
-    getUserInfo: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["b" /* getUserInfo */], dispatch),
-    wsCreate: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["a" /* wsCreate */], dispatch),
+    getMessage: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["b" /* getMessageInfo */], dispatch),
+    getUserInfo: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["a" /* getUserInfo */], dispatch),
+    wsCreate: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["c" /* wsCreate */], dispatch),
     wsMessage: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["d" /* wsMessage */], dispatch)
   };
 }
@@ -19533,7 +19533,7 @@ function mapToStateProps(state) {
 
 function matchDispatchToProps(dispatch) {
   return {
-    getUserInfo: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["b" /* getUserInfo */], dispatch)
+    getUserInfo: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["a" /* getUserInfo */], dispatch)
   };
 }
 /* harmony default export */ __webpack_exports__["a"] = (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3_react_redux__["b" /* connect */])(mapToStateProps, matchDispatchToProps)(MessageMenu));
@@ -19876,7 +19876,7 @@ function mapToStateProps(state) {
 
 function matchDispatchToProps(dispatch) {
 	return {
-		getUserInfo: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["b" /* getUserInfo */], dispatch)
+		getUserInfo: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["a" /* getUserInfo */], dispatch)
 	};
 }
 /* harmony default export */ __webpack_exports__["a"] = (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3_react_redux__["b" /* connect */])(mapToStateProps, matchDispatchToProps)(OutFriendsBody));
@@ -21618,7 +21618,7 @@ function mapToStateProps(state) {
 
 function matchDispatchToProps(dispatch) {
 	return {
-		getUserInfo: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["b" /* getUserInfo */], dispatch),
+		getUserInfo: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["a" /* getUserInfo */], dispatch),
 		wsGetStatus: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_redux__["c" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_4__Redux_Actions__["e" /* wsGetStatus */], dispatch)
 	};
 }
@@ -22650,7 +22650,7 @@ const middleware = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3_redux__["a"
 const store = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3_redux__["b" /* createStore */])(__WEBPACK_IMPORTED_MODULE_7__Redux__["a" /* default */], middleware);
 
 // Подключение к веб сокетам
-store.dispatch(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__Redux_Actions__["a" /* wsCreate */])());
+//store.dispatch(wsCreate());
 
 //Подгрузка модулей
 
