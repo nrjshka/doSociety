@@ -8,6 +8,7 @@ from django.contrib.auth.models import (
 
 from vkGroups.models import vkGroup
 from quote.models import Quote
+
 #
 
 class UserManager(BaseUserManager):
@@ -85,7 +86,7 @@ class User(AbstractBaseUser):
 	#Список групп вк
 	vk_groups = models.ManyToManyField(vkGroup, db_index = True, related_name = "vk_groups")
 
-	
+
 	#Девичья фамилия
 	maidenName = models.CharField(max_length = 100, default = "")
 	#Пол
