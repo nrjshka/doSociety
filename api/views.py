@@ -181,13 +181,14 @@ class GetMessageData(APIView):
 			
 			#print(query1)
 			
-			messages = Message.objects.all().filter(query1)
+			messages = Message.objects.all().filter(query1).order_by('id')
 			
 			#print(messages)
 			
 			prev = False
 			localStorage = {}
 
+			print(messages)
 			#TODO: отрефакторить код
 			for msg in messages:
 				#messages.all()[0].sender.all()[0]
@@ -325,7 +326,6 @@ class GetFriendsInfo(APIView):
 
 	def post(self, request, format = None):
 		owner = User.objects.get(username = request.user.username)
-		i = 0
 		mass = []
 		for i in range(0,len(owner.listOfFriends.all())):
 			sub = owner.listOfFriends.all()[i]

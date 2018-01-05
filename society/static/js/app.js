@@ -19149,6 +19149,7 @@ class MessageBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
   render() {
     var messageData = this.props.message.msg_data;
+    console.log('Данные сообщений', messageData);
     var messageArray = [];
     var iterator = 0;
     if (messageData) messageData.forEach(element => {
@@ -19158,6 +19159,7 @@ class MessageBody extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
     var outPath = "/id" + this.props.to;
 
+    console.log('Финальный массив', messageArray);
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
       { className: 'col-lg-8 col-md-8 col-sm-9 col-xs-12 content' },
@@ -19337,8 +19339,9 @@ class MessageHandler extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
   render() {
     var messagesOut = [];
+    console.log('Cообщения для меня', this.props.messages);
     var messages = this.props.messages;
-    if (messages != undefined) messages.forEach(element => {
+    if (messages) messages.forEach(element => {
       var key = element.id.toString();
       messagesOut.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'li',
@@ -19356,35 +19359,39 @@ class MessageHandler extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     }
 
     var senderId = '/id' + this.props.sender;
-    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      'ul',
-      { className: classMessage },
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        { className: 'contentDialog__avatar contentDialog__avatar_margin-left' },
+    if (messagesOut) {
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'ul',
+        { className: classMessage },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          __WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
-          { to: senderId },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { src: this.props.author_foto })
+          'div',
+          { className: 'contentDialog__avatar contentDialog__avatar_margin-left' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            __WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
+            { to: senderId },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { src: this.props.author_foto })
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'avatarOnline' })
         ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'avatarOnline' })
-      ),
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        { className: 'contentDialog__time' },
-        this.props.time
-      ),
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        { className: 'contentDialog__name_padding-left_30' },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          __WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
-          { to: senderId },
-          this.props.author
-        )
-      ),
-      messagesOut
-    );
+          'div',
+          { className: 'contentDialog__time' },
+          this.props.time
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'contentDialog__name_padding-left_30' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            __WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
+            { to: senderId },
+            this.props.author
+          )
+        ),
+        messagesOut
+      );
+    } else {
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', null);
+    }
   }
 }
 

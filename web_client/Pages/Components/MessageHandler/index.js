@@ -11,8 +11,9 @@ class MessageHandler extends Component{
 
     render(){
       var messagesOut = [];
+      console.log('Cообщения для меня', this.props.messages)
       var messages = this.props.messages;
-      if (messages != undefined)
+      if (messages)
         messages.forEach( (element) => {
         var key = element.id.toString();
         messagesOut.push(<li key={key}>{element.text}</li>);
@@ -27,6 +28,7 @@ class MessageHandler extends Component{
       }
   		
       var senderId = '/id' + this.props.sender;
+      if (messagesOut) {
       return(
         <ul className={classMessage}>
             <div className="contentDialog__avatar contentDialog__avatar_margin-left">
@@ -38,6 +40,9 @@ class MessageHandler extends Component{
             {messagesOut}
         </ul>          
       );
+      }else{
+        return (<div></div>);
+      }
   	}
 }
 

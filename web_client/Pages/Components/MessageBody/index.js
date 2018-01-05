@@ -52,6 +52,7 @@ class MessageBody extends Component{
 
 	render(){
     var messageData = this.props.message.msg_data;
+    console.log('Данные сообщений', messageData);
     var messageArray = [];
     var iterator = 0;
     if (messageData)
@@ -62,6 +63,7 @@ class MessageBody extends Component{
 
     var outPath = "/id" + this.props.to;
 		
+    console.log('Финальный массив', messageArray);
     return(
             <div className="col-lg-8 col-md-8 col-sm-9 col-xs-12 content">
               <div className="contentDialog">
